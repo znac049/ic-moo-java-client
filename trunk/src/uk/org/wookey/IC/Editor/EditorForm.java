@@ -5,20 +5,17 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import uk.org.wookey.IC.MCP.*;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class EditorForm extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7555977762161202604L;
 	private final Logger _logger = new Logger("EditorForm");
-	GenericEditor _editor;
-	WorldTab worldTab;
-	String _key;
-	String _ref;
-	String _type;
+	protected WorldTab worldTab;
+	protected String _type;
+	protected GenericEditor _editor;
 	
-	public EditorForm(String name, String ref, String type, String content, WorldTab tab, String key) {
+	public EditorForm(String name, String type, String content, WorldTab tab) {
 		super();
 		
 		JMenuBar menu = new JMenuBar();
@@ -43,10 +40,8 @@ public class EditorForm extends JFrame implements ActionListener {
 
 		setLayout(new BorderLayout());
 
-		_ref = ref;
 		_type = type;
 		worldTab = tab;
-		_key = key;
 		if (type.equals("moo-code")) {
 			_editor = new MOOCodeEditor();
 		}
@@ -73,16 +68,8 @@ public class EditorForm extends JFrame implements ActionListener {
 			dispose();
 		}
 		else if (cmd.equalsIgnoreCase("Save")) {
-			MCPCommand command = new MCPCommand();
-			command.setName("dns-org-mud-moo-simpleedit-set");
-			command.setKey(_key);
-			command.addParam("reference", _ref);
-			command.addParam("type", _type);
-			command.addParam("content*", _editor.getText());
-			
-			_logger.logMsg("Save back to MOO!");
+			_logger.logMsg("Save back to MOO - NOT!");
 			// worldTab.writeRemote(":blinks");
-			command.sendToServer(worldTab);
 			setVisible(false);
 			dispose();
 		}

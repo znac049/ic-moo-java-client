@@ -1,6 +1,6 @@
 package uk.org.wookey.IC.MCP;
 
-import uk.org.wookey.IC.Editor.EditorForm;
+import uk.org.wookey.IC.Editor.MCPEditorForm;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
@@ -34,7 +34,7 @@ public class MCPSimpleEdit extends MCPHandler {
 			_logger.logMsg("Type='" + type + "'");
 			_logger.logMsg("Content='" + content + "'");
 			
-			new EditorForm(itemName, ref, type, content, worldTab, key);
+			new MCPEditorForm(itemName, ref, type, content, worldTab, key);
 		}
 	}
 }
