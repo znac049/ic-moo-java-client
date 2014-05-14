@@ -2,7 +2,7 @@ package uk.org.wookey.IC.OOB;
 
 import java.io.IOException;
 
-import uk.org.wookey.IC.Editor.EditorForm;
+import uk.org.wookey.IC.Editor.OOBEditorForm;
 import uk.org.wookey.IC.Interfaces.OOBHandlerInterface;
 import uk.org.wookey.IC.MCP.MCPException;
 import uk.org.wookey.IC.Tabs.WorldTab;
@@ -13,7 +13,7 @@ public class OOBLocalEdit implements OOBHandlerInterface {
 	private Logger _logger = new Logger("OOB LocalEdit");
 	private WorldTab _worldTab;
 	private String outOfBandToken = "#$#";
-	private StringParser commandParser = new StringParser("");
+	private StringParser cmdParser = new StringParser("");
 	
 	public OOBLocalEdit(WorldTab worldTab) {
 		_worldTab = worldTab;
@@ -27,28 +27,43 @@ public class OOBLocalEdit implements OOBHandlerInterface {
 	@Override
 	public int handle(String line) {
 		String cmd;
+		String name = "";
+		String upload = "";
+		String bit;
 		
-		commandParser.setString(line.trim());
+		cmdParser.setString(line.trim());
 		
 		_logger.logMsg("Handle '" + line + "'");
 
 		try {
-			cmd = commandParser.nextItem();
+			cmd = cmdParser.nextItem();
 			_logger.logMsg("Command is '" + cmd + "'");
 			
 			if (cmd.equalsIgnoreCase("edit")) {
-				String ref = "moo-code-ref";
-				String itemName = "some verb or something";
 				String type = "moo-code";
 				String content = gobbleRemote();
-				String key = "xxx";
 				
-				_logger.logMsg("Ref='" + ref + "'");
-				_logger.logMsg("Name='" + itemName + "'");
+				name = cmdParser.nextItem();
+				if (!name.equalsIgnoreCase("name:")) {
+					_logger.logMsg("Badly formatted OOB edit command");
+					return OOBHandledFinal;
+				}
+				name = "";
+				bit = cmdParser.nextItem();
+				while (!bit.equalsIgnoreCase("upload:")) {
+					name += bit + " ";
+					bit = cmdParser.nextItem();
+				}
+				
+				name = name.trim();
+				upload = cmdParser.getRemainingLine().trim();
+				
+				_logger.logMsg("Name='" + name + "'");
+				_logger.logMsg("Upload='" + upload + "'");
 				_logger.logMsg("Type='" + type + "'");
 				_logger.logMsg("Content='" + content + "'");
 				
-				new EditorForm(itemName, ref, type, content, _worldTab, key);
+				new OOBEditorForm(name, type, upload, content, _worldTab);
 
 				return OOBHandledFinal;
 			}
