@@ -12,11 +12,13 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+
 import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.GUI.VisInfo;
 import uk.org.wookey.IC.Interfaces.TabInterface;
 import uk.org.wookey.IC.MCP.MCPException;
 import uk.org.wookey.IC.MCP.MCPRoot;
+import uk.org.wookey.IC.OOB.OOBHandlers;
 import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
@@ -41,7 +43,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private boolean connected;
 	private boolean localEcho;
 	private boolean mcpEnabled;
-	private MCPRoot mcp;
+	private OOBHandlers oob;
 	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
@@ -104,9 +106,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		add(visInfo, 1, 0, 0.0, 1.0);
 		
 		try {
-			mcp = new MCPRoot(this);
-		} catch (MCPException e) {
-			mcp = null;
+			oob = new OOBHandlers(this);
+		} catch (Exception e) {
+			oob = null;
 		}
 	
 		WorldTabFactory.getWorldTabs().getTabPane().addTab(worldName, statusLED, this);
@@ -130,7 +132,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 					processLine(line);
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				_logger.logMsg("Unhandled IOexception");
 				e.printStackTrace();
 			}
@@ -183,7 +184,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		} catch (UnknownHostException e) {
 			doc.writeln("I can't resolve the hostname '" + worldName + "'.", errorAttribs);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -247,9 +247,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	public void processLine(String line) {
 		if (line != null) {
 			// Are we interested in this line?
-			if (mcpEnabled && mcp.isOutOfBand(line)) {
+			if (mcpEnabled && oob.isOutOfBand(line)) {
 				_logger.logMsg("MCP S->C: " + line);
-				mcp.handle(line.substring(3));
+				oob.handle(line.substring(3));
 			}
 			else {
 				doc.format(line+'\n', remoteTextAttribs);
@@ -289,12 +289,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	}
 
 	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 }

@@ -3,6 +3,7 @@ package uk.org.wookey.IC.MCP;
 import java.util.ArrayList;
 
 import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.StringParser;
 
 public class MCPCommand {
@@ -10,6 +11,7 @@ public class MCPCommand {
 	private String _name;
 	private String _key;
 	private ArrayList<MCPParam> _params;
+	private final Logger _logger = new Logger("MCPCommand");
 	
 	public MCPCommand() {
 		_line = null;
@@ -24,6 +26,12 @@ public class MCPCommand {
 		
 		StringParser parser = new StringParser(line);
 		_name = parser.nextItem();
+		
+		// This is a bit of a bodge but it allows us to treat HT style local editing
+		// to be treated as an MCP simple-edit request
+		if (_name.equals("")) {
+			_name = parser.nextItem();
+		}
 		
 		String next = parser.nextItem();
 		if (_name.equals("*")) {

@@ -1,10 +1,12 @@
 package uk.org.wookey.IC.MCP;
 
 import java.util.ArrayList;
+
+import uk.org.wookey.IC.Interfaces.OOBHandlerInterface;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
-public class MCPRoot {
+public class MCPRoot implements OOBHandlerInterface {
 	private Logger _logger = new Logger("MCP Root");
 	private MCPVersion _minVer;
 	private MCPVersion _maxVer;
@@ -35,8 +37,9 @@ public class MCPRoot {
 			_logger.printBacktrace(e);
 		}
 	}
-	
-	public void handle(String line) {
+
+	@Override
+	public int handle(String line) {
 		MCPCommand cmd = new MCPCommand();
 		
 		try {
@@ -55,6 +58,8 @@ public class MCPRoot {
 			execute(pending);
 			pending = _core.getPendingCommand();
 		}
+		
+		return OOBHandled;
 	}
 	
 	public void registerMultiline(MCPCommand command) {
@@ -70,7 +75,8 @@ public class MCPRoot {
 			}
 		}
 	}
-		
+
+	@Override
 	public boolean isOutOfBand(String line) {
 		if (line.startsWith(outOfBandToken)) {
 			return true;
