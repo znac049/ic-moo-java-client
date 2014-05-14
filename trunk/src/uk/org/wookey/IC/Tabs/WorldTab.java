@@ -208,6 +208,10 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		remoteOutput.flush();		
 	}
 	
+	public String readRemote() throws IOException {
+		return remoteInput.readLine();
+	}
+	
 	public void clearActivity() {
 		if (statusLED.setColour(0, 0, 0)) {
 			WorldTabFactory.getWorldTabs().repaint();

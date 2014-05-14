@@ -15,12 +15,24 @@ public class OOBHandlers implements OOBHandlerInterface {
 	
 	public OOBHandlers(WorldTab worldTab) {
 		MCPRoot mcp;
+		OOBLocalEdit localEdit;
 	
 		_logger.logMsg("Creating OOBHandlers");
 		
 		_worldTab = worldTab;
 		
 		_handlers = new ArrayList<OOBHandlerInterface>();
+		
+		try {
+			localEdit = new OOBLocalEdit(worldTab);
+		} catch (Exception e) {
+			localEdit = null;
+		}
+		
+		if (localEdit != null) {
+			_handlers.add(localEdit);
+		}
+
 		try {
 			mcp = new MCPRoot(worldTab);
 		} catch (MCPException e) {
@@ -48,6 +60,7 @@ public class OOBHandlers implements OOBHandlerInterface {
 		int code = OOBNotInterested;
 		
 		for (OOBHandlerInterface o : _handlers) {
+			_logger.logMsg("Passing to " + o.getHandlerName() + " to handle");
 			code = o.handle(line);
 			
 			if (code == OOBHandledFinal) {
@@ -57,5 +70,10 @@ public class OOBHandlers implements OOBHandlerInterface {
 		}
 		
 		return code;
+	}
+
+	@Override
+	public String getHandlerName() {
+		return "OOBHandlers";
 	}
 }

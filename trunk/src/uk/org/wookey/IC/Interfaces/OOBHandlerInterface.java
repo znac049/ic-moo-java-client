@@ -7,4 +7,5 @@ public interface OOBHandlerInterface {
 	
 	public boolean isOutOfBand(String line);
 	public int handle(String line);
+	public String getHandlerName();
 }
