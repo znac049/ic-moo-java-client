@@ -27,12 +27,6 @@ public class MCPCommand {
 		StringParser parser = new StringParser(line);
 		_name = parser.nextItem();
 		
-		// This is a bit of a bodge but it allows us to treat HT style local editing
-		// to be treated as an MCP simple-edit request
-		if (_name.equals("")) {
-			_name = parser.nextItem();
-		}
-		
 		String next = parser.nextItem();
 		if (_name.equals("*")) {
 			// Multilines are special - ie nothing is escaped

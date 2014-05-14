@@ -10,6 +10,10 @@ public class StringParser {
 		_line = line;
 	}
 	
+	public void setString(String line) {
+		_line = line;
+	}
+	
 	public String nextItem() throws MCPException {
 		int space = _line.indexOf(' ');
 		int quote = _line.indexOf('"');

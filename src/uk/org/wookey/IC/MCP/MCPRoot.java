@@ -164,4 +164,9 @@ public class MCPRoot implements OOBHandlerInterface {
 	public WorldTab getWorldTab() {
 		return worldTab;
 	}
+
+	@Override
+	public String getHandlerName() {
+		return "MCPRoot";
+	}
 }
