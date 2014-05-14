@@ -10,6 +10,7 @@ public class MCPSimpleEdit extends MCPHandler {
 	public MCPSimpleEdit(WorldTab tab, MCPRoot mcpRoot) throws MCPException {
 		super("dns-org-mud-moo-simpleedit", "1.0", "1.0", tab, mcpRoot);
 	}
+	
 	public void handle(MCPCommand command, String key) {
 		String commandName = command.getName();
 		if (commandName.equalsIgnoreCase(name + "-content")) {

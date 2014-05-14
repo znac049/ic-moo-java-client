@@ -3,7 +3,7 @@ package uk.org.wookey.IC.Utils;
 import uk.org.wookey.IC.MCP.MCPException;
 
 public class StringParser {
-	//private final Logger _logger = new Logger("StringParser");
+	private final Logger _logger = new Logger("StringParser");
 	private String _line;
 	
 	public StringParser(String line) {
