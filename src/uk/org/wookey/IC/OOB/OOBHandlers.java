@@ -23,6 +23,8 @@ public class OOBHandlers implements OOBHandlerInterface {
 		
 		_handlers = new ArrayList<OOBHandlerInterface>();
 		
+		// Only load the handlers needed by this world
+		
 		try {
 			localEdit = new OOBLocalEdit(worldTab);
 		} catch (Exception e) {

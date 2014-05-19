@@ -5,7 +5,7 @@ import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.Tabs.DebugTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.WorldCache;
-import uk.org.wookey.IC.Utils.WorldDetail;
+import uk.org.wookey.IC.Utils.WorldSettings;
 
 public class ApplicationWindow {
 	private final Logger _logger = new Logger("ApplicationWindow");
@@ -28,8 +28,15 @@ public class ApplicationWindow {
 		
 		// Read configuration details
 		readPreferences();
+		
+		// Plugins
+		loadPlugins();
 	}
 	
+	private void loadPlugins() {
+		_logger.logMsg("Looking for plugins to load");
+	}
+
 	private void readPreferences() {
 		WorldCache cache = new WorldCache();
 		
@@ -39,12 +46,16 @@ public class ApplicationWindow {
 		_logger.logMsg("Found " + worldNames.length + " world entries");
 		
 		for (int i=0; i<worldNames.length; i++) {
-			WorldDetail detail = cache.getWorld(worldNames[i]);
+			WorldSettings detail = cache.getWorld(worldNames[i]);
 				
-			if (detail.getAutoConnect()) {
+			_logger.logMsg("Locating settings for world '" + worldNames[i] + "'");
+			
+			if (detail.getBoolean(WorldDetailsPanel.AUTOCONNECT)) {
+				_logger.logMsg("Autoconnect to world '" + worldNames[i] + "'");
+				
 				// Create a tab and connect
-				String worldServer = detail.getServerName();
-				int worldPort = detail.getServerPort();
+				String worldServer = detail.getString(WorldDetailsPanel.SERVER);
+				int worldPort = detail.getInt(WorldDetailsPanel.PORT);
 				if ((worldServer != null) && (worldPort != -1)) {
 					WorldTabFactory.getWorldTab(worldNames[i]);
 				}

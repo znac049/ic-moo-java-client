@@ -5,7 +5,7 @@ import javax.swing.*;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.WorldCache;
-import uk.org.wookey.IC.Utils.WorldDetail;
+import uk.org.wookey.IC.Utils.WorldSettings;
 import webBoltOns.layoutManager.*;
 
 public class WorldDetailsPanel extends JPanel {
@@ -19,8 +19,15 @@ public class WorldDetailsPanel extends JPanel {
 	private JCheckBox autoConnect;
 	private JCheckBox autoLogin;
 	private JCheckBox localEcho;
-	private JCheckBox mcpSupport;
-	private MCPDetailPanel mcpPanel;
+	//private MCPDetailPanel mcpPanel;
+	
+	public static final String AUTOCONNECT = "Autoconnect";
+	public static final String SERVER = "Server";
+	public static final String PORT = "Port";
+	public static final String AUTOLOGIN = "Autologin";
+	public static final String USERNAME = "Username";
+	public static final String PASSWORD = "Password";
+	public static final String LOCALECHO = "LocalEcho";
 
 	public WorldDetailsPanel() {
 		super();
@@ -56,12 +63,8 @@ public class WorldDetailsPanel extends JPanel {
 		localEcho = new JCheckBox("Local echo");
 		add(localEcho, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 		
-		mcpSupport = new JCheckBox("MCP 2.1 Support");
-		mcpSupport.setSelected(true);
-		add(mcpSupport, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
-		
-		mcpPanel = new MCPDetailPanel();
-		add(mcpPanel, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		//mcpPanel = new MCPDetailPanel();
+		//add(mcpPanel, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 	}
 	
 	private void addComp(String label, Component comp) {
@@ -74,66 +77,58 @@ public class WorldDetailsPanel extends JPanel {
 
 	public void clearDetails() {
 		saveName.setText("");
+		
 		autoConnect.setSelected(false);
 		serverName.setText("");
 		serverPort.setText("");
+		
 		autoLogin.setSelected(false);
 		playerName.setText("");
 		playerPassword.setText("");
 		localEcho.setSelected(true);
-		mcpSupport.setSelected(true);
 	}
 	
 	public void loadDetails(Object o) {
 		String worldName = o.toString();
 		WorldCache cache = new WorldCache();
-		WorldDetail detail = cache.getWorld(worldName);
+		WorldSettings detail = cache.getWorld(worldName);
 		
 		_logger.logMsg("Load details for: " + worldName);
 
 		saveName.setText(worldName);
-		autoConnect.setSelected(detail.getAutoConnect());
-		serverName.setText(detail.getServerName());
-		serverPort.setText(Integer.toString(detail.getServerPort()));
-		autoLogin.setSelected(detail.getAutoLogin());
-		playerName.setText(detail.getUserName());
-		playerPassword.setText(detail.getUserPassword());
-		localEcho.setSelected(detail.getLocalEcho());
-		mcpSupport.setSelected(detail.getLocalEcho());
+		autoConnect.setSelected(detail.getBoolean(AUTOCONNECT));
+		serverName.setText(detail.getString(SERVER));
+		serverPort.setText(Integer.toString(detail.getInt(PORT)));
+		
+		autoLogin.setSelected(detail.getBoolean(AUTOLOGIN));
+		playerName.setText(detail.getString(USERNAME));
+		playerPassword.setText(detail.getString(PASSWORD));
+		localEcho.setSelected(detail.getBoolean(LOCALECHO));
 	}
 
 	public void saveDetails() {
 		String worldName = saveName.getText();
 		WorldCache cache = new WorldCache();
-		WorldDetail detail = cache.getWorld(worldName);
+		WorldSettings detail = cache.getWorld(worldName);
 				
 		_logger.logMsg("Save details for: " + worldName);
 
 		if (!worldName.equals("")) {
-			detail.setWorldName(worldName);
-
-			detail.setAutoConnect(autoConnect.isSelected());
-			detail.setServerName(serverName.getText());
+			detail.set(AUTOCONNECT, autoConnect.isSelected());
 			
 			String port = serverPort.getText();
 			int portNum = -1;
 			if (!port.equals("")) {
 				portNum = Integer.parseInt(port);
 			}
-			detail.setServerPort(portNum);
+			detail.set(SERVER, serverName.getText());
+			detail.set(PORT, portNum);
 			
-			detail.setAutoLogin(autoLogin.isSelected());
-			detail.setUserName(playerName.getText());
-			
-			char pw[] = playerPassword.getPassword();
-			String password = "";
-			for (int i=0; i<pw.length; i++) {
-				password = password + pw[i];
-			}
-			detail.setUserPassword(password);
+			detail.set(AUTOLOGIN, autoLogin.isSelected());
+			detail.set(USERNAME, playerName.getText());
+			detail.set(PASSWORD, playerPassword.getPassword());
 
-			detail.setLocalEcho(localEcho.isSelected());
-			detail.setMCPEnabled(mcpSupport.isSelected());
+			detail.set(LOCALECHO, localEcho.isSelected());
 
 			clearDetails();
 		}
