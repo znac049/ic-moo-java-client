@@ -8,16 +8,16 @@ public class WorldCache {
 	private static AssociativeArray worlds = new AssociativeArray();
 	private static Logger _logger = new Logger("WorldCache");
 	
-	public WorldDetail getWorld(String name) {
+	public WorldSettings getWorld(String name) {
 		_logger.logMsg("Lookup world '" + name + "'.");
 		int index = worlds.getIndex(name);
 		
 		if (index != -1) {
 			_logger.logMsg("Found in cache");
-			return (WorldDetail) worlds.get(index);
+			return (WorldSettings) worlds.get(index);
 		}
 		
-		WorldDetail world = new WorldDetail(name);
+		WorldSettings world = new WorldSettings(name);
 		worlds.add(name, world);
 		_logger.logMsg("Added to cache.");
 		

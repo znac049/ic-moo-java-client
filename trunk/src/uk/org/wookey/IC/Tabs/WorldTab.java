@@ -23,7 +23,7 @@ import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.WorldCache;
-import uk.org.wookey.IC.Utils.WorldDetail;
+import uk.org.wookey.IC.Utils.WorldSettings;
 
 public class WorldTab extends JPanel implements ActionListener, KeyListener, TabInterface, Runnable {
 	private static final long serialVersionUID = -4222553304590523399L;
@@ -50,7 +50,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 
 	public WorldTab(String name) throws IOException {
 		super();
-		
+
 		worldName = name;
 		connected = false;
 		mcpEnabled = true;
@@ -101,9 +101,10 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		keyboard.addActionListener(this);
 		keyboard.addKeyListener(this);
 		add(keyboard, 0, 1, 1.0, 0.0);
-		
+
 		visInfo = new VisInfo();
 		add(visInfo, 1, 0, 0.0, 1.0);
+		visInfo.hide();
 		
 		try {
 			oob = new OOBHandlers(this);
@@ -154,14 +155,14 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	private void attemptToConnect() {
 		WorldCache cache = new WorldCache();
-		WorldDetail detail = cache.getWorld(worldName);
+		WorldSettings detail = cache.getWorld(worldName);
 		
 		try {
-			String server = detail.getServerName();
-			int port = detail.getServerPort();
+			String server = detail.getString("Server");
+			int port = detail.getInt("Port");
 				
-			localEcho = detail.getLocalEcho();
-			mcpEnabled = detail.getMCPEnabled();
+			localEcho = detail.getBoolean("LocalEcho");
+			mcpEnabled = detail.getBoolean("MCPSupport");
 				
 			if ((port != -1) && !server.equals("")) {
 				socket = new Socket(server, port);
@@ -171,9 +172,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 					
 				connected = true;
 					
-				if (detail.getAutoLogin()) {
-					String userName = detail.getUserName();
-					String password = detail.getUserPassword();
+				if (detail.getBoolean("Autoconnect")) {
+					String userName = detail.getString("UserName");
+					String password = detail.getString("Password");
 						
 					if (!userName.equals("")) {
 						_logger.logMsg("Autologin as '" + userName + "'");
@@ -251,7 +252,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	public void processLine(String line) {
 		if (line != null) {
 			// Are we interested in this line?
-			if (mcpEnabled && oob.isOutOfBand(line)) {
+			if (oob.isOutOfBand(line)) {
 				_logger.logMsg("MCP S->C: " + line);
 				oob.handle(line.substring(3));
 			}

@@ -9,7 +9,7 @@ import javax.swing.JTextField;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.WorldCache;
-import uk.org.wookey.IC.Utils.WorldDetail;
+import uk.org.wookey.IC.Utils.WorldSettings;
 import webBoltOns.layoutManager.GridFlowLayout;
 import webBoltOns.layoutManager.GridFlowLayoutParameter;
 
@@ -47,24 +47,24 @@ public class NewHighlightDetailsPanel extends JPanel {
 	public void loadDetails(Object o) {
 		String worldName = o.toString();
 		WorldCache cache = new WorldCache();
-		WorldDetail detail = cache.getWorld(worldName);
+		WorldSettings detail = cache.getWorld(worldName);
 		
 		_logger.logMsg("Load details for: " + worldName);
 
 		saveName.setText(worldName);
-		mcpSupport.setSelected(detail.getLocalEcho());
+		mcpSupport.setSelected(detail.getBoolean("MCPSupport"));
 	}
 
 	public void saveDetails() {
 		String name = saveName.getText();
 		WorldCache cache = new WorldCache();
-		WorldDetail detail = cache.getWorld(name);
+		WorldSettings detail = cache.getWorld(name);
 				
 		_logger.logMsg("Save details for: " + name);
 
 		if (!name.equals("")) {
 			detail.setWorldName(name);
-			detail.setMCPEnabled(mcpSupport.isSelected());
+			detail.set("MCPSupport", mcpSupport.isSelected());
 
 			clearDetails();
 		}
