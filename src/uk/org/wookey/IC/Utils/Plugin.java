@@ -1,21 +1,16 @@
 package uk.org.wookey.IC.Utils;
 
-public class Plugin implements Runnable {
-	private static Logger _logger = new Logger("Generic Addin");
+import uk.org.wookey.IC.Interfaces.ICPluginInterface;
+
+public class Plugin implements ICPluginInterface {
+	private static Logger _logger = new Logger("Generic Plugin");
 
 	public Plugin() {
 	}
 	
-	protected void reportPluginDetails() {
-		_logger.logMsg("Plugin type: " + getPluginName());
-	}
-	
-	protected String getPluginName() {
-		return getClass().getCanonicalName();
-	}
-	
 	@Override
-	public void run() {
+	public void bimble() {
+		_logger.logMsg("Hello from plugin");
 	}
 
 }
