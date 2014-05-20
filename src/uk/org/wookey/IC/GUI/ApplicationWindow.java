@@ -1,6 +1,8 @@
 package uk.org.wookey.IC.GUI;
 
 import javax.swing.JFrame;
+
+import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.Tabs.DebugTab;
 import uk.org.wookey.IC.Utils.Logger;
@@ -11,7 +13,10 @@ public class ApplicationWindow {
 	private final Logger _logger = new Logger("ApplicationWindow");
 	WorldTabs _mainWindow;
 	
-	public ApplicationWindow() {
+	public ApplicationWindow() {		
+		// Plugins
+		loadPlugins();
+		
 		_mainWindow = WorldTabFactory.getWorldTabs();
 		_mainWindow.setSize(800, 600);
 		_mainWindow.setLocation(100, 100);
@@ -28,13 +33,11 @@ public class ApplicationWindow {
 		
 		// Read configuration details
 		readPreferences();
-		
-		// Plugins
-		loadPlugins();
 	}
 	
 	private void loadPlugins() {
 		_logger.logMsg("Looking for plugins to load");
+		PluginFactory.scanForPlugins();
 	}
 
 	private void readPreferences() {

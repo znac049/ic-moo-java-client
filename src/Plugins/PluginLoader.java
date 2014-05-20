@@ -8,21 +8,25 @@ import java.io.IOException;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class PluginLoader extends ClassLoader {
-	private static Logger _logger = new Logger("AddinLoader", 9);
+	private static Logger _logger = new Logger("PluginLoader", 9);
 	private File _rootDir;
-	private String _packageName;
 	
-	public PluginLoader(File rootDir, String packageName) {
+	public PluginLoader(File rootDir) {
 		super();
 		_rootDir = rootDir;
-		_packageName = packageName;
 	}
 	
 	public Class<?> findClass(String name) {
 		Class<?> c = null;
-		_logger.logMsg("findClass: looking for '" + name + ".class' file to load");
+		String fullName = name;
 		
-		File f = new File(_rootDir, name + ".class");
+		if (!name.endsWith(".class")) {
+			name += ".class";
+		}
+		
+		_logger.logMsg("findClass: looking for '" + name + " file to load");
+		
+		File f = new File(_rootDir, name);
 		if (f.exists()) {
 			_logger.logMsg("Found class file!");
 			try {
@@ -34,8 +38,6 @@ public class PluginLoader extends ClassLoader {
 				in.close();
 				
 				_logger.logMsg("Read " + code.length + " bytes");
-				
-				String fullName = _packageName + "." + name;
 				
 				_logger.logMsg("Full name: '" + fullName + "'");
 				c = defineClass(fullName, code, 0, code.length);
