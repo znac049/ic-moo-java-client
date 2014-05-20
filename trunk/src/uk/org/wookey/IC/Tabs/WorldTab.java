@@ -15,9 +15,8 @@ import javax.swing.text.StyleConstants;
 
 import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.GUI.VisInfo;
+import uk.org.wookey.IC.GUI.WorldDetailsPanel;
 import uk.org.wookey.IC.Interfaces.TabInterface;
-import uk.org.wookey.IC.MCP.MCPException;
-import uk.org.wookey.IC.MCP.MCPRoot;
 import uk.org.wookey.IC.OOB.OOBHandlers;
 import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
@@ -42,7 +41,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private LED statusLED;
 	private boolean connected;
 	private boolean localEcho;
-	private boolean mcpEnabled;
 	private OOBHandlers oob;
 	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
@@ -53,7 +51,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 
 		worldName = name;
 		connected = false;
-		mcpEnabled = true;
 		localEcho = true;
 		
 		statusLED = new LED(0, 0, 0);
@@ -158,11 +155,10 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		WorldSettings detail = cache.getWorld(worldName);
 		
 		try {
-			String server = detail.getString("Server");
-			int port = detail.getInt("Port");
+			String server = detail.getString(WorldDetailsPanel.SERVER);
+			int port = detail.getInt(WorldDetailsPanel.PORT);
 				
-			localEcho = detail.getBoolean("LocalEcho");
-			mcpEnabled = detail.getBoolean("MCPSupport");
+			localEcho = detail.getBoolean(WorldDetailsPanel.LOCALECHO);
 				
 			if ((port != -1) && !server.equals("")) {
 				socket = new Socket(server, port);
@@ -172,9 +168,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 					
 				connected = true;
 					
-				if (detail.getBoolean("Autoconnect")) {
-					String userName = detail.getString("UserName");
-					String password = detail.getString("Password");
+				if (detail.getBoolean(WorldDetailsPanel.AUTOCONNECT)) {
+					String userName = detail.getString(WorldDetailsPanel.USERNAME);
+					String password = detail.getString(WorldDetailsPanel.PASSWORD);
 						
 					if (!userName.equals("")) {
 						_logger.logMsg("Autologin as '" + userName + "'");
