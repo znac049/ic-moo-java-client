@@ -1,21 +1,20 @@
-package uk.org.wookey.IC.OOB;
+package uk.org.wookey.ICPlugin.LocalEditing;
 
 import java.io.IOException;
 
-import uk.org.wookey.IC.Editor.OOBEditorForm;
 import uk.org.wookey.IC.Interfaces.OOBHandlerInterface;
 import uk.org.wookey.IC.MCP.MCPException;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.StringParser;
 
-public class OOBLocalEdit implements OOBHandlerInterface {
+public class HandleLocalEdit implements OOBHandlerInterface {
 	private Logger _logger = new Logger("OOB LocalEdit");
 	private WorldTab _worldTab;
 	private String outOfBandToken = "#$#";
 	private StringParser cmdParser = new StringParser("");
 	
-	public OOBLocalEdit(WorldTab worldTab) {
+	public HandleLocalEdit(WorldTab worldTab) {
 		_worldTab = worldTab;
 	}
 
@@ -63,7 +62,7 @@ public class OOBLocalEdit implements OOBHandlerInterface {
 				_logger.logMsg("Type='" + type + "'");
 				_logger.logMsg("Content='" + content + "'");
 				
-				new OOBEditorForm(name, type, upload, content, _worldTab);
+				new LocalEditorForm(name, type, upload, content, _worldTab);
 
 				return OOBHandledFinal;
 			}
@@ -101,5 +100,4 @@ public class OOBLocalEdit implements OOBHandlerInterface {
 		
 		return gobbled;
 	}
-
 }

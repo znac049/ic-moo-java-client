@@ -1,17 +1,18 @@
-package uk.org.wookey.IC.Editor;
+package uk.org.wookey.ICPlugin.LocalEditing;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
-public class OOBEditorForm extends EditorForm implements ActionListener {
+public class LocalEditorForm extends EditorForm implements ActionListener {
 	private static final long serialVersionUID = 4644731315830687023L;
 	private final Logger _logger = new Logger("OOBEditorForm");
 	private String _upload;
 
-	public OOBEditorForm(String name, String type, String upload, String content, WorldTab tab) {
+	public LocalEditorForm(String name, String type, String upload, String content, WorldTab tab) {
 		super(name, type, content, tab);
 		
 		_upload = upload;
