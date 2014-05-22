@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.OOB;
+package uk.org.wookey.ICPlugin.LocalEditing;
 
 import java.util.ArrayList;
 
@@ -15,7 +15,7 @@ public class OOBHandlers implements OOBHandlerInterface {
 	
 	public OOBHandlers(WorldTab worldTab) {
 		MCPRoot mcp;
-		OOBLocalEdit localEdit;
+		HandleLocalEdit localEdit;
 	
 		_logger.logMsg("Creating OOBHandlers");
 		
@@ -26,7 +26,7 @@ public class OOBHandlers implements OOBHandlerInterface {
 		// Only load the handlers needed by this world
 		
 		try {
-			localEdit = new OOBLocalEdit(worldTab);
+			localEdit = new HandleLocalEdit(worldTab);
 		} catch (Exception e) {
 			localEdit = null;
 		}
