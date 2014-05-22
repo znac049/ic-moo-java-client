@@ -1,8 +1,10 @@
 package uk.org.wookey.IC.GUI;
 
 import java.awt.*;
+
 import javax.swing.*;
 
+import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.WorldCache;
 import uk.org.wookey.IC.Utils.WorldSettings;
@@ -19,6 +21,7 @@ public class WorldDetailsPanel extends JPanel {
 	private JCheckBox autoConnect;
 	private JCheckBox autoLogin;
 	private JCheckBox localEcho;
+	private JTabbedPane pluginTabs;
 	//private MCPDetailPanel mcpPanel;
 	
 	public static final String AUTOCONNECT = "Autoconnect";
@@ -63,6 +66,10 @@ public class WorldDetailsPanel extends JPanel {
 		localEcho = new JCheckBox("Local echo");
 		add(localEcho, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 		
+		pluginTabs = new JTabbedPane();
+		PluginFactory.populateSettingsTabs(pluginTabs);
+		add(pluginTabs, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+
 		//mcpPanel = new MCPDetailPanel();
 		//add(mcpPanel, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 	}
