@@ -4,7 +4,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import uk.org.wookey.IC.Utils.Logger;
@@ -21,11 +20,7 @@ public class PluginFactory {
 	public static void scanForPlugins() {
 		File dir = new File(pluginDir);
 		
-		_logger.logMsg("scanForPlugins");
-		
 		if (dir.exists()) {
-			_logger.logMsg("Reading directory");
-			
 			File files[] = dir.listFiles();
 		
 			for (File file : files) {
