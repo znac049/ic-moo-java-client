@@ -23,8 +23,8 @@ import uk.org.wookey.IC.Utils.PluginLoader;
 
 public class PluginFactory {
 	private static final Logger _logger = new Logger("PluginFactory");
+	private static String[] requiredMethods = {"energizePlugin", "getCapabilities"};
 	private static ArrayList<PluginInfo> plugins = new ArrayList<PluginInfo>();
-	private static String[] requiredMethods = {"energizePlugin"};
 	
 	public static void scanForPlugins() {
 		String pluginDir = "./plugins";
@@ -85,8 +85,6 @@ public class PluginFactory {
 					_logger.logMsg("Energize FAILED");
 				}
 				else {
-					_logger.logMsg("Energized OK");
-					
 					plugins.add(new PluginInfo(pluginClass, makeClassname(dir, pluginName)));
 				}
 			} catch (InstantiationException
@@ -106,8 +104,6 @@ public class PluginFactory {
 				byte[] code = new byte[in.available()];
 				in.read(code);
 				in.close();
-				
-				_logger.logMsg("Read " + code.length + " bytes");
 				
 				return code;
 			} catch (FileNotFoundException e) {
@@ -160,10 +156,13 @@ public class PluginFactory {
 	}
 	
 	public static void populateSettingsTabs(JTabbedPane tabs) {
-		JComponent tab1 = makeTextPanel("Plugin 1");
-		tabs.addTab("Tab 1", null, tab1, "Does twice as much nothing");
+		for (PluginInfo info: plugins) {
+			Plugin plugin = (Plugin) info.newInstance();
+			JPanel panel = plugin.getWorldSettingsTab();
+			
+			tabs.addTab("zzz", panel);
+		}
 	}
-	
 	
 	protected static JComponent makeTextPanel(String text) {
         JPanel panel = new JPanel(false);
@@ -173,4 +172,20 @@ public class PluginFactory {
         panel.add(filler);
         return panel;
     }
+	
+	public static ArrayList<Plugin> getRemoteInputPlugins() {
+		ArrayList<Plugin> plugins = new ArrayList<Plugin>();
+		
+		for (PluginInfo info: PluginFactory.plugins) {
+			Plugin plugin = (Plugin) info.newInstance();
+			
+			// Does the plugin handle remote line input?
+			if (plugin.handlesRemoteLineInput()) {
+				_logger.logMsg("  plugin '" + plugin.getName() + "' handles remote line input");
+				plugins.add(plugin);
+			}
+		}
+		
+		return plugins;
+	}
 }

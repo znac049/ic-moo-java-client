@@ -1,29 +1,59 @@
 package uk.org.wookey.IC.Utils;
 
-import uk.org.wookey.IC.Interfaces.PluginInterface;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-public class Plugin implements PluginInterface {
-	private static Logger _logger = new Logger("Generic Plugin");
+import uk.org.wookey.IC.Tabs.WorldTab;
 
-	public Plugin() {
+public class Plugin {
+	private Logger _logger = new Logger("Base Plugin");
+	private String _name;
+	protected WorldTab _worldTab = null;
+
+	public static final int Handled = 1;
+	public static final int HandledFinal = 2;
+	public static final int NotInterested = 3;
+	
+	public String getName() {
+		return _name;
+	}
+	
+	protected void setName(String name) {
+		_name = name;
+	}
+	
+	public boolean energizePlugin() {
+		setName("Base Plugin");
+		
+		return true;
+	}
+	
+	public boolean connectTo(WorldTab worldTab) {
+		_worldTab = worldTab;
+		
+		return true;
 	}
 
-	@Override
-	public boolean energizePlugin() {
-		// Called by the PluginFactory as the first step in getting to know a plugin
+	public JPanel getWorldSettingsTab() {
+		JPanel panel = new JPanel();
 		
+		panel.setLayout(null);
+		
+		JLabel title = new JLabel(_name + " Settings");
+		panel.add(title);
+		
+		return panel;
+	}
+
+	public boolean handlesRemoteLineInput() {
 		return false;
 	}
 	
-	@Override
-	public boolean handlesOOB() {
-		// TODO Auto-generated method stub
+	public boolean handlesRemoteLineOutput() {
 		return false;
 	}
-
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return "Peter";
+	
+	public int handleRemoteLineInput(String line) {
+		return NotInterested;
 	}
 }

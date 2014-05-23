@@ -2,11 +2,11 @@ package uk.org.wookey.IC.MCP;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.IC.Interfaces.OOBHandlerInterface;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.Plugin;
 
-public class MCPRoot implements OOBHandlerInterface {
+public class MCPRoot extends Plugin {
 	private Logger _logger = new Logger("MCP Root");
 	private MCPVersion _minVer;
 	private MCPVersion _maxVer;
@@ -39,7 +39,7 @@ public class MCPRoot implements OOBHandlerInterface {
 	}
 
 	@Override
-	public int handle(String line) {
+	public int handleRemoteLineInput(String line) {
 		MCPCommand cmd = new MCPCommand();
 		
 		try {
@@ -59,7 +59,7 @@ public class MCPRoot implements OOBHandlerInterface {
 			pending = _core.getPendingCommand();
 		}
 		
-		return OOBHandled;
+		return Plugin.Handled;
 	}
 	
 	public void registerMultiline(MCPCommand command) {
@@ -74,15 +74,6 @@ public class MCPRoot implements OOBHandlerInterface {
 				hand.born();
 			}
 		}
-	}
-
-	@Override
-	public boolean isOutOfBand(String line) {
-		if (line.startsWith(outOfBandToken)) {
-			return true;
-		}
-		
-		return false;
 	}
 
 	private String execute(MCPCommand cmd) {
@@ -163,10 +154,5 @@ public class MCPRoot implements OOBHandlerInterface {
 	
 	public WorldTab getWorldTab() {
 		return worldTab;
-	}
-
-	@Override
-	public String getHandlerName() {
-		return "MCPRoot";
 	}
 }
