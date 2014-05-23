@@ -1,14 +1,15 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
 import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.Utils.ParserException;
 
 public class MCPNegotiate extends MCPHandler {
 	private boolean _negotiating = true;
 	private ArrayList<MCPPackage> _canList;
 	
-	public MCPNegotiate(WorldTab tab, MCPRoot mcpRoot) throws MCPException {
+	public MCPNegotiate(WorldTab tab, MCPRoot mcpRoot) throws ParserException {
 		super("mcp-negotiate", "1.0", "2.0", tab, mcpRoot);
 		
 		_canList = new ArrayList<MCPPackage>();

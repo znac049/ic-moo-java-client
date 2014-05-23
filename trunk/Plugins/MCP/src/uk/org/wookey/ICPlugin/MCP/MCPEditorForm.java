@@ -1,10 +1,10 @@
-package uk.org.wookey.IC.Editor;
+package uk.org.wookey.ICPlugin.MCP;
 
 import java.awt.event.*;
 
 import javax.swing.*;
 
-import uk.org.wookey.IC.MCP.*;
+import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 

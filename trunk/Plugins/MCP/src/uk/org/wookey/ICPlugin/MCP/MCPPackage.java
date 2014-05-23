@@ -1,4 +1,6 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
+
+import uk.org.wookey.IC.Utils.ParserException;
 
 
 public class MCPPackage {
@@ -11,7 +13,7 @@ public class MCPPackage {
 		try {
 			_min = new MCPVersion(min);
 			_max = new MCPVersion(max);
-		} catch (MCPException e) {
+		} catch (ParserException e) {
 			_min = null;
 			_max = null;
 			e.printStackTrace();

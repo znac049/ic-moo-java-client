@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
 public class MCPParam {
 	private String _key;

@@ -1,18 +1,20 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
+
+import uk.org.wookey.IC.Utils.ParserException;
 
 public class MCPVersion {
 	private int _major;
 	private int _minor;
 	
-	public MCPVersion(String version) throws MCPException {
+	public MCPVersion(String version) throws ParserException {
 		set(version);
 	}
 	
-	public void set(String version) throws MCPException {
+	public void set(String version) throws ParserException {
 		String parts[] = version.split("\\.");
 		
 		if (parts.length != 2) {
-			throw new MCPException("Badly formed MCP version string: '" + version + "'.");
+			throw new ParserException("Badly formed MCP version string: '" + version + "'.");
 		}
 		
 		_major = Integer.parseInt(parts[0]);
@@ -23,7 +25,7 @@ public class MCPVersion {
 		return new String(_major + "." + _minor);
 	}
 	
-	public MCPVersion min(String otherString) throws MCPException {
+	public MCPVersion min(String otherString) throws ParserException {
 		MCPVersion other = new MCPVersion(otherString);
 		
 		return min(other);
