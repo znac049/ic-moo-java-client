@@ -24,6 +24,12 @@ public class MainMenuBar extends JMenuBar implements ActionListener {
 		highlightItem.addActionListener(this);
 		fileMenu.add(highlightItem);
 		
+		JMenuItem settingsItem = new JMenuItem("Settings");
+		settingsItem.setMnemonic(KeyEvent.VK_S);
+		settingsItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, Event.CTRL_MASK));
+		settingsItem.addActionListener(this);
+		fileMenu.add(settingsItem);
+		
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.setMnemonic(KeyEvent.VK_X);
 		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
@@ -46,6 +52,9 @@ public class MainMenuBar extends JMenuBar implements ActionListener {
 		}			
 		else if (cmd.equalsIgnoreCase("Highlights")) {
 			new HighlightForm();
+		}
+		else if (cmd.equalsIgnoreCase("Settings")) {
+			new SettingsForm();
 		}
 		else if (cmd.equalsIgnoreCase("Exit")) {
 			System.exit(0);

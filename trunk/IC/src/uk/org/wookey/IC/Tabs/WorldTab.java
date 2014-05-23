@@ -260,10 +260,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 			// Are any of the plugins interested in this line?
 			int code = Plugin.NotInterested;
 			
-			_logger.logMsg("S->C: " + line);
-			
 			for (Plugin plugin : _handlers) {
-				_logger.logMsg(plugin.getName() + "??");
+				//_logger.logMsg(plugin.getName() + "??");
 				code = plugin.handleRemoteLineInput(line);
 				
 				if (code == Plugin.HandledFinal) {
