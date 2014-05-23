@@ -22,7 +22,6 @@ public class WorldDetailsPanel extends JPanel {
 	private JCheckBox autoLogin;
 	private JCheckBox localEcho;
 	private JTabbedPane pluginTabs;
-	//private MCPDetailPanel mcpPanel;
 	
 	public static final String AUTOCONNECT = "Autoconnect";
 	public static final String SERVER = "Server";
@@ -35,51 +34,62 @@ public class WorldDetailsPanel extends JPanel {
 	public WorldDetailsPanel() {
 		super();
 		
-		setLayout(new GridFlowLayout(6, 4));
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new GridFlowLayout(6, 4));
+		mainPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		JPanel pluginPanel = new JPanel();
+		pluginPanel.setLayout(new FlowLayout());
+		
 		saveName = new JTextField(20);
-		addComp("Save As:", saveName);
+		addComp(mainPanel, "Save As:", saveName);
 		
 		serverName = new JTextField(20);
-		addComp("Server:", serverName);
+		addComp(mainPanel, "Server:", serverName);
 		
 		JLabel lab = new JLabel("Port:");
-		add(lab, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 3));
+		mainPanel.add(lab, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 3));
 		
 		serverPort = new JTextField(5);
 		lab.setLabelFor(serverPort);
-		add(serverPort, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 4));
+		mainPanel.add(serverPort, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 4));
 		
 		autoConnect = new JCheckBox("Auto Connect");
-		add(autoConnect, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		mainPanel.add(autoConnect, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 		
 		autoLogin = new JCheckBox("Auto Login");
-		add(autoLogin, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		mainPanel.add(autoLogin, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 		
 		playerName = new JTextField(20);
-		addComp("Player Name:", playerName);
+		addComp(mainPanel, "Player Name:", playerName);
 		
 		playerPassword = new JPasswordField(20);
 		playerPassword.setEchoChar('X');
-		addComp("Player Password:", playerPassword);
+		addComp(mainPanel, "Player Password:", playerPassword);
 		
 		localEcho = new JCheckBox("Local echo");
-		add(localEcho, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		mainPanel.add(localEcho, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		
+		add(mainPanel, BorderLayout.NORTH);
 		
 		pluginTabs = new JTabbedPane();
-		PluginFactory.populateSettingsTabs(pluginTabs);
-		add(pluginTabs, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		if (PluginFactory.populateSettingsTabs(pluginTabs)) {
+			// Only add the plugin tabs if there are any plugins!
+			add(pluginTabs, BorderLayout.SOUTH);
+		}
 
 		//mcpPanel = new MCPDetailPanel();
 		//add(mcpPanel, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 	}
 	
-	private void addComp(String label, Component comp) {
+	private void addComp(JPanel panel, String label, Component comp) {
 		JLabel lab = new JLabel(label, JLabel.TRAILING);
-		add(lab, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		panel.add(lab, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 
 		lab.setLabelFor(comp);
-		add(comp, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));		
+		panel.add(comp, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));		
 	}
 
 	public void clearDetails() {

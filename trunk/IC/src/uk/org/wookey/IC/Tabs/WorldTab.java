@@ -13,6 +13,7 @@ import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.GUI.VisInfo;
 import uk.org.wookey.IC.GUI.WorldDetailsPanel;
@@ -20,7 +21,6 @@ import uk.org.wookey.IC.Interfaces.TabInterface;
 import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.LineInputHandlers;
 import uk.org.wookey.IC.Utils.Plugin;
 import uk.org.wookey.IC.Utils.WorldCache;
 import uk.org.wookey.IC.Utils.WorldSettings;
@@ -42,10 +42,10 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private LED statusLED;
 	private boolean connected;
 	private boolean localEcho;
-	private LineInputHandlers oob;
 	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
+	private ArrayList<Plugin> _handlers;
 
 	public WorldTab(String name) throws IOException {
 		super();
@@ -53,6 +53,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		worldName = name;
 		connected = false;
 		localEcho = true;
+		
+		_handlers = new ArrayList<Plugin>();
 		
 		statusLED = new LED(0, 0, 0);
 		
@@ -104,12 +106,19 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		add(visInfo, 1, 0, 0.0, 1.0);
 		visInfo.hide();
 		
-		try {
-			oob = new LineInputHandlers(this);
-		} catch (Exception e) {
-			oob = null;
+		_logger.logMsg("Creating Line Input Handlers");
+
+		ArrayList<Plugin> plugins = PluginFactory.getRemoteInputPlugins();
+		_logger.logMsg("# remote line input handlers found: " + plugins.size());
+		for (Plugin plugin: plugins) {
+			if (plugin.connectTo(this)) {
+				_handlers.add(plugin);
+			}
+			else {
+				_logger.logMsg("Plugin '" + plugin.getName() + "' failed to connect to worldTab");
+			}
 		}
-	
+
 		WorldTabFactory.getWorldTabs().getTabPane().addTab(worldName, statusLED, this);
 		WorldTabFactory.getWorldTabs().getTabPane().setSelectedComponent(this);
 
@@ -249,7 +258,21 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	public void handleRemoteInputLine(String line) {
 		if (line != null) {
 			// Are any of the plugins interested in this line?
-			if (oob.handleRemoteLineInput(line.substring(3)) == Plugin.NotInterested) {
+			int code = Plugin.NotInterested;
+			
+			_logger.logMsg("S->C: " + line);
+			
+			for (Plugin plugin : _handlers) {
+				_logger.logMsg(plugin.getName() + "??");
+				code = plugin.handleRemoteLineInput(line);
+				
+				if (code == Plugin.HandledFinal) {
+					// Handled and don't want anyone else to be allowed a look-in
+					break;
+				}
+			}
+			
+			if (code == Plugin.NotInterested) {
 				// None of the plugins were interested
 				doc.format(line+'\n', remoteTextAttribs);
 				
