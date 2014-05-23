@@ -1,7 +1,5 @@
 package uk.org.wookey.IC.Utils;
 
-import uk.org.wookey.IC.MCP.MCPException;
-
 public class StringParser {
 	private final Logger _logger = new Logger("StringParser");
 	private String _line;
@@ -14,7 +12,7 @@ public class StringParser {
 		_line = line;
 	}
 	
-	public String nextItem() throws MCPException {
+	public String nextItem() throws ParserException {
 		int space = _line.indexOf(' ');
 		int quote = _line.indexOf('"');
 		String item = "";
@@ -34,7 +32,7 @@ public class StringParser {
 			int endquote = _line.indexOf('"', quote+1);
 			
 			if (endquote == -1) {
-				throw new MCPException("Unbalanced quotes.");
+				throw new ParserException("Unbalanced quotes.");
 			}
 			item = _line.substring(quote+1, endquote);
 			if (_line.charAt(endquote+1) == ' ') {

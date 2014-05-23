@@ -1,6 +1,7 @@
 package uk.org.wookey.IC.Utils;
 
 public class PluginInfo {
+	private Logger _logger = new Logger("PluginInfo");
 	private String _fullName;
 	private Class<?> _class;
 	
@@ -15,7 +16,8 @@ public class PluginInfo {
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
-		
+
+		_logger.logMsg("Failed to create a new instance of " + _fullName);
 		return null;
 	}
 }

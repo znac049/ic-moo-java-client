@@ -1,5 +1,7 @@
 package uk.org.wookey.IC.Utils;
 
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -13,6 +15,10 @@ public class Plugin {
 	public static final int Handled = 1;
 	public static final int HandledFinal = 2;
 	public static final int NotInterested = 3;
+	
+	public Plugin() {
+		setName("*noname*");
+	}
 	
 	public String getName() {
 		return _name;
@@ -31,16 +37,27 @@ public class Plugin {
 	public boolean connectTo(WorldTab worldTab) {
 		_worldTab = worldTab;
 		
+		if (energizePlugin()) {
+			return onConnect();
+		}
+		
+		return false;
+	}
+
+	public boolean onConnect() {
 		return true;
 	}
 
 	public JPanel getWorldSettingsTab() {
 		JPanel panel = new JPanel();
 		
-		panel.setLayout(null);
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JLabel title = new JLabel(_name + " Settings");
 		panel.add(title);
+
+		JCheckBox enabled = new JCheckBox("Plugin enabled");
+		panel.add(enabled);
 		
 		return panel;
 	}
