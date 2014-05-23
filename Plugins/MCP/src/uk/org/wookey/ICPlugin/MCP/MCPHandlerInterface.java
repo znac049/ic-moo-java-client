@@ -1,6 +1,4 @@
-package uk.org.wookey.IC.Interfaces;
-
-import uk.org.wookey.IC.MCP.MCPCommand;
+package uk.org.wookey.ICPlugin.MCP;
 
 public interface MCPHandlerInterface {
 	String getName();

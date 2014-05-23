@@ -1,9 +1,10 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.Plugin;
 
 public class MCPRoot extends Plugin {
@@ -16,7 +17,7 @@ public class MCPRoot extends Plugin {
 	private WorldTab worldTab;
 	private String outOfBandToken = "#$#";
 
-	public MCPRoot(WorldTab tab) throws MCPException {
+	public MCPRoot(WorldTab tab) throws ParserException {
 		_minVer = new MCPVersion("2.1");
 		_maxVer = new MCPVersion("2.1");
 		worldTab = tab;
@@ -31,7 +32,7 @@ public class MCPRoot extends Plugin {
 			_handlers.add(new MCPNegotiate(worldTab, this));
 			_handlers.add(new MCPSimpleEdit(worldTab, this));
 			_handlers.add(new MCPVisual(worldTab, this));
-		} catch (MCPException e) {
+		} catch (ParserException e) {
 			// Any handler that generates an exception just gets binned.
 			_logger.logMsg("Caught MCP Exception");
 			_logger.printBacktrace(e);
@@ -44,7 +45,7 @@ public class MCPRoot extends Plugin {
 		
 		try {
 			cmd.parseLine(line);
-		} catch (MCPException e) {
+		} catch (ParserException e) {
 			_logger.logMsg("Badly formed MCP line:");
 			_logger.printBacktrace(e);
 		}
@@ -97,7 +98,7 @@ public class MCPRoot extends Plugin {
 				}
 				sendToServer("#$#mcp-negotiate-end " + key);
 			}
-			catch (MCPException e) {
+			catch (ParserException e) {
 				// Do nothing
 				_logger.logMsg("Caught an MCP Exception");
 				_logger.printBacktrace(e);

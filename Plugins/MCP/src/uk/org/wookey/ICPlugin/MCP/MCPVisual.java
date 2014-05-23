@@ -1,16 +1,17 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.Player;
 
 public class MCPVisual extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCP Visual");
 	private ArrayList<Player> players;
 	
-	public MCPVisual(WorldTab tab, MCPRoot mcpRoot) throws MCPException {
+	public MCPVisual(WorldTab tab, MCPRoot mcpRoot) throws ParserException {
 		super("dns-com-awns-visual", "1.0", "1.0", tab, mcpRoot);
 		
 		players = new ArrayList<Player>();

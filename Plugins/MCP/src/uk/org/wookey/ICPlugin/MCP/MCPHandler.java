@@ -1,8 +1,8 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
-import uk.org.wookey.IC.Interfaces.MCPHandlerInterface;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.ParserException;
 
 public class MCPHandler implements MCPHandlerInterface {
 	private Logger logger = new Logger("MCPHandler");
@@ -13,7 +13,7 @@ public class MCPHandler implements MCPHandlerInterface {
 	protected boolean negotiated;
 	protected MCPRoot mcp;
 	
-	public MCPHandler(String pkgName, String min, String max, WorldTab tab, MCPRoot mcpRoot) throws MCPException {
+	public MCPHandler(String pkgName, String min, String max, WorldTab tab, MCPRoot mcpRoot) throws ParserException {
 		name = pkgName;
 		minVersion = new MCPVersion(min);
 		maxVersion = new MCPVersion(max);

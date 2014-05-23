@@ -1,13 +1,13 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
-import uk.org.wookey.IC.Editor.MCPEditorForm;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.ParserException;
 
 public class MCPSimpleEdit extends MCPHandler {
 	private Logger _logger = new Logger("MCP SimpleEdit");
 	
-	public MCPSimpleEdit(WorldTab tab, MCPRoot mcpRoot) throws MCPException {
+	public MCPSimpleEdit(WorldTab tab, MCPRoot mcpRoot) throws ParserException {
 		super("dns-org-mud-moo-simpleedit", "1.0", "1.0", tab, mcpRoot);
 	}
 	

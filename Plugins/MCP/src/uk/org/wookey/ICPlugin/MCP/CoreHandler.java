@@ -1,15 +1,16 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
 import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.Utils.ParserException;
 
 public class CoreHandler extends MCPHandler {
 	private final String commands[] = {"*", ":", "mcp"};
 	private ArrayList<MCPCommand> _multilineSessions;
 	private ArrayList<MCPCommand> _pendingSessions;
 	
-	public CoreHandler(WorldTab sess, MCPRoot mcpRoot) throws MCPException {
+	public CoreHandler(WorldTab sess, MCPRoot mcpRoot) throws ParserException {
 		super("dns-uk-org-wookey-core", "1.0", "1.0", sess, mcpRoot);
 		
 		_multilineSessions = new ArrayList<MCPCommand>();

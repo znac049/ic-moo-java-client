@@ -1,9 +1,10 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.StringParser;
 
 public class MCPCommand {
@@ -21,13 +22,21 @@ public class MCPCommand {
 		_params.clear();	
 	}
 	
-	public void parseLine(String line) throws MCPException {
+	public void parseLine(String line) throws ParserException {
 		_line = line;
 		
 		StringParser parser = new StringParser(line);
-		_name = parser.nextItem();
+		String next;
+		try {
+			_name = parser.nextItem();
+
+			next = parser.nextItem();
+		} catch (uk.org.wookey.IC.Utils.ParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return;
+		}
 		
-		String next = parser.nextItem();
 		if (_name.equals("*")) {
 			// Multilines are special - ie nothing is escaped
 			_key = next;

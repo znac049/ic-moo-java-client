@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.MCP;
+package uk.org.wookey.ICPlugin.MCP;
 
 public class MCPException extends Exception {
 	private static final long serialVersionUID = -3602407159679521799L;
