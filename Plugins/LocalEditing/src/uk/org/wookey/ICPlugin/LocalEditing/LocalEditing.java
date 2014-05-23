@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import javax.swing.JPanel;
 
-import uk.org.wookey.IC.MCP.MCPException;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.Plugin;
 import uk.org.wookey.IC.Utils.StringParser;
 
@@ -39,6 +39,7 @@ public class LocalEditing extends Plugin {
 			return NotInterested;
 		}
 		
+		line = line.substring(outOfBandToken.length());
 		cmdParser.setString(line.trim());
 		
 		_logger.logMsg("Handle '" + line + "'");
@@ -75,7 +76,7 @@ public class LocalEditing extends Plugin {
 
 				return HandledFinal;
 			}
-		} catch (MCPException e) {
+		} catch (ParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -104,5 +105,4 @@ public class LocalEditing extends Plugin {
 		
 		return gobbled;
 	}
-
 }
