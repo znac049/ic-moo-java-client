@@ -17,10 +17,11 @@ import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.GUI.VisInfo;
 import uk.org.wookey.IC.GUI.WorldDetailsPanel;
 import uk.org.wookey.IC.Interfaces.TabInterface;
-import uk.org.wookey.IC.OOB.OOBHandlers;
 import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.LineInputHandlers;
+import uk.org.wookey.IC.Utils.Plugin;
 import uk.org.wookey.IC.Utils.WorldCache;
 import uk.org.wookey.IC.Utils.WorldSettings;
 
@@ -41,7 +42,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private LED statusLED;
 	private boolean connected;
 	private boolean localEcho;
-	private OOBHandlers oob;
+	private LineInputHandlers oob;
 	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
@@ -104,7 +105,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		visInfo.hide();
 		
 		try {
-			oob = new OOBHandlers(this);
+			oob = new LineInputHandlers(this);
 		} catch (Exception e) {
 			oob = null;
 		}
@@ -127,7 +128,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 					connected = false;
 				}
 				else {
-					processLine(line);
+					handleRemoteInputLine(line);
 				}
 			} catch (IOException e) {
 				_logger.logMsg("Unhandled IOexception");
@@ -245,14 +246,11 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		keyboard.setText("");
 	}
 	
-	public void processLine(String line) {
+	public void handleRemoteInputLine(String line) {
 		if (line != null) {
-			// Are we interested in this line?
-			if (oob.isOutOfBand(line)) {
-				_logger.logMsg("MCP S->C: " + line);
-				oob.handle(line.substring(3));
-			}
-			else {
+			// Are any of the plugins interested in this line?
+			if (oob.handleRemoteLineInput(line.substring(3)) == Plugin.NotInterested) {
+				// None of the plugins were interested
 				doc.format(line+'\n', remoteTextAttribs);
 				
 				if (tabVisible()) {
@@ -293,5 +291,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	}
 
 	public void keyTyped(KeyEvent arg0) {
+	}
+	
+	public String getWorldName() {
+		return worldName;
 	}
 }
