@@ -1,0 +1,5 @@
+#summary Wiki main page
+
+= Welcome =
+
+This is the main wiki page.
