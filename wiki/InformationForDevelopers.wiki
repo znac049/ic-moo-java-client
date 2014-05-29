@@ -1,0 +1,7 @@
+#summary Developers interested in working with the client start here.
+
+= Introduction =
+This page provides an introduction to developers wishing to work with the client, including plugin development.
+
+
+= Details =
