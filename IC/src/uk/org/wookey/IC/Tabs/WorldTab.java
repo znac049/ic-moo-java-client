@@ -7,6 +7,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
@@ -22,6 +24,7 @@ import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.Plugin;
+import uk.org.wookey.IC.Utils.PluginInfo;
 import uk.org.wookey.IC.Utils.WorldCache;
 import uk.org.wookey.IC.Utils.WorldSettings;
 
@@ -45,16 +48,17 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
-	private ArrayList<Plugin> _handlers;
+	private ArrayList<Plugin> remoteLineInputHandlers;
+	private ScriptEngine scriptEngine;
 
 	public WorldTab(String name) throws IOException {
 		super();
-
+		
 		worldName = name;
 		connected = false;
 		localEcho = true;
 		
-		_handlers = new ArrayList<Plugin>();
+		remoteLineInputHandlers = new ArrayList<Plugin>();
 		
 		statusLED = new LED(0, 0, 0);
 		
@@ -105,24 +109,38 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		visInfo = new VisInfo();
 		add(visInfo, 1, 0, 0.0, 1.0);
 		visInfo.hide();
-		
+
+		ScriptEngineManager factory = new ScriptEngineManager();
+		scriptEngine = factory.getEngineByName("JavaScript");
+
 		_logger.logMsg("Creating Line Input Handlers");
 
-		ArrayList<Plugin> plugins = PluginFactory.getRemoteInputPlugins();
-		_logger.logMsg("# remote line input handlers found: " + plugins.size());
-		for (Plugin plugin: plugins) {
-			if (plugin.connectTo(this)) {
-				_handlers.add(plugin);
-			}
-			else {
-				_logger.logMsg("Plugin '" + plugin.getName() + "' failed to connect to worldTab");
-			}
-		}
+		initPlugins();
 
 		WorldTabFactory.getWorldTabs().getTabPane().addTab(worldName, statusLED, this);
 		WorldTabFactory.getWorldTabs().getTabPane().setSelectedComponent(this);
 
 		new Thread(this, "World: " + name).start();
+	}
+	
+	private void initPlugins() {
+		_logger.logMsg("Looking for plugins that handle remote line input");
+
+		for (PluginInfo info: PluginFactory.plugins) {
+			Plugin plugin = (Plugin) info.newInstance();
+			
+			// Does the plugin handle remote line input?
+			if (plugin.handlesRemoteLineInput() && plugin.energizePlugin()) {
+				_logger.logMsg("  plugin '" + plugin.getName() + "' handles remote line input");
+
+				if (plugin.connectTo(this)) {
+					remoteLineInputHandlers.add(plugin);
+				}
+				else {
+					_logger.logMsg("Plugin '" + plugin.getName() + "' failed to connect to worldTab");
+				}
+			}
+		}
 	}
 	
 	public void run() {
@@ -260,7 +278,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 			// Are any of the plugins interested in this line?
 			int code = Plugin.NotInterested;
 			
-			for (Plugin plugin : _handlers) {
+			for (Plugin plugin : remoteLineInputHandlers) {
 				//_logger.logMsg(plugin.getName() + "??");
 				code = plugin.handleRemoteLineInput(line);
 				
@@ -288,9 +306,14 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		return visInfo;
 	}
 
-	public void keyPressed(KeyEvent evt) {
-		int key = evt.getKeyCode();  
-
+	public void keyPressed(KeyEvent keyEvent) {
+		int key = keyEvent.getKeyCode();
+		int mod = keyEvent.getModifiers();
+		
+		if (keyEvent.isControlDown()) {
+			_logger.logMsg("Special char! " + key);
+		}
+		
 		if (key == KeyEvent.VK_UP) {
 			if (historyIndex > 0) {
 				historyIndex--;
@@ -311,7 +334,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	public void keyReleased(KeyEvent arg0) {
 	}
 
-	public void keyTyped(KeyEvent arg0) {
+	public void keyTyped(KeyEvent keyEvent) {
+		int key = keyEvent.getKeyCode();
 	}
 	
 	public String getWorldName() {

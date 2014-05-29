@@ -15,7 +15,7 @@ public class PluginFactory {
 	private static final Logger _logger = new Logger("PluginFactory");
 	private static String[] requiredMethods = {"energizePlugin"};
 	public static final String pluginDir = "./plugins";
-	private static ArrayList<PluginInfo> plugins = new ArrayList<PluginInfo>();
+	public static ArrayList<PluginInfo> plugins = new ArrayList<PluginInfo>();
 	
 	public static void scanForPlugins() {
 		File dir = new File(pluginDir);
@@ -92,35 +92,5 @@ public class PluginFactory {
 		}
 		
 		return true;
-	}
-	
-	public static boolean populateSettingsTabs(JTabbedPane tabs) {
-		for (PluginInfo info: plugins) {
-			Plugin plugin = (Plugin) info.newInstance();
-			
-			if (plugin.energizePlugin()) {
-				tabs.addTab(plugin.getName(), plugin.getWorldSettingsTab());
-			}
-		}
-		
-		return (plugins.size() > 0);
-	}
-	
-	public static ArrayList<Plugin> getRemoteInputPlugins() {
-		ArrayList<Plugin> plugins = new ArrayList<Plugin>();
-		
-		_logger.logMsg("Looking for plugins that handle remote line input");
-		_logger.logMsg("total number of plugins found: " + plugins.size());
-		for (PluginInfo info: PluginFactory.plugins) {
-			Plugin plugin = (Plugin) info.newInstance();
-			
-			// Does the plugin handle remote line input?
-			if (plugin.handlesRemoteLineInput() && plugin.energizePlugin()) {
-				_logger.logMsg("  plugin '" + plugin.getName() + "' handles remote line input");
-				plugins.add(plugin);
-			}
-		}
-		
-		return plugins;
 	}
 }

@@ -14,9 +14,6 @@ public class ApplicationWindow {
 	WorldTabs _mainWindow;
 	
 	public ApplicationWindow() {		
-		// Plugins
-		loadPlugins();
-		
 		_mainWindow = WorldTabFactory.getWorldTabs();
 		_mainWindow.setSize(800, 600);
 		_mainWindow.setLocation(100, 100);
@@ -35,11 +32,6 @@ public class ApplicationWindow {
 		readPreferences();
 	}
 	
-	private void loadPlugins() {
-		_logger.logMsg("Looking for plugins to load");
-		PluginFactory.scanForPlugins();
-	}
-
 	private void readPreferences() {
 		WorldCache cache = new WorldCache();
 		
