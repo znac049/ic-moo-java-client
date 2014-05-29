@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.GUI;
+package uk.org.wookey.IC.Utils;
 
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;

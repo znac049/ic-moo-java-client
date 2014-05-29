@@ -1,18 +1,21 @@
 package uk.org.wookey.IC.GUI;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
 import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.Plugin;
+import uk.org.wookey.IC.Utils.PluginInfo;
 import uk.org.wookey.IC.Utils.WorldCache;
 import uk.org.wookey.IC.Utils.WorldSettings;
 import webBoltOns.layoutManager.*;
 
 public class WorldDetailsPanel extends JPanel {
 	private static final long serialVersionUID = 7832805464430880015L;
-	private final Logger _logger = new Logger("NewWorldDetails");
+	private final Logger _logger = new Logger("WorldDetailsPanel");
 	private JTextField saveName;
 	private JTextField serverName;
 	private JTextField serverPort;
@@ -22,6 +25,7 @@ public class WorldDetailsPanel extends JPanel {
 	private JCheckBox autoLogin;
 	private JCheckBox localEcho;
 	private JTabbedPane pluginTabs;
+	private ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 	
 	public static final String AUTOCONNECT = "Autoconnect";
 	public static final String SERVER = "Server";
@@ -75,8 +79,17 @@ public class WorldDetailsPanel extends JPanel {
 		add(mainPanel, BorderLayout.NORTH);
 		
 		pluginTabs = new JTabbedPane();
-		if (PluginFactory.populateSettingsTabs(pluginTabs)) {
-			// Only add the plugin tabs if there are any plugins!
+		
+		for (PluginInfo info: PluginFactory.plugins) {
+			Plugin plugin = (Plugin) info.newInstance();
+			
+			if (plugin.energizePlugin()) {
+				plugins.add(plugin);
+				pluginTabs.addTab(plugin.getName(), plugin.getWorldSettingsTab());
+			}
+		}
+		
+		if (plugins.size() > 0) {
 			add(pluginTabs, BorderLayout.SOUTH);
 		}
 
@@ -148,6 +161,11 @@ public class WorldDetailsPanel extends JPanel {
 			detail.set(LOCALECHO, localEcho.isSelected());
 
 			clearDetails();
+			
+			for (Plugin plugin: plugins) {
+				plugin.connectTo(worldName);
+				plugin.saveSettings();
+			}
 		}
 	}
 
