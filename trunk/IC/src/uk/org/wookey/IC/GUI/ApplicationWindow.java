@@ -3,18 +3,21 @@ package uk.org.wookey.IC.GUI;
 import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
 
 import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.Tabs.DebugTab;
+import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.WorldCache;
 import uk.org.wookey.IC.Utils.WorldSettings;
 
 public class ApplicationWindow {
 	private final Logger _logger = new Logger("ApplicationWindow");
-	WorldTabs _OOOOOLDmainWindow;
-	JFrame appWindow;
+	private WorldTabs _OOOOOLDmainWindow;
+	private JFrame appWindow;
+	private JTabbedPane tabs;
 	
 	public ApplicationWindow() {		
 		_OOOOOLDmainWindow = WorldTabFactory.getWorldTabs();
@@ -47,9 +50,18 @@ public class ApplicationWindow {
 		appWindow.setLayout(new BorderLayout());
 		appWindow.add(new QuickLaunch());
 		
+		tabs = new JTabbedPane();
+		tabs.add("Console", new DebugTab());
+		appWindow.add(tabs);
+		
 		appWindow.setVisible(true);
 	}
 
+	public void addTab(WorldTab tab) {
+		tabs.addTab(tab.getWorldName(), tab.getIndicator(), tab);
+		tabs.setSelectedComponent(tab);
+	}
+	
 	private void readPreferences() {
 		WorldCache cache = new WorldCache();
 		

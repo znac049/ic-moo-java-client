@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import Application.MainApplication;
 import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.newUtils.Prefs;
 
 public class Plugin {
 	private Logger _logger = new Logger("Base Plugin");
@@ -17,7 +18,7 @@ public class Plugin {
 	protected String _worldName = null;
 	protected boolean _enabled = false; // Disabled by default
 	
-	private Preferences appRoot = Preferences.userRoot().node(MainApplication.rootNodeName);
+	private Preferences appRoot = Prefs.node(Prefs.AppRoot);
 	private Preferences globalPluginSettings = null;
 	private Preferences localPluginSettings = null;
 	
@@ -38,7 +39,7 @@ public class Plugin {
 	
 	protected void setName(String name) {
 		_name = name;
-		globalPluginSettings = appRoot.node(MainApplication.pluginNodeName + "/" + _name);
+		globalPluginSettings = appRoot.node(Prefs.pluginNodeName + "/" + _name);
 
 		loadSettings();
 	}
@@ -65,7 +66,7 @@ public class Plugin {
 	}
 
 	public boolean onConnect() {
-		localPluginSettings = appRoot.node(MainApplication.worldsNodeName + "/" + _worldName);
+		localPluginSettings = Prefs.node(Prefs.WorldsRoot + "/" + _worldName);
 		
 		loadSettings();
 		
