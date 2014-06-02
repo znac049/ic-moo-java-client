@@ -23,6 +23,7 @@ public class MainApplication {
 		
 		dumpPrefTree();
 		
+		//new ApplicationWindow();
 		new ApplicationWindow();
 	}
 	
