@@ -16,12 +16,13 @@ import uk.org.wookey.IC.Interfaces.TabInterface;
 import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.Plugin;
-import uk.org.wookey.IC.Utils.PluginInfo;
 import uk.org.wookey.IC.newUtils.Prefs;
 
 public class WorldTab extends JPanel implements ActionListener, KeyListener, TabInterface, Runnable {
-	private static final long serialVersionUID = -4222553304590523399L;
+	private static final long serialVersionUID = 1L;
+	
+	private static int tabNum = 0;
+	
 	private Logger _logger = new Logger("WorldTab");
 	private JTextPane screen;
 	private JTextField keyboard;
@@ -30,21 +31,43 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private SimpleAttributeSet localTextAttribs;
 	private SimpleAttributeSet statusAttribs;
 	private SimpleAttributeSet errorAttribs;
-	private String worldName;
+
 	private Socket socket;
 	private BufferedReader remoteInput = null;
 	private PrintWriter remoteOutput = null;
 	private LED statusLED;
+	
+	private String worldName;
+	private String hostName;
+	private int hostPort;
 	private boolean connected;
 	private boolean localEcho;
+	
 	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
 
+	public WorldTab(String host, int port) throws IOException {
+		super();
+		
+		hostName = host;
+		hostPort = port;
+		worldName = null;
+		
+		setup();
+	}
+	
 	public WorldTab(String name) throws IOException {
 		super();
 		
 		worldName = name;
+		hostName = null;
+		hostPort = -1;
+		
+		setup();
+	}
+	
+	public void setup() {
 		connected = false;
 		localEcho = true;
 		
@@ -93,11 +116,11 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		keyboard.addActionListener(this);
 		keyboard.addKeyListener(this);
 		add(keyboard, 0, 1, 1.0, 0.0);
-
-		//WorldTabFactory.getWorldTabs().getTabPane().addTab(worldName, statusLED, this);
-		//WorldTabFactory.getWorldTabs().getTabPane().setSelectedComponent(this);
-
-		new Thread(this, "World: " + name).start();
+	}
+	
+	public void runThread() {		
+		tabNum++;
+		new Thread(this, "World: " + tabNum).start();
 	}
 	
 	public void run() {
@@ -136,26 +159,32 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	}
 	
 	private void attemptToConnect() {
-		Preferences prefs = Prefs.node(Prefs.WorldsRoot + "/" + worldName);
+		boolean autoConnect = false;
+		String userName = null;
+		String password = null;;
+		
+		if (worldName != null) {
+			Preferences prefs = Prefs.node(Prefs.WorldsRoot + "/" + worldName);
+
+			hostName = prefs.get(Prefs.SERVER, null);
+			hostPort = prefs.getInt(Prefs.PORT, -1);
+			localEcho = prefs.getBoolean(Prefs.LOCALECHO, true);
+			autoConnect = prefs.getBoolean(Prefs.AUTOLOGIN, false);
+			userName = prefs.get(Prefs.USERNAME, "");
+			password = prefs.get(Prefs.PASSWORD, "");
+		}
 		
 		try {
-			String server = prefs.get(Prefs.SERVER, "");
-			int port = prefs.getInt(Prefs.PORT, -1);
-				
-			localEcho = prefs.getBoolean(Prefs.LOCALECHO, false);
-				
-			if ((port != -1) && !server.equals("")) {
-				socket = new Socket(server, port);
+			if ((hostPort != -1) && !hostName.equals("")) {
+				_logger.logMsg("Connecting to: " + hostName + " port " + hostPort);
+				socket = new Socket(hostName, hostPort);
 					
 				remoteInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				remoteOutput = new PrintWriter(socket.getOutputStream(), true);
 					
 				connected = true;
 					
-				if (prefs.getBoolean(Prefs.AUTOCONNECT, false)) {
-					String userName = prefs.get(Prefs.USERNAME, "");
-					String password = prefs.get(Prefs.PASSWORD, "");
-						
+				if (autoConnect) {
 					if (!userName.equals("")) {
 						_logger.logMsg("Autologin as '" + userName + "'");
 						writeRemote("connect " + userName + " " + password);
@@ -266,7 +295,11 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	}
 	
 	public String getWorldName() {
-		return worldName;
+		if (worldName != null) {
+			return worldName;
+		}
+		
+		return hostName;
 	}
 	
 	public LED getIndicator() {

@@ -1,23 +1,27 @@
 package uk.org.wookey.IC.GUI;
 
-import java.awt.BorderLayout;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-import uk.org.wookey.IC.Factories.PluginFactory;
-import uk.org.wookey.IC.Factories.WorldTabFactory;
+import uk.org.wookey.IC.Interfaces.TabInterface;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newGUI.DebugTab;
 import uk.org.wookey.IC.newGUI.WorldTab;
 
 public class ApplicationWindow {
+	@SuppressWarnings("unused")
 	private final Logger _logger = new Logger("ApplicationWindow");
-	private JFrame appWindow;
-	private JTabbedPane tabs;
+	private static JFrame appWindow = null;
+	private static JTabbedPane tabs;
 	
-	public ApplicationWindow(boolean b) {
+	public ApplicationWindow() {
+		if (appWindow != null) {
+			return;
+		}
+		
 		appWindow = new JFrame("IC");
 		
 		appWindow.setSize(800, 600);
@@ -31,15 +35,28 @@ public class ApplicationWindow {
 		appWindow.add(new QuickLaunch());
 		
 		tabs = new JTabbedPane();
+		// Turn the activity LED off when a tab gets focus
+        tabs.addChangeListener(new ChangeListener() {
+        	public void stateChanged(ChangeEvent e) {
+        		TabInterface tab = (TabInterface) tabs.getSelectedComponent();
+        		tab.clearActivity();
+        	}
+        });
+
 		tabs.add("Console", new DebugTab());
 		appWindow.add(tabs);
 		
-		//appWindow.pack();
+		appWindow.add(new MainStatusBar());
 		
 		appWindow.setVisible(true);
 	}
 
-	public void addTab(WorldTab tab) {
+	public static void addTab(WorldTab tab) {
+		
+		if (appWindow == null) {
+			new ApplicationWindow();
+		}
+		
 		tabs.addTab(tab.getWorldName(), tab.getIndicator(), tab);
 		tabs.setSelectedComponent(tab);
 	}
