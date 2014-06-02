@@ -10,7 +10,6 @@ import uk.org.wookey.IC.GUI.ApplicationWindow;
 import uk.org.wookey.IC.GUI.WorldDetailsPanel;
 import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.WorldSettings;
 import uk.org.wookey.IC.newUtils.Prefs;
 import uk.org.wookey.IC.newUtils.Worlds;
 

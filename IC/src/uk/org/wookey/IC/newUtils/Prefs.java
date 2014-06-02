@@ -19,4 +19,8 @@ public class Prefs {
 	public static Preferences node(String name) {
 		return Preferences.userRoot().node(name);
 	}
+
+	public static Preferences node(String root, String name) {
+		return Prefs.node(root + "/" + name);
+	}
 }

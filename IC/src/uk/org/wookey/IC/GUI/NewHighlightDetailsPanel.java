@@ -1,6 +1,8 @@
 package uk.org.wookey.IC.GUI;
 
 import java.awt.Component;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -8,8 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.WorldCache;
-import uk.org.wookey.IC.Utils.WorldSettings;
+import uk.org.wookey.IC.newUtils.Prefs;
 import webBoltOns.layoutManager.GridFlowLayout;
 import webBoltOns.layoutManager.GridFlowLayoutParameter;
 
@@ -46,25 +47,23 @@ public class NewHighlightDetailsPanel extends JPanel {
 	
 	public void loadDetails(Object o) {
 		String worldName = o.toString();
-		WorldCache cache = new WorldCache();
-		WorldSettings detail = cache.getWorld(worldName);
+		Preferences prefs = Prefs.node(Prefs.WorldsRoot, worldName);
 		
 		_logger.logMsg("Load details for: " + worldName);
 
 		saveName.setText(worldName);
-		mcpSupport.setSelected(detail.getBoolean("MCPSupport"));
+		mcpSupport.setSelected(prefs.getBoolean("MCPSupport", false));
 	}
 
 	public void saveDetails() {
 		String name = saveName.getText();
-		WorldCache cache = new WorldCache();
-		WorldSettings detail = cache.getWorld(name);
+		Preferences prefs = Prefs.node(Prefs.WorldsRoot, name);
 				
 		_logger.logMsg("Save details for: " + name);
 
 		if (!name.equals("")) {
-			detail.setWorldName(name);
-			detail.set("MCPSupport", mcpSupport.isSelected());
+			//detail.setWorldName(name);
+			prefs.putBoolean("MCPSupport", mcpSupport.isSelected());
 
 			clearDetails();
 		}
@@ -76,11 +75,17 @@ public class NewHighlightDetailsPanel extends JPanel {
 		_logger.logMsg("Delete details for: " + name);
 
 		if (!name.equals("")) {
-			WorldCache cache = new WorldCache();
+			Preferences prefs = Prefs.node(Prefs.WorldsRoot, name);
 
-			cache.deleteEntry(name);
-			clearDetails();
-			_logger.logMsg("World '" + name + "' deleted.");
+			try {
+				prefs.removeNode();
+				prefs.flush();
+
+				clearDetails();
+				_logger.logMsg("World '" + name + "' deleted.");
+			} catch (BackingStoreException e) {
+				_logger.logMsg("Failed to delete prefs node " + prefs.absolutePath());
+			}
 		}
 	}
 }
