@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.Tabs;
+package uk.org.wookey.IC.newGUI;
 
 import javax.swing.JPanel;
 

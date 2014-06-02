@@ -3,8 +3,8 @@ package uk.org.wookey.IC.Factories;
 import java.io.IOException;
 
 import uk.org.wookey.IC.GUI.WorldTabs;
-import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.AssociativeArray;
+import uk.org.wookey.IC.newGUI.WorldTab;
 
 public class WorldTabFactory {
 	private static WorldTabs worldTabs = null;

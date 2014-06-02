@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Application.MainApplication;
-import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.newGUI.WorldTab;
 import uk.org.wookey.IC.newUtils.Prefs;
 
 public class Plugin {
