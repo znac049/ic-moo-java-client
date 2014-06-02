@@ -28,14 +28,6 @@ public class WorldDetailsPanel extends JPanel {
 	private JTabbedPane pluginTabs;
 	private ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 	
-	//public static final String AUTOCONNECT = "Autoconnect";
-	//public static final String SERVER = "Server";
-	//public static final String PORT = "Port";
-	//public static final String AUTOLOGIN = "Autologin";
-	//public static final String USERNAME = "Username";
-	//public static final String PASSWORD = "Password";
-	//public static final String LOCALECHO = "LocalEcho";
-
 	public WorldDetailsPanel() {
 		super();
 		

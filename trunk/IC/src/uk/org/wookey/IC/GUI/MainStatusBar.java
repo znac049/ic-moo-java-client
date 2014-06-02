@@ -13,6 +13,6 @@ public class MainStatusBar extends JPanel {
 		
 		this.setBackground(new Color(7, 141, 133));
 		
-		add(new JLabel("Fred"));
+		add(new JLabel("Status Bar - needs some coding!"));
 	}
 }
