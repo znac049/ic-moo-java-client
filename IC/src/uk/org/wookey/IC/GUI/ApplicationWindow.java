@@ -1,5 +1,7 @@
 package uk.org.wookey.IC.GUI;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JFrame;
 
 import uk.org.wookey.IC.Factories.PluginFactory;
@@ -11,27 +13,43 @@ import uk.org.wookey.IC.Utils.WorldSettings;
 
 public class ApplicationWindow {
 	private final Logger _logger = new Logger("ApplicationWindow");
-	WorldTabs _mainWindow;
+	WorldTabs _OOOOOLDmainWindow;
+	JFrame appWindow;
 	
 	public ApplicationWindow() {		
-		_mainWindow = WorldTabFactory.getWorldTabs();
-		_mainWindow.setSize(800, 600);
-		_mainWindow.setLocation(100, 100);
+		_OOOOOLDmainWindow = WorldTabFactory.getWorldTabs();
+		_OOOOOLDmainWindow.setSize(800, 600);
+		_OOOOOLDmainWindow.setLocation(100, 100);
 
-		_mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		_OOOOOLDmainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		_mainWindow.getTabPane().addTab("Console", new DebugTab());
+		_OOOOOLDmainWindow.getTabPane().addTab("Console", new DebugTab());
 		//_mainWindow.getContentPane().add(new LED(255,0,0));
 		MainMenuBar menuBar = new MainMenuBar();
-		_mainWindow.setJMenuBar(menuBar);
+		_OOOOOLDmainWindow.setJMenuBar(menuBar);
 				
 		//frame.pack();
-		_mainWindow.setVisible(true);
+		_OOOOOLDmainWindow.setVisible(true);
 		
 		// Read configuration details
 		readPreferences();
 	}
 	
+	public ApplicationWindow(boolean b) {
+		appWindow = new JFrame("IC");
+		
+		appWindow.setSize(800, 600);
+		appWindow.setLocation(100, 100);
+		
+		appWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		appWindow.setJMenuBar(new MainMenuBar());
+		
+		appWindow.setLayout(new BorderLayout());
+		appWindow.add(new QuickLaunch());
+		
+		appWindow.setVisible(true);
+	}
+
 	private void readPreferences() {
 		WorldCache cache = new WorldCache();
 		

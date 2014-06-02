@@ -21,29 +21,8 @@ public class MainApplication {
 		_logger.logMsg("Looking for plugins");
 		PluginFactory.scanForPlugins();
 		
-		dumpPrefTree();
-		
 		//new ApplicationWindow();
-		new ApplicationWindow();
-	}
-	
-	private void dumpPrefTree() {
-		dumpPrefTree(appRoot);
-	}
-	
-	private void dumpPrefTree(Preferences node) {
-		try {
-			for (String child: node.childrenNames()) {
-				_logger.logMsg(node.absolutePath() + "/" + child);
-				
-				if (appRoot.nodeExists(child)) {
-					dumpPrefTree(node.node(child));
-				}
-			}
-		} catch (BackingStoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		new ApplicationWindow(true);
 	}
 
 	public static void main(String[] args) {
