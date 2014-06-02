@@ -8,8 +8,8 @@ import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Factories.WorldTabFactory;
 import uk.org.wookey.IC.GUI.ApplicationWindow;
 import uk.org.wookey.IC.GUI.WorldDetailsPanel;
-import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.newGUI.WorldTab;
 import uk.org.wookey.IC.newUtils.Prefs;
 import uk.org.wookey.IC.newUtils.Worlds;
 

@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.Tabs;
+package uk.org.wookey.IC.newGUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,18 +8,10 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
-import uk.org.wookey.IC.Factories.PluginFactory;
-import uk.org.wookey.IC.Factories.WorldTabFactory;
-import uk.org.wookey.IC.GUI.VisInfo;
-import uk.org.wookey.IC.GUI.WorldDetailsPanel;
 import uk.org.wookey.IC.Interfaces.TabInterface;
 import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
@@ -33,7 +25,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private Logger _logger = new Logger("WorldTab");
 	private JTextPane screen;
 	private JTextField keyboard;
-	private VisInfo visInfo;
+	
 	private SimpleAttributeSet remoteTextAttribs;
 	private SimpleAttributeSet localTextAttribs;
 	private SimpleAttributeSet statusAttribs;
@@ -48,8 +40,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
-	private ArrayList<Plugin> remoteLineInputHandlers;
-	private ScriptEngine scriptEngine;
 
 	public WorldTab(String name) throws IOException {
 		super();
@@ -57,8 +47,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		worldName = name;
 		connected = false;
 		localEcho = true;
-		
-		remoteLineInputHandlers = new ArrayList<Plugin>();
 		
 		statusLED = new LED(0, 0, 0);
 		
@@ -106,41 +94,10 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		keyboard.addKeyListener(this);
 		add(keyboard, 0, 1, 1.0, 0.0);
 
-		visInfo = new VisInfo();
-		add(visInfo, 1, 0, 0.0, 1.0);
-		visInfo.hide();
-
-		ScriptEngineManager factory = new ScriptEngineManager();
-		scriptEngine = factory.getEngineByName("JavaScript");
-
-		_logger.logMsg("Creating Line Input Handlers");
-
-		initPlugins();
-
 		//WorldTabFactory.getWorldTabs().getTabPane().addTab(worldName, statusLED, this);
 		//WorldTabFactory.getWorldTabs().getTabPane().setSelectedComponent(this);
 
 		new Thread(this, "World: " + name).start();
-	}
-	
-	private void initPlugins() {
-		_logger.logMsg("Looking for plugins that handle remote line input");
-
-		for (PluginInfo info: PluginFactory.plugins) {
-			Plugin plugin = (Plugin) info.newInstance();
-			
-			// Does the plugin handle remote line input?
-			if (plugin.handlesRemoteLineInput() && plugin.energizePlugin()) {
-				_logger.logMsg("  plugin '" + plugin.getName() + "' handles remote line input");
-
-				if (plugin.connectTo(this)) {
-					remoteLineInputHandlers.add(plugin);
-				}
-				else {
-					_logger.logMsg("Plugin '" + plugin.getName() + "' failed to connect to worldTab");
-				}
-			}
-		}
 	}
 	
 	public void run() {
@@ -213,18 +170,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	}
 	
 	public boolean tabVisible() {
-		return (WorldTabFactory.getWorldTabs().getTabPane().getSelectedComponent() == this);
-	}
-
-	protected void appendd(String msg, SimpleAttributeSet attributes) {
-		Document docu = screen.getDocument();
-		
-		try {
-			docu.insertString(docu.getLength(), msg, attributes);
-			screen.setCaretPosition(docu.getLength());		
-		} catch (BadLocationException e) {
-			e.printStackTrace();
-		}		
+		JTabbedPane tabs = (JTabbedPane) getParent();
+		return (tabs.getSelectedComponent() == this);
 	}
 
 	public void writeRemote(String line) {
@@ -238,13 +185,13 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	public void clearActivity() {
 		if (statusLED.setColour(0, 0, 0)) {
-			WorldTabFactory.getWorldTabs().repaint();
+			getParent().repaint();
 		}
 	}
 	
 	public void flagActivity() {
 		if (statusLED.setColour(255, 120, 0)) {
-			WorldTabFactory.getWorldTabs().repaint();
+			getParent().repaint();
 		}
 	}
 	
@@ -274,37 +221,18 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	public void handleRemoteInputLine(String line) {
 		if (line != null) {
-			// Are any of the plugins interested in this line?
-			int code = Plugin.NotInterested;
-			
-			for (Plugin plugin : remoteLineInputHandlers) {
-				//_logger.logMsg(plugin.getName() + "??");
-				code = plugin.handleRemoteLineInput(line);
-				
-				if (code == Plugin.HandledFinal) {
-					// Handled and don't want anyone else to be allowed a look-in
-					break;
-				}
+			// None of the plugins were interested
+			doc.format(line+'\n', remoteTextAttribs);
+					
+			if (tabVisible()) {
+				clearActivity();
 			}
-			
-			if (code == Plugin.NotInterested) {
-				// None of the plugins were interested
-				doc.format(line+'\n', remoteTextAttribs);
-				
-				if (tabVisible()) {
-					clearActivity();
-				}
-				else {
-					flagActivity();
-				}
+			else {
+				flagActivity();
 			}
 		}
 	}
 	
-	public VisInfo getVisInfo() {
-		return visInfo;
-	}
-
 	public void keyPressed(KeyEvent keyEvent) {
 		int key = keyEvent.getKeyCode();
 		int mod = keyEvent.getModifiers();

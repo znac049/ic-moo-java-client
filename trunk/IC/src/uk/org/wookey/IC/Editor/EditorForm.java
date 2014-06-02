@@ -5,8 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-import uk.org.wookey.IC.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.newGUI.WorldTab;
 
 public class EditorForm extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7555977762161202604L;
