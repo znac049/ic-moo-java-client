@@ -8,28 +8,28 @@ import javax.swing.event.ChangeListener;
 
 import uk.org.wookey.IC.Interfaces.TabInterface;
 
-public class WorldTabs extends JFrame {	
-	private static final long serialVersionUID = 1L;
-	private JTabbedPane tabPane;
-	
-	public WorldTabs() {
-		super("IC");
+public class WorldTabs extends JFrame {
+        private static final long serialVersionUID = 1L;
+        private JTabbedPane tabPane;
+       
+        public WorldTabs() {
+                super("IC");
 
-		setLayout(new BorderLayout());
-		
-		tabPane = new JTabbedPane();
-		tabPane.addChangeListener(new ChangeListener() {
+                setLayout(new BorderLayout());
+               
+                tabPane = new JTabbedPane();
+                tabPane.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent e) {
-	            TabInterface panel = (TabInterface) tabPane.getSelectedComponent();
-               	panel.clearActivity();
+                    TabInterface panel = (TabInterface) tabPane.getSelectedComponent();
+                panel.clearActivity();
             }
         });
-	
-		getContentPane().add(tabPane, BorderLayout.CENTER);
-		getContentPane().add(new MainStatusBar(), BorderLayout.SOUTH);
-	}
-	
-	public JTabbedPane getTabPane() {
-		return tabPane;
-	}
+       
+                getContentPane().add(tabPane, BorderLayout.CENTER);
+                getContentPane().add(new MainStatusBar(), BorderLayout.SOUTH);
+        }
+       
+        public JTabbedPane getTabPane() {
+                return tabPane;
+        }
 }
