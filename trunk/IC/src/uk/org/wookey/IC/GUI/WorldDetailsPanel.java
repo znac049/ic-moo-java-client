@@ -2,6 +2,8 @@ package uk.org.wookey.IC.GUI;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
@@ -9,8 +11,7 @@ import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.Plugin;
 import uk.org.wookey.IC.Utils.PluginInfo;
-import uk.org.wookey.IC.Utils.WorldCache;
-import uk.org.wookey.IC.Utils.WorldSettings;
+import uk.org.wookey.IC.newUtils.Prefs;
 import webBoltOns.layoutManager.*;
 
 public class WorldDetailsPanel extends JPanel {
@@ -27,13 +28,13 @@ public class WorldDetailsPanel extends JPanel {
 	private JTabbedPane pluginTabs;
 	private ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 	
-	public static final String AUTOCONNECT = "Autoconnect";
-	public static final String SERVER = "Server";
-	public static final String PORT = "Port";
-	public static final String AUTOLOGIN = "Autologin";
-	public static final String USERNAME = "Username";
-	public static final String PASSWORD = "Password";
-	public static final String LOCALECHO = "LocalEcho";
+	//public static final String AUTOCONNECT = "Autoconnect";
+	//public static final String SERVER = "Server";
+	//public static final String PORT = "Port";
+	//public static final String AUTOLOGIN = "Autologin";
+	//public static final String USERNAME = "Username";
+	//public static final String PASSWORD = "Password";
+	//public static final String LOCALECHO = "LocalEcho";
 
 	public WorldDetailsPanel() {
 		super();
@@ -120,45 +121,43 @@ public class WorldDetailsPanel extends JPanel {
 	
 	public void loadDetails(Object o) {
 		String worldName = o.toString();
-		WorldCache cache = new WorldCache();
-		WorldSettings detail = cache.getWorld(worldName);
+		Preferences prefs = Prefs.node(Prefs.WorldsRoot, worldName);
 		
 		_logger.logMsg("Load details for: " + worldName);
 
 		saveName.setText(worldName);
-		autoConnect.setSelected(detail.getBoolean(AUTOCONNECT));
-		serverName.setText(detail.getString(SERVER));
-		serverPort.setText(Integer.toString(detail.getInt(PORT)));
+		autoConnect.setSelected(prefs.getBoolean(Prefs.AUTOCONNECT, false));
+		serverName.setText(prefs.get(Prefs.SERVER, ""));
+		serverPort.setText(Integer.toString(prefs.getInt(Prefs.PORT, -1)));
 		
-		autoLogin.setSelected(detail.getBoolean(AUTOLOGIN));
-		playerName.setText(detail.getString(USERNAME));
-		playerPassword.setText(detail.getString(PASSWORD));
-		localEcho.setSelected(detail.getBoolean(LOCALECHO));
+		autoLogin.setSelected(prefs.getBoolean(Prefs.AUTOLOGIN, false));
+		playerName.setText(prefs.get(Prefs.USERNAME, ""));
+		playerPassword.setText(prefs.get(Prefs.PASSWORD, ""));
+		localEcho.setSelected(prefs.getBoolean(Prefs.LOCALECHO, true));
 	}
 
 	public void saveDetails() {
 		String worldName = saveName.getText();
-		WorldCache cache = new WorldCache();
-		WorldSettings detail = cache.getWorld(worldName);
+		Preferences prefs = Prefs.node(Prefs.WorldsRoot, worldName);
 				
 		_logger.logMsg("Save details for: " + worldName);
 
 		if (!worldName.equals("")) {
-			detail.set(AUTOCONNECT, autoConnect.isSelected());
+			prefs.putBoolean(Prefs.AUTOCONNECT, autoConnect.isSelected());
 			
 			String port = serverPort.getText();
 			int portNum = -1;
 			if (!port.equals("")) {
 				portNum = Integer.parseInt(port);
 			}
-			detail.set(SERVER, serverName.getText());
-			detail.set(PORT, portNum);
+			prefs.put(Prefs.SERVER, serverName.getText());
+			prefs.putInt(Prefs.PORT, portNum);
 			
-			detail.set(AUTOLOGIN, autoLogin.isSelected());
-			detail.set(USERNAME, playerName.getText());
-			detail.set(PASSWORD, playerPassword.getPassword());
+			prefs.putBoolean(Prefs.AUTOLOGIN, autoLogin.isSelected());
+			prefs.put(Prefs.USERNAME, playerName.getText());
+			prefs.put(Prefs.PASSWORD, playerPassword.getPassword().toString());
 
-			detail.set(LOCALECHO, localEcho.isSelected());
+			prefs.putBoolean(Prefs.LOCALECHO, localEcho.isSelected());
 
 			clearDetails();
 			
@@ -175,9 +174,14 @@ public class WorldDetailsPanel extends JPanel {
 		_logger.logMsg("Delete details for: " + worldName);
 
 		if (!worldName.equals("")) {
-			WorldCache cache = new WorldCache();
+			Preferences prefs = Prefs.node(Prefs.WorldsRoot, worldName);
 
-			cache.deleteEntry(worldName);
+			try {
+				prefs.removeNode();
+				prefs.flush();
+			} catch (BackingStoreException e) {
+				_logger.logMsg("Failed to delete preferences node.");
+			}
 			clearDetails();
 			_logger.logMsg("World '" + worldName + "' deleted.");
 		}

@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.prefs.Preferences;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -25,8 +26,7 @@ import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.Plugin;
 import uk.org.wookey.IC.Utils.PluginInfo;
-import uk.org.wookey.IC.Utils.WorldCache;
-import uk.org.wookey.IC.Utils.WorldSettings;
+import uk.org.wookey.IC.newUtils.Prefs;
 
 public class WorldTab extends JPanel implements ActionListener, KeyListener, TabInterface, Runnable {
 	private static final long serialVersionUID = -4222553304590523399L;
@@ -179,14 +179,13 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	}
 	
 	private void attemptToConnect() {
-		WorldCache cache = new WorldCache();
-		WorldSettings detail = cache.getWorld(worldName);
+		Preferences prefs = Prefs.node(Prefs.WorldsRoot + "/" + worldName);
 		
 		try {
-			String server = detail.getString(WorldDetailsPanel.SERVER);
-			int port = detail.getInt(WorldDetailsPanel.PORT);
+			String server = prefs.get(Prefs.SERVER, "");
+			int port = prefs.getInt(Prefs.PORT, -1);
 				
-			localEcho = detail.getBoolean(WorldDetailsPanel.LOCALECHO);
+			localEcho = prefs.getBoolean(Prefs.LOCALECHO, false);
 				
 			if ((port != -1) && !server.equals("")) {
 				socket = new Socket(server, port);
@@ -196,9 +195,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 					
 				connected = true;
 					
-				if (detail.getBoolean(WorldDetailsPanel.AUTOCONNECT)) {
-					String userName = detail.getString(WorldDetailsPanel.USERNAME);
-					String password = detail.getString(WorldDetailsPanel.PASSWORD);
+				if (prefs.getBoolean(Prefs.AUTOCONNECT, false)) {
+					String userName = prefs.get(Prefs.USERNAME, "");
+					String password = prefs.get(Prefs.PASSWORD, "");
 						
 					if (!userName.equals("")) {
 						_logger.logMsg("Autologin as '" + userName + "'");
