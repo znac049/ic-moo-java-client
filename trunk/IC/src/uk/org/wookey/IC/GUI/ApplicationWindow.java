@@ -21,16 +21,19 @@ public class ApplicationWindow {
 		
 		appWindow.setSize(800, 600);
 		appWindow.setLocation(100, 100);
+
+		appWindow.setLayout(new BorderLayout());
 		
 		appWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		appWindow.setJMenuBar(new MainMenuBar());
 		
-		appWindow.setLayout(new BorderLayout());
-		appWindow.add(new QuickLaunch());
+		appWindow.add(new QuickLaunch(), BorderLayout.NORTH);
 		
 		tabs = new JTabbedPane();
 		tabs.add("Console", new DebugTab());
-		appWindow.add(tabs);
+		appWindow.add(tabs, BorderLayout.AFTER_LAST_LINE);
+		
+		//appWindow.pack();
 		
 		appWindow.setVisible(true);
 	}
