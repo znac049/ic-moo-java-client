@@ -117,8 +117,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 
 		initPlugins();
 
-		WorldTabFactory.getWorldTabs().getTabPane().addTab(worldName, statusLED, this);
-		WorldTabFactory.getWorldTabs().getTabPane().setSelectedComponent(this);
+		//WorldTabFactory.getWorldTabs().getTabPane().addTab(worldName, statusLED, this);
+		//WorldTabFactory.getWorldTabs().getTabPane().setSelectedComponent(this);
 
 		new Thread(this, "World: " + name).start();
 	}
@@ -340,5 +340,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	public String getWorldName() {
 		return worldName;
+	}
+	
+	public LED getIndicator() {
+		return statusLED;
 	}
 }
