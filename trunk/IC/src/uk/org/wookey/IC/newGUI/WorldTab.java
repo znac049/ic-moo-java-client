@@ -24,14 +24,9 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private static int tabNum = 0;
 	
 	private Logger _logger = new Logger("WorldTab");
-	private JTextPane screen;
+	private Screen screen;
 	private JTextField keyboard;
 	
-	private SimpleAttributeSet remoteTextAttribs;
-	private SimpleAttributeSet localTextAttribs;
-	private SimpleAttributeSet statusAttribs;
-	private SimpleAttributeSet errorAttribs;
-
 	private Socket socket;
 	private BufferedReader remoteInput = null;
 	private PrintWriter remoteOutput = null;
@@ -43,7 +38,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private boolean connected;
 	private boolean localEcho;
 	
-	private DocWriter doc;
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
 
@@ -75,41 +69,19 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		
 		setLayout(new GridBagLayout());
 		
-		screen = new JTextPane();
-		screen.setEditable(false);
-		screen.setFocusable(false);
-
-		remoteTextAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(remoteTextAttribs, Color.blue);
-
-		localTextAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(localTextAttribs, new Color(12, 128, 23));
-		StyleConstants.setBold(localTextAttribs, true);
-
-		statusAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(statusAttribs, new Color(96, 64, 128));
-		StyleConstants.setItalic(statusAttribs, true);
-
-		errorAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(errorAttribs, new Color(192, 64, 64));
-		StyleConstants.setBold(errorAttribs, true);
-
-		Font font = new Font("Courier", Font.PLAIN, 12);
-		screen.setFont(font);
-
+		screen = new Screen();
 		JScrollPane scroller = new JScrollPane(screen);
 		scroller.setFocusable(false);
 		add(scroller, 0, 0, 1.0, 1.0);
 				
-		doc = new DocWriter(screen);
-		doc.addHighLight("Bob", errorAttribs);
-		doc.addHighLight("Kira", errorAttribs);
+		//screen.addHighLight("Bob", errorAttribs);
+		//screen.addHighLight("Kira", errorAttribs);
 		
 		keyboardHistory = new ArrayList<String>();
 		historyIndex = 0;
 		
 		keyboard = new JTextField();
-		font = new Font("Courier", Font.BOLD, 14);
+		Font font = new Font("Courier", Font.BOLD, 14);
 		keyboard.setFont(font);
 		keyboard.requestFocus();
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
@@ -124,7 +96,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	}
 	
 	public void run() {
-		doc.writeln("Connecting to world '" + worldName + "'.", statusAttribs);
+		screen.info("Connecting to world '" + worldName + "'.");
 		attemptToConnect();
 		
 		while (connected && !socket.isClosed()) {
@@ -143,7 +115,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 			}
 		}
 		
-		doc.writeln("Connection closed", statusAttribs);
+		screen.info("Connection closed");
 	}
 
 	private void add(Component c, int x, int y, double wx, double wy) {
@@ -192,7 +164,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 				}
 			}
 		} catch (UnknownHostException e) {
-			doc.writeln("I can't resolve the hostname '" + worldName + "'.", errorAttribs);
+			screen.error("I can't resolve the hostname '" + worldName + "'.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -229,7 +201,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		
 		// Local echo
 		if (localEcho) {
-			doc.writeln(line, localTextAttribs);
+			screen.local(line);
 		}
 		
 		// Add it to the history
@@ -251,7 +223,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	public void handleRemoteInputLine(String line) {
 		if (line != null) {
 			// None of the plugins were interested
-			doc.format(line+'\n', remoteTextAttribs);
+			screen.remote(line);
 					
 			if (tabVisible()) {
 				clearActivity();
