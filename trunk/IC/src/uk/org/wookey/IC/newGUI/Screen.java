@@ -15,7 +15,6 @@ public class Screen extends JTextPane {
 	private Logger _logger = new Logger("Screeb");
 	private static final long serialVersionUID = 1L;
 	private Document document;
-	private SimpleAttributeSet lastAttributeSet;
 	private char [][] hiLights;
 	private SimpleAttributeSet [] attribs;
 	private int nHiLights;
@@ -30,7 +29,7 @@ public class Screen extends JTextPane {
 		super();
 		
 		setEditable(false);
-		setFocusable(false);
+		//setFocusable(false);
 		
 		setBackground(Color.black);
 		
@@ -44,17 +43,15 @@ public class Screen extends JTextPane {
 		StyleConstants.setBold(localTextAttribs, true);
 
 		statusAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(statusAttribs, new Color(96, 64, 128));
+		StyleConstants.setForeground(statusAttribs, new Color(255, 153, 0));
 		StyleConstants.setItalic(statusAttribs, true);
 
 		errorAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(errorAttribs, new Color(192, 64, 64));
+		StyleConstants.setForeground(errorAttribs, new Color(255, 0, 0));
 		StyleConstants.setBold(errorAttribs, true);
 
 		Font font = new Font("Courier", Font.PLAIN, 12);
 		setFont(font);
-		
-		lastAttributeSet = errorAttribs;
 		
 		hiLights = new char[16][];
 		attribs = new SimpleAttributeSet[16];
@@ -131,7 +128,6 @@ public class Screen extends JTextPane {
 		try {
 			document.insertString(document.getLength(), s, a);
 			setCaretPosition(document.getLength());
-			lastAttributeSet = a;
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}		
@@ -141,20 +137,11 @@ public class Screen extends JTextPane {
 		write(String.valueOf(c), a);
 	}
 
-	private void write(String s) {
-		write(s, lastAttributeSet);
-	}
-	
 	private void writeln(String s, SimpleAttributeSet a) {
 		write(s+'\n', a);
 	}
 	
-	private void writeln(String s) {
-		writeln(s, lastAttributeSet);
-	}
-
 	public void info(String s) {
-		lastAttributeSet = statusAttribs;
 		writeln(s, statusAttribs);
 	}
 	

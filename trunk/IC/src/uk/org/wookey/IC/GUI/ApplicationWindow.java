@@ -6,10 +6,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import uk.org.wookey.IC.Interfaces.TabInterface;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newGUI.DebugTab;
 import uk.org.wookey.IC.newGUI.WorldTab;
+import uk.org.wookey.IC.newUtils.TabInterface;
+import uk.org.wookey.IC.newUtils.Tray;
 
 public class ApplicationWindow {
 	@SuppressWarnings("unused")
@@ -24,7 +25,7 @@ public class ApplicationWindow {
 		
 		appWindow = new JFrame("IC");
 		
-		appWindow.setSize(800, 600);
+		appWindow.setSize(900, 800);
 		appWindow.setLocation(100, 100);
 
 		appWindow.setLayout(new BoxLayout(appWindow.getContentPane(), BoxLayout.Y_AXIS));
@@ -56,6 +57,8 @@ public class ApplicationWindow {
 		if (appWindow == null) {
 			new ApplicationWindow();
 		}
+		
+		Tray.activate();
 		
 		tabs.addTab(tab.getWorldName(), tab.getIndicator(), tab);
 		tabs.setSelectedComponent(tab);

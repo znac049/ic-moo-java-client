@@ -9,14 +9,11 @@ import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
 import javax.swing.*;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
 
-import uk.org.wookey.IC.Interfaces.TabInterface;
-import uk.org.wookey.IC.Utils.DocWriter;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newUtils.Prefs;
+import uk.org.wookey.IC.newUtils.TabInterface;
 
 public class WorldTab extends JPanel implements ActionListener, KeyListener, TabInterface, Runnable {
 	private static final long serialVersionUID = 1L;

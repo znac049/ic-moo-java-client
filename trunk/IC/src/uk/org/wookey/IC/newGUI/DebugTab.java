@@ -4,8 +4,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
-import uk.org.wookey.IC.Interfaces.TabInterface;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.newUtils.TabInterface;
 
 public class DebugTab extends GenericTab implements TabInterface {
 	private static final long serialVersionUID = 6325314968517017778L;
@@ -18,7 +18,7 @@ public class DebugTab extends GenericTab implements TabInterface {
 		
 		_log = new JTextPane();
 		_log.setEditable(false);
-		_log.setBackground(new Color(0xe0, 0xff, 0xf0));
+		_log.setBackground(new Color(0, 0, 0));
 		_log.setFont(new Font("Courier", Font.PLAIN, 12));
 
 		JScrollPane scroller = new JScrollPane(_log);
