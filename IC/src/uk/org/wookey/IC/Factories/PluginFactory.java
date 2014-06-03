@@ -2,20 +2,14 @@ package uk.org.wookey.IC.Factories;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-
-import javax.swing.JTabbedPane;
-
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.Plugin;
-import uk.org.wookey.IC.Utils.PluginInfo;
 import uk.org.wookey.IC.Utils.PluginLoader;
 
 public class PluginFactory {
 	private static final Logger _logger = new Logger("PluginFactory");
 	private static String[] requiredMethods = {"energizePlugin"};
 	public static final String pluginDir = "./plugins";
-	public static ArrayList<PluginInfo> plugins = new ArrayList<PluginInfo>();
 	
 	public static void scanForPlugins() {
 		File dir = new File(pluginDir);
@@ -45,7 +39,6 @@ public class PluginFactory {
 		
 		Class<?> c = null;
 		Plugin plugin = null;
-		String pluginName = null;
 		
 		c = loader.findClass(packageName + '.' + className);
 		if (isPlugin(c)) {
@@ -58,7 +51,7 @@ public class PluginFactory {
 					_logger.logMsg("Energize FAILED");
 				}
 				else {
-					plugins.add(new PluginInfo(c, makeClassname(dir, pluginName)));
+					_logger.logMsg("Plugin energised Ok");
 				}
 			} catch (InstantiationException
 					| IllegalAccessException e) {

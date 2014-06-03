@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.Interfaces;
+package uk.org.wookey.IC.newUtils;
 
 public interface TabInterface {
 	void clearActivity();

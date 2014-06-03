@@ -10,7 +10,6 @@ import javax.swing.*;
 import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.Plugin;
-import uk.org.wookey.IC.Utils.PluginInfo;
 import uk.org.wookey.IC.newUtils.Prefs;
 import webBoltOns.layoutManager.*;
 
@@ -72,22 +71,6 @@ public class WorldDetailsPanel extends JPanel {
 		add(mainPanel, BorderLayout.NORTH);
 		
 		pluginTabs = new JTabbedPane();
-		
-		for (PluginInfo info: PluginFactory.plugins) {
-			Plugin plugin = (Plugin) info.newInstance();
-			
-			if (plugin.energizePlugin()) {
-				plugins.add(plugin);
-				pluginTabs.addTab(plugin.getName(), plugin.getWorldSettingsTab());
-			}
-		}
-		
-		if (plugins.size() > 0) {
-			add(pluginTabs, BorderLayout.SOUTH);
-		}
-
-		//mcpPanel = new MCPDetailPanel();
-		//add(mcpPanel, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 	}
 	
 	private void addComp(JPanel panel, String label, Component comp) {

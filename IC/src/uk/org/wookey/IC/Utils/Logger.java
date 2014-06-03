@@ -41,11 +41,11 @@ public class Logger {
 		_msgBuffer = new ArrayList<String[]>();
 		
 		_msgAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(_msgAttribs, Color.blue);
-		StyleConstants.setBold(_msgAttribs, true);
+		StyleConstants.setForeground(_msgAttribs, Color.white);
+		StyleConstants.setBold(_msgAttribs, false);
 
 		_labAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(_labAttribs, Color.black);
+		StyleConstants.setForeground(_labAttribs, Color.orange);
 
 		_errAttribs = new SimpleAttributeSet();
 		StyleConstants.setForeground(_errAttribs, Color.red);
