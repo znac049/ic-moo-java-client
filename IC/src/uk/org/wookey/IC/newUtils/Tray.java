@@ -19,8 +19,7 @@ public class Tray {
 		}
 		
 		final PopupMenu popup = new PopupMenu();
-        final TrayIcon trayIcon =
-                new TrayIcon(createImage("images/bulb.gif", "tray icon"));
+        final TrayIcon trayIcon = new TrayIcon(createImage("images/bulb.gif", "tray icon"));
         final SystemTray tray = SystemTray.getSystemTray();
        
         // Create a pop-up menu components
