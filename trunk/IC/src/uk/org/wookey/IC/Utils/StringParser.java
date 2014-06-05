@@ -1,7 +1,7 @@
 package uk.org.wookey.IC.Utils;
 
 public class StringParser {
-	private final Logger _logger = new Logger("StringParser");
+	//private final Logger _logger = new Logger("StringParser");
 	private String _line;
 	
 	public StringParser(String line) {

@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 
 public class LED implements Icon {
-	private static final long serialVersionUID = -6537631324255210149L;
 	int _width, _height;
 	int rVal, gVal, bVal;
 	

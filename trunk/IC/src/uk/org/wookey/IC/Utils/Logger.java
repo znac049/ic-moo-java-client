@@ -79,13 +79,17 @@ public class Logger {
 		}
 	}
 	
-	public void printBacktrace(Exception e) {
+	public void printBacktrace(String msg, Exception e) {
 		StackTraceElement[] trace = e.getStackTrace();
 
-		logMsg("Caught an exception at:");
+		logMsg(msg);
 		for (int i=0; i<trace.length; i++) {
 			append(trace[i].toString() + '\n', _errAttribs);
 		}
+	}
+	
+	public void printBacktrace(Exception e) {
+		printBacktrace("Caught an exception:", e);
 	}
 	
 	protected void append(String msg, SimpleAttributeSet attributes) {

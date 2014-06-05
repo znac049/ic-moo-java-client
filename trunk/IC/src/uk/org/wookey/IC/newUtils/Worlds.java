@@ -1,6 +1,5 @@
 package uk.org.wookey.IC.newUtils;
 
-import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 

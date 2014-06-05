@@ -3,8 +3,6 @@ package uk.org.wookey.IC.Utils;
 import java.io.File;
 import java.io.FilenameFilter;
 
-import javax.swing.filechooser.FileFilter;
-
 public class FileExtensionFilter implements FilenameFilter {
 	public String fileExt = "";
 

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import uk.org.wookey.IC.Factories.PluginFactory;
+import uk.org.wookey.IC.newUtils.PluginFactory;
 
 public class PluginLoader extends ClassLoader {
 	//private Logger _logger = new Logger("PluginLoader");
