@@ -1,15 +1,12 @@
 package uk.org.wookey.IC.GUI;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
-import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.Plugin;
 import uk.org.wookey.IC.newUtils.Prefs;
 import webBoltOns.layoutManager.*;
 
@@ -24,8 +21,6 @@ public class WorldDetailsPanel extends JPanel {
 	private JCheckBox autoConnect;
 	private JCheckBox autoLogin;
 	private JCheckBox localEcho;
-	private JTabbedPane pluginTabs;
-	private ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 	
 	public WorldDetailsPanel() {
 		super();
@@ -69,8 +64,6 @@ public class WorldDetailsPanel extends JPanel {
 		mainPanel.add(localEcho, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 		
 		add(mainPanel, BorderLayout.NORTH);
-		
-		pluginTabs = new JTabbedPane();
 	}
 	
 	private void addComp(JPanel panel, String label, Component comp) {
@@ -135,11 +128,6 @@ public class WorldDetailsPanel extends JPanel {
 			prefs.putBoolean(Prefs.LOCALECHO, localEcho.isSelected());
 
 			clearDetails();
-			
-			for (Plugin plugin: plugins) {
-				plugin.connectTo(worldName);
-				plugin.saveSettings();
-			}
 		}
 	}
 

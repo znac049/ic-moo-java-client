@@ -3,10 +3,10 @@ package Application;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
-import uk.org.wookey.IC.Factories.PluginFactory;
 import uk.org.wookey.IC.GUI.ApplicationWindow;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newGUI.WorldTab;
+import uk.org.wookey.IC.newUtils.PluginFactory;
 import uk.org.wookey.IC.newUtils.Prefs;
 import uk.org.wookey.IC.newUtils.Worlds;
 
