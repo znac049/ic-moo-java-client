@@ -10,9 +10,13 @@ public class Logger {
 	private static JTextPane _log = null;
 	private String _logName;
 	private int _logLevel = 1;
-	private SimpleAttributeSet _msgAttribs;
 	private SimpleAttributeSet _labAttribs;
+	private SimpleAttributeSet _msgAttribs;
+
+	private SimpleAttributeSet _okAttribs;
+	private SimpleAttributeSet _warnAttribs;
 	private SimpleAttributeSet _errAttribs;
+	
 	private ArrayList<String[]> _msgBuffer;
 	
 	public Logger(JTextPane log)
@@ -35,23 +39,29 @@ public class Logger {
 			_logName = "";
 		}
 		else {
-			_logName = tag + ":";
+			_logName = "[" + tag + "]:";
 		}
 		
 		_msgBuffer = new ArrayList<String[]>();
 		
+		_labAttribs = new SimpleAttributeSet();
+		StyleConstants.setForeground(_labAttribs, Color.blue);
+
 		_msgAttribs = new SimpleAttributeSet();
 		StyleConstants.setForeground(_msgAttribs, Color.white);
 		StyleConstants.setBold(_msgAttribs, false);
 
-		_labAttribs = new SimpleAttributeSet();
-		StyleConstants.setForeground(_labAttribs, Color.orange);
+		_okAttribs = new SimpleAttributeSet();
+		StyleConstants.setForeground(_okAttribs, Color.green);
+
+		_warnAttribs = new SimpleAttributeSet();
+		StyleConstants.setForeground(_warnAttribs, Color.orange);
 
 		_errAttribs = new SimpleAttributeSet();
 		StyleConstants.setForeground(_errAttribs, Color.red);
 	}
 	
-	public void logMsg(String msg) {
+	public void logMsg(String msg, SimpleAttributeSet labAttribs, SimpleAttributeSet msgAttribs) {
 		if (_logLevel == 0) {
 			return;
 		}
@@ -60,13 +70,13 @@ public class Logger {
 			if (_msgBuffer.size() > 0) {
 				for (int i=0; i<_msgBuffer.size(); i++) {
 					String bits[] = _msgBuffer.get(i);
-					append(bits[0], _labAttribs);
-					append(bits[1], _msgAttribs);
+					append(bits[0], labAttribs);
+					append(bits[1], msgAttribs);
 				}
 				_msgBuffer.clear();
 			}
-			append(_logName, _labAttribs);
-			append(' ' + msg + '\n', _msgAttribs);
+			append(_logName, labAttribs);
+			append(' ' + msg + '\n', msgAttribs);
 		}
 		else {
 			// We don't have a text pane yet - buffer it for later display.
@@ -77,6 +87,10 @@ public class Logger {
 			
 			System.out.println(_logName + ' ' +msg);
 		}
+	}
+	
+	private void logMsg(String msg, SimpleAttributeSet attribs) {
+		logMsg(msg, _labAttribs, attribs);
 	}
 	
 	public void printBacktrace(String msg, Exception e) {
@@ -101,5 +115,25 @@ public class Logger {
 		} catch (BadLocationException e) {
 			e.printStackTrace();
 		}		
+	}
+	
+	public void logMsg(String msg) {
+		logMsg(msg, _labAttribs, _msgAttribs);
+	}
+	
+	public void logInfo(String msg) {
+		logMsg(msg);
+	}
+	
+	public void logSuccess(String msg) {
+		logMsg(msg, _okAttribs);
+	}
+	
+	public void logWarn(String msg) {
+		logMsg(msg, _warnAttribs);
+	}
+	
+	public void logError(String msg) {
+		logMsg(msg, _errAttribs);
 	}
 }

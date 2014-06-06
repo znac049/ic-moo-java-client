@@ -6,6 +6,8 @@ public interface IOPluginInterface {
 		CONSUMED
 	};
 	
+	public boolean attach(ServerPort server);
+	
 	public Status remoteCharIn(Char c);
 	public Status remoteLineIn(Line line);
 	
