@@ -8,6 +8,7 @@ public interface CorePluginInterface {
 		MACROPLUGIN,
 	}
 	
+	public boolean activate();
 	public boolean supports(PluginType t);
 	public String getName();
 	public void setName(String n);

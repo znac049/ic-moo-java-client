@@ -3,8 +3,6 @@ package uk.org.wookey.IC.newGUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
@@ -13,6 +11,7 @@ import javax.swing.*;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newUtils.Prefs;
+import uk.org.wookey.IC.newUtils.ServerPort;
 import uk.org.wookey.IC.newUtils.TabInterface;
 
 public class WorldTab extends JPanel implements ActionListener, KeyListener, TabInterface, Runnable {
@@ -24,16 +23,15 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private Screen screen;
 	private JTextField keyboard;
 	
-	private Socket socket;
-	private BufferedReader remoteInput = null;
-	private PrintWriter remoteOutput = null;
+	private ServerPort server;
 	private LED statusLED;
 	
 	private String worldName;
 	private String hostName;
 	private int hostPort;
-	private boolean connected;
 	private boolean localEcho;
+	
+	private Preferences prefs;
 	
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
@@ -43,7 +41,10 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		
 		hostName = host;
 		hostPort = port;
+		
 		worldName = null;
+		
+		prefs = null;
 		
 		setup();
 	}
@@ -53,13 +54,15 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		
 		worldName = name;
 		hostName = null;
+		
 		hostPort = -1;
+		
+		prefs = Prefs.node(Prefs.WorldsRoot, name);
 		
 		setup();
 	}
 	
 	public void setup() {
-		connected = false;
 		localEcho = true;
 		
 		statusLED = new LED(0, 0, 0);
@@ -71,9 +74,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		scroller.setFocusable(false);
 		add(scroller, 0, 0, 1.0, 1.0);
 				
-		//screen.addHighLight("Bob", errorAttribs);
-		//screen.addHighLight("Kira", errorAttribs);
-		
 		keyboardHistory = new ArrayList<String>();
 		historyIndex = 0;
 		
@@ -96,19 +96,11 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		screen.info("Connecting to world '" + worldName + "'.");
 		attemptToConnect();
 		
-		while (connected && !socket.isClosed()) {
-			try {
-				String line = remoteInput.readLine();
+		while (server.connected()) {
+			String line = server.readLine();
 				
-				if (line == null) {
-					connected = false;
-				}
-				else {
-					handleRemoteInputLine(line);
-				}
-			} catch (IOException e) {
-				_logger.logMsg("Unhandled IOexception");
-				e.printStackTrace();
+			if (line != null) {
+				handleRemoteInputLine(line);
 			}
 		}
 		
@@ -130,7 +122,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private void attemptToConnect() {
 		boolean autoConnect = false;
 		String userName = null;
-		String password = null;;
+		String password = null;
 		
 		if (worldName != null) {
 			Preferences prefs = Prefs.node(Prefs.WorldsRoot + "/" + worldName);
@@ -138,32 +130,23 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 			hostName = prefs.get(Prefs.SERVER, null);
 			hostPort = prefs.getInt(Prefs.PORT, -1);
 			localEcho = prefs.getBoolean(Prefs.LOCALECHO, true);
+
 			autoConnect = prefs.getBoolean(Prefs.AUTOLOGIN, false);
 			userName = prefs.get(Prefs.USERNAME, "");
 			password = prefs.get(Prefs.PASSWORD, "");
 		}
+		else {
+			localEcho = true;
+			autoConnect = false;
+		}
 		
-		try {
-			if ((hostPort != -1) && !hostName.equals("")) {
-				_logger.logMsg("Connecting to: " + hostName + " port " + hostPort);
-				socket = new Socket(hostName, hostPort);
+		if ((hostPort != -1) && !hostName.equals("")) {
+			server = new ServerPort(hostName, hostPort, prefs);
 					
-				remoteInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				remoteOutput = new PrintWriter(socket.getOutputStream(), true);
-					
-				connected = true;
-					
-				if (autoConnect) {
-					if (!userName.equals("")) {
-						_logger.logMsg("Autologin as '" + userName + "'");
-						writeRemote("connect " + userName + " " + password);
-					}
-				}
+			if (server.connected() & autoConnect & !userName.equals("")) {
+				_logger.logInfo("Autologin as '" + userName + "'");
+				server.writeLine("connect " + userName + " " + password);
 			}
-		} catch (UnknownHostException e) {
-			screen.error("I can't resolve the hostname '" + worldName + "'.");
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 	
@@ -172,15 +155,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		return (tabs.getSelectedComponent() == this);
 	}
 
-	public void writeRemote(String line) {
-		remoteOutput.println(line);
-		remoteOutput.flush();		
-	}
-	
-	public String readRemote() throws IOException {
-		return remoteInput.readLine();
-	}
-	
 	public void clearActivity() {
 		if (statusLED.setColour(0, 0, 0)) {
 			getParent().repaint();
@@ -212,7 +186,7 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		historyIndex = size;
 		
 		// Send it down the socket...
-		writeRemote(line);
+		server.writeLine(line);
 
 		keyboard.setText("");
 	}

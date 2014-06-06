@@ -3,18 +3,18 @@ package uk.org.wookey.IC.newUtils;
 import java.io.File;
 import java.util.ArrayList;
 
+import uk.org.wookey.IC.Utils.CorePlugin;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.PluginLoader;
 
 public class PluginFactory {
 	private static final Logger _logger = new Logger("PluginFactory");
-	//private static String[] requiredMethods = {"energizePlugin"};
 	public static final String pluginDir = "./plugins";
-	private static ArrayList<CorePluginInterface> plugins = null;
+	private static ArrayList<Class> plugins = null;
 	
 	public static void scanForPlugins() {
 		if (plugins == null) {
-			plugins = new ArrayList<CorePluginInterface>();
+			plugins = new ArrayList<Class>();
 			File dir = new File(pluginDir);
 			
 			_logger.logMsg("Scanning for plugins");
@@ -36,6 +36,40 @@ public class PluginFactory {
 		}
 	}
 	
+	public static ArrayList<CorePlugin> pluginsSupporting(CorePluginInterface.PluginType pluginType) {
+		ArrayList<CorePlugin> supportingPlugins = new ArrayList<CorePlugin>();
+		
+		if (plugins == null) {
+			PluginFactory.scanForPlugins();
+		}
+		
+		if (plugins == null) {
+			_logger.logWarn("No plugins to check against in pluginsSupporting()");
+		}
+		
+		for (Class plugin: plugins) {
+			CorePlugin p;
+			try {
+				p = (CorePlugin) plugin.newInstance();
+
+				if (p.activate()) {
+					_logger.logSuccess("Plugin " + p.getName() + " instance activated");
+					
+					if (p.supports(pluginType)) {
+						supportingPlugins.add(p);
+					}
+				}
+				else {
+					_logger.logError("Failed to activate plugin " + p.getName() + " instance");
+				}
+			} catch (InstantiationException | IllegalAccessException e) {
+				_logger.logError("Failed to create instance of a plugin");
+			}
+		}
+		
+		return supportingPlugins;
+	}
+	
 	private static void loadPlugin(File dir) {
 		_logger.logMsg("Plugin directory: " + dir.getName());
 		PluginLoader loader = new PluginLoader();
@@ -50,16 +84,9 @@ public class PluginFactory {
 		c = loader.findClass(packageName + '.' + className);
 		if (isPlugin(c)) {
 			_logger.logMsg(className + " is a plugin");
-			// Say hello to the plugin class
-			try {
-				plugins.add((CorePluginInterface) c.newInstance());
-				_logger.logMsg("Added to plugin list");
-				
-			} catch (InstantiationException
-					| IllegalAccessException e) {
-				_logger.printBacktrace("Failed to add to plugin list", e);
-				e.printStackTrace();
-			}			
+			
+			plugins.add(c);
+			_logger.logMsg(" Added to plugin list");
 		}
 	}
 		
@@ -74,22 +101,5 @@ public class PluginFactory {
 		}
 		
 		return (p instanceof CorePluginInterface);
-		
-		
-		//for (String required : requiredMethods) {
-		//	boolean found = false;
-			
-		//	for (Method method: methods) {
-		//		if (required.equals(method.getName())) {
-		//			found = true;
-		//		}				
-		//	}
-			
-		//	if (!found) {
-		//		return false;
-		//	}
-		//}
-		
-		//return true;
 	}
 }

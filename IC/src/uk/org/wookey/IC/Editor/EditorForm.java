@@ -11,11 +11,10 @@ import uk.org.wookey.IC.newGUI.WorldTab;
 public class EditorForm extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7555977762161202604L;
 	private final Logger _logger = new Logger("EditorForm");
-	protected WorldTab worldTab;
 	protected String _type;
 	protected GenericEditor _editor;
 	
-	public EditorForm(String name, String type, String content, WorldTab tab) {
+	public EditorForm(String name, String type, String content) {
 		super();
 		
 		JMenuBar menu = new JMenuBar();
@@ -41,7 +40,6 @@ public class EditorForm extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
 
 		_type = type;
-		worldTab = tab;
 		if (type.equals("moo-code")) {
 			_editor = new MOOCodeEditor();
 		}
