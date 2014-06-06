@@ -41,8 +41,11 @@ public class EditorForm extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
 
 		_type = type;
-		if (type.equals("moo-code")) {
+		if (type.equalsIgnoreCase("moo-code")) {
 			_editor = new MOOCodeEditor();
+		}
+		else if (type.equalsIgnoreCase("Javascript") | type.equalsIgnoreCase("JS")) {
+			_editor = new JavascriptEditor();
 		}
 		else {
 			_editor = new GenericEditor();

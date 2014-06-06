@@ -68,8 +68,6 @@ public class ServerPort {
 					for (CorePluginInterface plugin: plugins) {
 						IOPlugin p = (IOPlugin) plugin;
 						
-						_logger.logInfo("Pass to " + p.getName());
-					
 						if (p.remoteLineIn(l) == IOPluginInterface.Status.CONSUMED) {
 							consumed = true;
 							break;
