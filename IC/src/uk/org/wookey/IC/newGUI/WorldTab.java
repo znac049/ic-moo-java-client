@@ -10,6 +10,7 @@ import javax.swing.*;
 
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.newUtils.JSEngine;
 import uk.org.wookey.IC.newUtils.Prefs;
 import uk.org.wookey.IC.newUtils.ServerPort;
 import uk.org.wookey.IC.newUtils.TabInterface;
@@ -35,6 +36,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	private ArrayList<String> keyboardHistory;
 	private int historyIndex;
+	
+	private JSEngine jsEngine = new JSEngine();
 
 	public WorldTab(String host, int port) throws IOException {
 		super();

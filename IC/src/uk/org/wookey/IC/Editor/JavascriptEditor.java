@@ -1,18 +1,18 @@
 package uk.org.wookey.IC.Editor;
 
-public class MOOCodeEditor extends GenericEditor {
+public class JavascriptEditor extends GenericEditor {
 	private static final long serialVersionUID = 1L;
 
-	public MOOCodeEditor() {
+	public JavascriptEditor() {
 		super();
 		
-		myName = "Code";
+		myName = "JS";
 		
 		String words[] = {"if", "else", "endif", "for", "endfor", "try", "except", "endtry",
 							"return", "in"};
 		
 		wordSeperators = " ;.+-*/=!\n";
-		quoteCharacters = "\"";
+		quoteCharacters = "\"'";
 		reservedWords.add(words);
 	}
 }
