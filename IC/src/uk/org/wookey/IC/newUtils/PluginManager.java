@@ -7,8 +7,8 @@ import uk.org.wookey.IC.Utils.CorePlugin;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.PluginLoader;
 
-public class PluginFactory {
-	private static final Logger _logger = new Logger("PluginFactory");
+public class PluginManager {
+	private static final Logger _logger = new Logger("PluginManager");
 	public static final String pluginDir = "./plugins";
 	private static ArrayList<Class> plugins = null;
 	
@@ -40,7 +40,7 @@ public class PluginFactory {
 		ArrayList<CorePlugin> supportingPlugins = new ArrayList<CorePlugin>();
 		
 		if (plugins == null) {
-			PluginFactory.scanForPlugins();
+			PluginManager.scanForPlugins();
 		}
 		
 		if (plugins == null) {
