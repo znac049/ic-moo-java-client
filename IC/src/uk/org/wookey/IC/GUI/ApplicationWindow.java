@@ -25,8 +25,8 @@ public class ApplicationWindow {
 		
 		appWindow = new JFrame("IC");
 		
-		appWindow.setSize(900, 800);
-		appWindow.setLocation(100, 100);
+		appWindow.setSize(900, 700);
+		appWindow.setLocation(100, 0);
 
 		appWindow.setLayout(new BoxLayout(appWindow.getContentPane(), BoxLayout.Y_AXIS));
 		
@@ -47,7 +47,8 @@ public class ApplicationWindow {
 		tabs.add("Console", new DebugTab());
 		appWindow.add(tabs);
 		
-		appWindow.add(new MainStatusBar());
+		//appWindow.add(new MainStatusBar());
+		appWindow.add(MainStatusBar.getBar());
 		
 		appWindow.setVisible(true);
 	}

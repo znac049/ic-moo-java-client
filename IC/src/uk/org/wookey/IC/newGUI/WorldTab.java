@@ -8,15 +8,17 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
+import uk.org.wookey.IC.GUI.MainStatusBar;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newUtils.JSEngine;
+import uk.org.wookey.IC.newUtils.KeyCode;
 import uk.org.wookey.IC.newUtils.KeyMap;
 import uk.org.wookey.IC.newUtils.Prefs;
 import uk.org.wookey.IC.newUtils.ServerPort;
 import uk.org.wookey.IC.newUtils.TabInterface;
 
-public class WorldTab extends JPanel implements ActionListener, KeyListener, TabInterface, Runnable {
+public class WorldTab extends JPanel implements ActionListener, TabInterface, Runnable {
 	private static final long serialVersionUID = 1L;
 	
 	private static int tabNum = 0;
@@ -42,10 +44,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	private KeyMap keyMap;
 	
-	private boolean controlKeyPressed;
-	private boolean altKeyPressed;
-	private boolean windowsKeyPressed;
-
 	public WorldTab(String host, int port) throws IOException {
 		super();
 		
@@ -93,14 +91,16 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		keyboard.requestFocus();
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
 		keyboard.addActionListener(this);
-		keyboard.addKeyListener(this);
-		controlKeyPressed = false;
-		altKeyPressed = false;
-		windowsKeyPressed = false;
+		keyboard.addKeyListener(new KeyHandler());
 		add(keyboard, 0, 1, 1.0, 0.0);		
 	}
 	
 	private void setupKeyMap() {
+		KeyCode key = new KeyCode();
+		
+		key.ctrl(true);
+		key.set(KeyEvent.VK_H);
+		
 		if (worldName == null) {
 			keyMap = new KeyMap(hostName, jsEngine, server);
 		}
@@ -108,7 +108,10 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 			keyMap = new KeyMap(worldName, jsEngine, server);
 		}
 		
-		keyMap.add(KeyEvent.VK_F1, "help");
+		keyMap.add(key, "help");
+		
+		key.set(KeyEvent.VK_L);
+		keyMap.add(key,  "lookaround");
 
 	}
 	
@@ -232,68 +235,6 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		}
 	}
 	
-	public void keyPressed(KeyEvent keyEvent) {
-		int key = keyEvent.getKeyCode();
-		
-		switch (key) {
-		case KeyEvent.VK_UP:
-			if (historyIndex > 0) {
-				historyIndex--;
-				keyboard.setText(keyboardHistory.get(historyIndex));
-			}
-			break;
-			
-		case KeyEvent.VK_DOWN:
-			if (historyIndex+1 < keyboardHistory.size()) {
-				historyIndex++;
-				keyboard.setText(keyboardHistory.get(historyIndex));
-			}
-			else {
-				keyboard.setText("");
-			}
-
-		case KeyEvent.VK_ALT:
-			altKeyPressed = true;
-			break;
-
-		case KeyEvent.VK_CONTROL:
-			controlKeyPressed = true;
-			break;
-		
-		case KeyEvent.VK_WINDOWS:
-			windowsKeyPressed = true;
-			break;
-			
-		default:
-			// some other key. take an interest if any of the magic keys are also pressed
-			if (altKeyPressed | controlKeyPressed | windowsKeyPressed) {
-				_logger.logInfo("Non printable key combo, key=" + key);
-			}
-		}
-	}
-
-	public void keyReleased(KeyEvent keyEvent) {
-		int key = keyEvent.getKeyCode();
-		
-		switch (key) {
-		case KeyEvent.VK_ALT:
-			altKeyPressed = false;
-			break;
-
-		case KeyEvent.VK_CONTROL:
-			controlKeyPressed = false;
-			break;
-		
-		case KeyEvent.VK_WINDOWS:
-			windowsKeyPressed = false;
-			break;
-		}
-	}
-
-	public void keyTyped(KeyEvent keyEvent) {
-		int key = keyEvent.getKeyCode();
-	}
-	
 	public String getWorldName() {
 		if (worldName != null) {
 			return worldName;
@@ -304,5 +245,92 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	public LED getIndicator() {
 		return statusLED;
+	}
+	
+	class KeyHandler implements KeyListener {
+		private KeyCode keyCode = new KeyCode(0);
+
+		@Override
+		public void keyPressed(KeyEvent keyEvent) {
+			int key = keyEvent.getKeyCode();
+			
+			switch (key) {
+			case KeyEvent.VK_UP:
+				if (historyIndex > 0) {
+					historyIndex--;
+					keyboard.setText(keyboardHistory.get(historyIndex));
+				}
+				break;
+				
+			case KeyEvent.VK_DOWN:
+				if (historyIndex+1 < keyboardHistory.size()) {
+					historyIndex++;
+					keyboard.setText(keyboardHistory.get(historyIndex));
+				}
+				else {
+					keyboard.setText("");
+				}
+
+			case KeyEvent.VK_ALT:
+				keyCode.alt(true);;
+				break;
+
+			case KeyEvent.VK_CONTROL:
+				keyCode.ctrl(true);;
+				break;
+			
+			case KeyEvent.VK_SHIFT:
+				keyCode.shift(true);
+				break;
+			
+			case KeyEvent.VK_WINDOWS:
+				keyCode.windows(true);
+				break;
+				
+			default:
+				// some other key. take an interest if any of the magic keys are also pressed
+				keyCode.set(key);
+				if (keyCode.nonPrintable()) {
+					// Maybe its been mapped ?
+					if (keyMap.exec(keyCode)) {
+						_logger.logInfo("Hotkey " + keyCode.toString() + " executed");
+					}
+					else {
+						_logger.logInfo("Key " + keyCode.toString() + " not mapped");
+					}
+				}
+			}
+
+			MainStatusBar.getBar().setMsg(keyCode.toString());
+		}
+
+		@Override
+		public void keyReleased(KeyEvent keyEvent) {
+			int key = keyEvent.getKeyCode();
+			
+			switch (key) {
+			case KeyEvent.VK_ALT:
+				keyCode.alt(false);;
+				break;
+
+			case KeyEvent.VK_CONTROL:
+				keyCode.ctrl(false);;
+				break;
+			
+			case KeyEvent.VK_SHIFT:
+				keyCode.shift(false);
+				break;
+			
+			case KeyEvent.VK_WINDOWS:
+				keyCode.windows(false);
+				break;
+			}
+			
+			MainStatusBar.getBar().setMsg(keyCode.toString());
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}	
 	}
 }

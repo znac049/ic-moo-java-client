@@ -3,13 +3,11 @@ package uk.org.wookey.IC.newUtils;
 import java.io.File;
 import java.util.ArrayList;
 
-import uk.org.wookey.IC.Utils.CorePlugin;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.PluginLoader;
 
 public class MacroManager {
 	private static final Logger _logger = new Logger("MacroManager");
-	public static final String macrosDir = "./macros";
+	public static final String macrosDir = "./macros/";
 	private static ArrayList<Macro> macros = null;
 	
 	public static void scanForPlugins() {
