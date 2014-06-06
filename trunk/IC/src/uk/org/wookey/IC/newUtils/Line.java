@@ -12,6 +12,10 @@ public class Line {
 	}
 	
 	public void set(String newLine) {
+		if (newLine == null) {
+			newLine = "";
+		}
+		
 		line = newLine;
 	}
 	

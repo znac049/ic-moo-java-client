@@ -23,6 +23,16 @@ public class Macro {
 	private String jsFile;
 	private MacroType type;
 	
+	public Macro(String macroName) {
+		type = MacroType.JAVASCRIPT;
+		
+		if (macroName.endsWith(".js")) {
+			macroName = macroName.substring(0, macroName.length() - 3);
+		}
+		
+		name = macroName;
+		jsFile = macroName + ".js";
+	}
 	public Macro(String macroName, String js) {
 		type = MacroType.JAVASCRIPT;
 		
@@ -35,7 +45,7 @@ public class Macro {
 		
 		_logger.logInfo("Execute macro " + name);
 		
-		File f = new File(JSEngine.scriptDir + name + ".js");
+		File f = new File(MacroManager.macrosDir + name + ".js");
 		if (f.exists() & f.canRead()) {
 			js.put("server", server);
 			
@@ -48,7 +58,7 @@ public class Macro {
 	}
 	
 	public void edit() {
-		File f = new File(JSEngine.scriptDir + name + ".js");
+		File f = new File(MacroManager.macrosDir + name + ".js");
 		String contents = "";
 		if (f.exists() & f.canRead()) {
 			contents = readFile(f);
@@ -74,5 +84,9 @@ public class Macro {
 		}
 		
 		return "";
+	}
+	
+	public String getName() {
+		return name;
 	}
 }

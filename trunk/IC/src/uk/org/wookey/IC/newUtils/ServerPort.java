@@ -110,7 +110,7 @@ public class ServerPort {
 	}
 	
 	private void loadIOPlugins() {
-		plugins = PluginFactory.pluginsSupporting(CorePluginInterface.PluginType.IOPLUGIN);
+		plugins = PluginManager.pluginsSupporting(CorePluginInterface.PluginType.IOPLUGIN);
 		
 		if (plugins == null) {
 			_logger.logInfo("No IOPlugins found");

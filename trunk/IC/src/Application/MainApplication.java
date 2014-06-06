@@ -6,7 +6,7 @@ import java.util.prefs.Preferences;
 import uk.org.wookey.IC.GUI.ApplicationWindow;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newGUI.WorldTab;
-import uk.org.wookey.IC.newUtils.PluginFactory;
+import uk.org.wookey.IC.newUtils.PluginManager;
 import uk.org.wookey.IC.newUtils.Prefs;
 import uk.org.wookey.IC.newUtils.Worlds;
 
@@ -19,7 +19,7 @@ public class MainApplication {
 		
 		// Plugins
 		_logger.logMsg("Looking for plugins");
-		PluginFactory.scanForPlugins();
+		PluginManager.scanForPlugins();
 		
 		// Check for worlds to autoconnect to
 		_logger.logMsg("Look for worlds to autoconnect to...");

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import uk.org.wookey.IC.newUtils.PluginFactory;
+import uk.org.wookey.IC.newUtils.PluginManager;
 
 public class PluginLoader extends ClassLoader {
 	//private Logger _logger = new Logger("PluginLoader");
@@ -19,7 +19,7 @@ public class PluginLoader extends ClassLoader {
 		String pluginName = name.substring(0, dot);
 		String className = name.substring(dot+1);
 		
-		File file = new File(PluginFactory.pluginDir + File.separator + pluginName + File.separator + className + ".class");
+		File file = new File(PluginManager.pluginDir + File.separator + pluginName + File.separator + className + ".class");
 		
 		if (file.exists()) {
 			Class<?> c = null;

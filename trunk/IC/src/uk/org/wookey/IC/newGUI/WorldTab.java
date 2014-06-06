@@ -11,6 +11,7 @@ import javax.swing.*;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newUtils.JSEngine;
+import uk.org.wookey.IC.newUtils.KeyMap;
 import uk.org.wookey.IC.newUtils.Prefs;
 import uk.org.wookey.IC.newUtils.ServerPort;
 import uk.org.wookey.IC.newUtils.TabInterface;
@@ -38,6 +39,12 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	private int historyIndex;
 	
 	private JSEngine jsEngine = new JSEngine();
+	
+	private KeyMap keyMap;
+	
+	private boolean controlKeyPressed;
+	private boolean altKeyPressed;
+	private boolean windowsKeyPressed;
 
 	public WorldTab(String host, int port) throws IOException {
 		super();
@@ -87,7 +94,22 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
 		keyboard.addActionListener(this);
 		keyboard.addKeyListener(this);
-		add(keyboard, 0, 1, 1.0, 0.0);
+		controlKeyPressed = false;
+		altKeyPressed = false;
+		windowsKeyPressed = false;
+		add(keyboard, 0, 1, 1.0, 0.0);		
+	}
+	
+	private void setupKeyMap() {
+		if (worldName == null) {
+			keyMap = new KeyMap(hostName, jsEngine, server);
+		}
+		else {
+			keyMap = new KeyMap(worldName, jsEngine, server);
+		}
+		
+		keyMap.add(KeyEvent.VK_F1, "help");
+
 	}
 	
 	public void runThread() {		
@@ -145,6 +167,8 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 		
 		if ((hostPort != -1) && !hostName.equals("")) {
 			server = new ServerPort(hostName, hostPort, prefs);
+			
+			setupKeyMap();
 					
 			if (server.connected() & autoConnect & !userName.equals("")) {
 				_logger.logInfo("Autologin as '" + userName + "'");
@@ -210,19 +234,16 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 	
 	public void keyPressed(KeyEvent keyEvent) {
 		int key = keyEvent.getKeyCode();
-		int mod = keyEvent.getModifiers();
 		
-		if (keyEvent.isControlDown()) {
-			_logger.logMsg("Special char! " + key);
-		}
-		
-		if (key == KeyEvent.VK_UP) {
+		switch (key) {
+		case KeyEvent.VK_UP:
 			if (historyIndex > 0) {
 				historyIndex--;
 				keyboard.setText(keyboardHistory.get(historyIndex));
 			}
-		}
-		else if (key == KeyEvent.VK_DOWN) {
+			break;
+			
+		case KeyEvent.VK_DOWN:
 			if (historyIndex+1 < keyboardHistory.size()) {
 				historyIndex++;
 				keyboard.setText(keyboardHistory.get(historyIndex));
@@ -230,10 +251,43 @@ public class WorldTab extends JPanel implements ActionListener, KeyListener, Tab
 			else {
 				keyboard.setText("");
 			}
-		}	
+
+		case KeyEvent.VK_ALT:
+			altKeyPressed = true;
+			break;
+
+		case KeyEvent.VK_CONTROL:
+			controlKeyPressed = true;
+			break;
+		
+		case KeyEvent.VK_WINDOWS:
+			windowsKeyPressed = true;
+			break;
+			
+		default:
+			// some other key. take an interest if any of the magic keys are also pressed
+			if (altKeyPressed | controlKeyPressed | windowsKeyPressed) {
+				_logger.logInfo("Non printable key combo, key=" + key);
+			}
+		}
 	}
 
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent keyEvent) {
+		int key = keyEvent.getKeyCode();
+		
+		switch (key) {
+		case KeyEvent.VK_ALT:
+			altKeyPressed = false;
+			break;
+
+		case KeyEvent.VK_CONTROL:
+			controlKeyPressed = false;
+			break;
+		
+		case KeyEvent.VK_WINDOWS:
+			windowsKeyPressed = false;
+			break;
+		}
 	}
 
 	public void keyTyped(KeyEvent keyEvent) {

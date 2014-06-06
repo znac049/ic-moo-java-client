@@ -11,7 +11,6 @@ import javax.script.ScriptException;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class JSEngine {
-	public final static String scriptDir = "macros/";
 	private Logger _logger = new Logger("JSEngine");
 	private Logger jsLogger = new Logger("JavaScript");
 	
