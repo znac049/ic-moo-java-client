@@ -30,6 +30,7 @@ public class EditorForm extends JFrame implements ActionListener {
 		JMenuItem exitItem = new JMenuItem("Exit");
 		exitItem.setMnemonic(KeyEvent.VK_X);
 		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
+		exitItem.addActionListener(this);
 		fileMenu.add(exitItem);
 		menu.add(fileMenu);
 
