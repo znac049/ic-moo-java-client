@@ -33,6 +33,7 @@ public class Macro {
 		name = macroName;
 		jsFile = macroName + ".js";
 	}
+	
 	public Macro(String macroName, String js) {
 		type = MacroType.JAVASCRIPT;
 		
@@ -46,12 +47,17 @@ public class Macro {
 		_logger.logInfo("Execute macro " + name);
 		
 		File f = new File(MacroManager.macrosDir + name + ".js");
+		_logger.logInfo("JS file is " + f.getAbsolutePath());
 		if (f.exists() & f.canRead()) {
+			_logger.logInfo("File exists and is readable");
 			js.put("server", server);
 			
 			js.exec(f);
 			
 			res = true;
+		}
+		else {
+			_logger.logError("File doesn't exist or is not readable");
 		}
 		
 		return res;
