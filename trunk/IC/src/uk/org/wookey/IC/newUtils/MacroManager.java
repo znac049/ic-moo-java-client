@@ -10,7 +10,7 @@ public class MacroManager {
 	public static final String macrosDir = "./macros/";
 	private static ArrayList<Macro> macros = null;
 	
-	public static void scanForPlugins() {
+	public static void scanForMacros() {
 		if (macros == null) {
 			macros = new ArrayList<Macro>();
 			File dir = new File(macrosDir);
@@ -44,6 +44,14 @@ public class MacroManager {
 			_logger.logInfo("create macro '" + name + "'for file " + fileName);
 			
 		}
+	}
+	
+	public static ArrayList<Macro> getMacroList() {
+		if (macros == null) {
+			scanForMacros();
+		}
+		
+		return macros;
 	}
 	
 }
