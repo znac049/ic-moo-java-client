@@ -89,14 +89,18 @@ public class ApplicationWindow {
 		JLabel titleLab = new JLabel(title + "  ", tab.getIndicator(), JLabel.LEFT);
 		
 		BufferedImage buttonIcon = null;
+		BufferedImage nullIcon = null;
 		try {
+			nullIcon = ImageIO.read(new File("images/blank.png"));
 			buttonIcon = ImageIO.read(new File("images/cross.png"));
 		} catch (IOException e) {
 			_logger.logError("Failed to load cross.png");
 		}
-		JButton closeButton = new JButton(new ImageIcon(buttonIcon));
+		JButton closeButton = new JButton(new ImageIcon(nullIcon));
+		closeButton.setRolloverIcon(new ImageIcon(buttonIcon));
 		closeButton.setBorder(BorderFactory.createEmptyBorder());
 		closeButton.setContentAreaFilled(false);
+		closeButton.setRolloverEnabled(true);
 					
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;

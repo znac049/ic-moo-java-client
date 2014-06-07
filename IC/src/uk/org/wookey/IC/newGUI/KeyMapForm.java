@@ -15,6 +15,10 @@ import javax.swing.JTextField;
 import uk.org.wookey.IC.newUtils.KeyCode;
 import uk.org.wookey.IC.newUtils.KeyMap;
 import uk.org.wookey.IC.newUtils.KeyMapping;
+import uk.org.wookey.IC.newUtils.Macro;
+import uk.org.wookey.IC.newUtils.MacroManager;
+import webBoltOns.layoutManager.GridFlowLayout;
+import webBoltOns.layoutManager.GridFlowLayoutParameter;
 
 public class KeyMapForm extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -46,20 +50,21 @@ public class KeyMapForm extends JFrame {
 		add(keyList, BorderLayout.LINE_START);
 		
 		JPanel settings = new JPanel();
-		settings.add(new JLabel("Key Code"));
+		settings.setLayout(new GridFlowLayout(6, 4));
+		settings.add(new JLabel("Key Code"), new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 		
 		JTextField codeBox = new JTextField(10);
-		settings.add(codeBox);
+		codeBox.setAlignmentX(CENTER_ALIGNMENT);
+		settings.add(codeBox, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
 		
-		settings.add(new JLabel("Macro to run"));
+		settings.add(new JLabel("Macro to run"), new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
 		
 		JComboBox macroList = new JComboBox();
-		macroList.addItem(new ComboItem("One", "En"));
-		macroList.addItem(new ComboItem("Two", "To"));
-		macroList.addItem(new ComboItem("Three", "Tre"));
-		macroList.addItem(new ComboItem("Four", "Fire"));
+		for (Macro macro: MacroManager.getMacroList()) {
+			macroList.addItem(new ComboItem(macro.getName(), macro.getName()));
+		}
 		macroList.setEditable(true);
-		settings.add(macroList);
+		settings.add(macroList, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
 		
 		add(settings, BorderLayout.CENTER);
 		
