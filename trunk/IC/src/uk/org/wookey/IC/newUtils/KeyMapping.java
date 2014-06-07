@@ -40,4 +40,12 @@ public class KeyMapping {
 		
 		return false;
 	}
+	
+	public int getKeyCode() {
+		return key;
+	}
+	
+	public String getMacroName() {
+		return "{bilbo}";
+	}
 }
