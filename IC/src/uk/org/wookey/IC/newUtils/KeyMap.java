@@ -58,4 +58,8 @@ public class KeyMap {
 	
 		return false;
 	}
+	
+	public ArrayList<KeyMapping> getMappings() {
+		return map;
+	}
 }

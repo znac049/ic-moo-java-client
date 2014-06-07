@@ -9,8 +9,8 @@ public class LED implements Icon {
 	
 	public LED(int r, int g, int b)
 	{
-		_width = 16;
-		_height = 16;
+		_width = 18;
+		_height = 18;
 		
 		rVal = r;
 		gVal = g;

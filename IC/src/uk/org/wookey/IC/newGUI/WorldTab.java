@@ -247,6 +247,10 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		return statusLED;
 	}
 	
+	public KeyMap getKeyMap() {
+		return keyMap;
+	}
+	
 	class KeyHandler implements KeyListener {
 		private KeyCode keyCode = new KeyCode(0);
 
