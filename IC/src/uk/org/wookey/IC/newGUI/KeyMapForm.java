@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,78 +17,127 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.newUtils.HorizontalPanel;
 import uk.org.wookey.IC.newUtils.KeyCode;
 import uk.org.wookey.IC.newUtils.KeyMap;
 import uk.org.wookey.IC.newUtils.KeyMapping;
 import uk.org.wookey.IC.newUtils.Macro;
 import uk.org.wookey.IC.newUtils.MacroManager;
+import uk.org.wookey.IC.newUtils.VerticalPanel;
 import webBoltOns.layoutManager.GridFlowLayout;
 import webBoltOns.layoutManager.GridFlowLayoutParameter;
+import java.awt.FlowLayout;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class KeyMapForm extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Logger _logger = new Logger("KeyMapForm");
 	
+	private JList keyList;
+	
 	public KeyMapForm(KeyMap map) {
 		super("Key Maps");
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		
+		setFocusable(true);
+		requestFocusInWindow();
+		addKeyListener(new KeyHandler());
 
-		setLayout(new BorderLayout());
+		getContentPane().setLayout(new BorderLayout());
 		
-		//_worldList.setBorder(new LineBorder(Color.black));
-        //_worldList.setSelectedIndex(0);
-		//add(_worldList, BorderLayout.WEST);
+		getContentPane().add(makeListOfBindings(map), BorderLayout.LINE_START);
 		
+		getContentPane().add(makeBindingPanel(), BorderLayout.CENTER);
 		
-		DefaultListModel model = new DefaultListModel();
-		
-		ArrayList<KeyMapping> mappings = map.getMappings();
-		for (KeyMapping mapping: mappings) {
-			int key = mapping.getKeyCode();
-			KeyCode keyCode = new KeyCode(key);
-			
-			model.addElement(" " + keyCode.toString() + " ");
-		}
-		
-		JList keyList = new JList(model);
-		keyList.setBorder(new LineBorder(Color.black));
-		keyList.setSelectedIndex(0);
-		add(new JScrollPane(keyList), BorderLayout.LINE_START);
-		
-		JPanel settings = new JPanel();
-		settings.setLayout(new GridFlowLayout(6, 4));
-		settings.add(new JLabel("Key Code"), new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
-		
-		JTextField codeBox = new JTextField(10);
-		codeBox.setAlignmentX(CENTER_ALIGNMENT);
-		settings.add(codeBox, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
-		
-		settings.add(new JLabel("Macro to run"), new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
-		
-		JComboBox macroList = new JComboBox();
-		for (Macro macro: MacroManager.getMacroList()) {
-			macroList.addItem(new ComboItem(macro.getName(), macro.getName()));
-		}
-		macroList.setEditable(true);
-		settings.add(macroList, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
-		
-		JButton saveButton = new JButton("Save");
-		settings.add(saveButton, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
-		
-		JButton cancelButton = new JButton("Cancel");
-		settings.add(cancelButton, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
-		
-		add(settings, BorderLayout.CENTER);
+		getContentPane().add(makeButtonsPanel(), BorderLayout.PAGE_END);
 		
 		setLocation(300, 300);
 		pack();
 		setResizable(false);
 		setVisible(true);
+	}
+	
+	private JPanel makeListOfBindings(KeyMap map) {
+		VerticalPanel panel = new VerticalPanel();
+
+		panel.add(new JLabel("Current Bindings"));
+
+		// Populate the key list with all existing key mappings
+		DefaultListModel model = new DefaultListModel();
+		ArrayList<KeyMapping> mappings = map.getMappings();
+		for (KeyMapping mapping: mappings) {
+			int key = mapping.getKeyCode();
+			KeyCode keyCode = new KeyCode(key);
+			
+			model.addElement(keyCode.toString());
+		}
+
+		keyList = new JList(model);
+		keyList.setBorder(new LineBorder(Color.black));
+		keyList.setSelectedIndex(0);
+		panel.add(new JScrollPane(keyList));
+				
+		return panel;
+	}
+	
+	private JPanel makeBindingPanel() {
+		VerticalPanel panel = new VerticalPanel();
+		
+		JLabel lab = new JLabel("Key Code");
+		lab.setAlignmentX(CENTER_ALIGNMENT);
+		panel.add(lab);
+
+		JPanel codeBox = new JPanel();
+		codeBox.setAlignmentX(CENTER_ALIGNMENT);
+		codeBox.setBorder(new LineBorder(Color.black));
+		codeBox.setPreferredSize(new Dimension(100, 100));
+		panel.add(codeBox);
+		codeBox.setLayout(new FormLayout(new ColumnSpec[] {},
+			new RowSpec[] {}));
+		
+		lab = new JLabel("Macro");
+		lab.setAlignmentX(CENTER_ALIGNMENT);
+		panel.add(lab);
+
+		JComboBox macroList = new JComboBox();
+		macroList.setAlignmentX(CENTER_ALIGNMENT);
+		for (Macro macro: MacroManager.getMacroList()) {
+			macroList.addItem(new ComboItem(macro.getName(), macro.getName()));
+		}
+		macroList.setEditable(true);
+		panel.add(macroList);
+		
+		JLabel help = new JLabel();
+		help.setAlignmentX(CENTER_ALIGNMENT);
+		help.setBorder(new LineBorder(Color.black));
+		help.setPreferredSize(new Dimension(250, 100));
+		help.setText("Select a macro to bind to or type the name of a new macro");
+		panel.add(help);
+
+		return panel;
+	}
+
+	private JPanel makeButtonsPanel() {
+		HorizontalPanel panel = new HorizontalPanel();
+		
+		ButtonHandler mouseHandler = new ButtonHandler();
+
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(mouseHandler);
+		
+		JButton cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(mouseHandler);
+		
+		panel.add(saveButton);
+		panel.add(cancelButton);
+
+		return panel;
 	}
 	
 	class ComboItem {
@@ -115,15 +163,20 @@ public class KeyMapForm extends JFrame {
 	    }
 	}
 	
-	class buttonClick implements ActionListener {
+	class ButtonHandler implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String cmd = e.getActionCommand();
 			
 			_logger.logInfo("Button click: '" + cmd + "'");
 			
-			if (cmd.equalsIgnoreCase("Worlds")) {
-			}			
+			if (cmd.equalsIgnoreCase("Cancel")) {
+				setVisible(false);
+				dispose();
+			}
+			else if (cmd.equalsIgnoreCase("Save")) {
+				_logger.logInfo("Need to code save");
+			}
 			
 		}		
 	}
@@ -137,7 +190,7 @@ public class KeyMapForm extends JFrame {
 			
 			switch (key) {
 			case KeyEvent.VK_ALT:
-				keyCode.ctrl(true);;
+				keyCode.alt(true);;
 				break;
 
 			case KeyEvent.VK_CONTROL:
@@ -156,6 +209,7 @@ public class KeyMapForm extends JFrame {
 				// some other key. take an interest if any of the magic keys are also pressed
 				keyCode.set(key);
 				if (keyCode.nonPrintable()) {
+					_logger.logInfo("Got key: " + keyCode.toString());
 				}
 			}
 		}
@@ -191,4 +245,6 @@ public class KeyMapForm extends JFrame {
 		public void keyTyped(KeyEvent e) {
 		}	
 	}
+	
+	
 }

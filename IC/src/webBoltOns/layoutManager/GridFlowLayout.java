@@ -62,7 +62,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 
 public class GridFlowLayout implements LayoutManager2, Serializable {
-	private static final long serialVersionUID = -4793834200957414643L;
+	private static final long serialVersionUID = 1L;
 	private Hashtable<Dimension, Dimension> cellSizes = new Hashtable<Dimension, Dimension>();
 	private HashMap<String, Component> componentTable = new HashMap<String, Component>();
 	private HashMap<Object, ComponentConstraint> constraintsTable = new HashMap<Object, ComponentConstraint>();

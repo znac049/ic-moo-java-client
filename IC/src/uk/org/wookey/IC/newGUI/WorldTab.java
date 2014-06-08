@@ -8,7 +8,6 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
-import uk.org.wookey.IC.GUI.MainStatusBar;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newUtils.JSEngine;
@@ -78,6 +77,10 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		setLayout(new GridBagLayout());
 		
 		screen = new Screen();
+		screen.setFocusable(true);
+		screen.requestFocusInWindow();
+		screen.addKeyListener(new KeyForwarder());	
+
 		JScrollPane scroller = new JScrollPane(screen);
 		scroller.setFocusable(false);
 		add(scroller, 0, 0, 1.0, 1.0);
@@ -92,7 +95,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
 		keyboard.addActionListener(this);
 		keyboard.addKeyListener(new KeyHandler());
-		add(keyboard, 0, 1, 1.0, 0.0);		
+		add(keyboard, 0, 1, 1.0, 0.0);
 	}
 	
 	private void setupKeyMap() {
@@ -308,8 +311,6 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 					}
 				}
 			}
-
-			MainStatusBar.getBar().setMsg(keyCode.toString());
 		}
 
 		@Override
@@ -333,12 +334,27 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 				keyCode.windows(false);
 				break;
 			}
-			
-			MainStatusBar.getBar().setMsg(keyCode.toString());
 		}
 
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}	
+	}
+	
+	class KeyForwarder implements KeyListener {
+		@Override
+		public void keyPressed(KeyEvent arg0) {
+		}
+
+		@Override
+		public void keyReleased(KeyEvent arg0) {
+		}
+
+		@Override
+		public void keyTyped(KeyEvent arg0) {
+			_logger.logInfo("Forwarding key '" + arg0.getKeyChar() + "'");
+			keyboard.setText(keyboard.getText() + arg0.getKeyChar());
+		}
+		
 	}
 }
