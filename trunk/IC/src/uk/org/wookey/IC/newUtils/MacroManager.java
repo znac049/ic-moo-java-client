@@ -43,6 +43,7 @@ public class MacroManager {
 			name = fileName.substring(0, fileName.length()-3);
 			_logger.logInfo("create macro '" + name + "'for file " + fileName);
 			
+			macros.add(new Macro(name, fileName));
 		}
 	}
 	

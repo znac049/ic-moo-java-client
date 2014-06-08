@@ -1,15 +1,18 @@
 package uk.org.wookey.IC.newGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import uk.org.wookey.IC.newUtils.KeyCode;
@@ -42,12 +45,16 @@ public class KeyMapForm extends JFrame {
 			int key = mapping.getKeyCode();
 			KeyCode keyCode = new KeyCode(key);
 			
-			model.addElement(keyCode.toString());
+			model.addElement(" " + keyCode.toString() + " ");
 		}
 		
 		JList keyList = new JList(model);
 		keyList.setSelectedIndex(0);
-		add(keyList, BorderLayout.LINE_START);
+		Dimension d = new Dimension();
+		d.width = 200;
+		d.height = keyList.getMinimumSize().height;
+		keyList.setSize(d);
+		add(new JScrollPane(keyList), BorderLayout.LINE_START);
 		
 		JPanel settings = new JPanel();
 		settings.setLayout(new GridFlowLayout(6, 4));
@@ -65,6 +72,12 @@ public class KeyMapForm extends JFrame {
 		}
 		macroList.setEditable(true);
 		settings.add(macroList, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
+		
+		JButton saveButton = new JButton("Save");
+		settings.add(saveButton, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		
+		JButton cancelButton = new JButton("Cancel");
+		settings.add(cancelButton, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
 		
 		add(settings, BorderLayout.CENTER);
 		
