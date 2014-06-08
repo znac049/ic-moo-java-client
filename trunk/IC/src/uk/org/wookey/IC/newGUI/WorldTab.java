@@ -251,6 +251,10 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		return keyMap;
 	}
 	
+	public Preferences getPrefs() {
+		return prefs;
+	}
+	
 	class KeyHandler implements KeyListener {
 		private KeyCode keyCode = new KeyCode(0);
 

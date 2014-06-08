@@ -1,7 +1,12 @@
 package uk.org.wookey.IC.newGUI;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.ComboBoxModel;
@@ -14,7 +19,9 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.LineBorder;
 
+import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newUtils.KeyCode;
 import uk.org.wookey.IC.newUtils.KeyMap;
 import uk.org.wookey.IC.newUtils.KeyMapping;
@@ -25,6 +32,7 @@ import webBoltOns.layoutManager.GridFlowLayoutParameter;
 
 public class KeyMapForm extends JFrame {
 	private static final long serialVersionUID = 1L;
+	private Logger _logger = new Logger("KeyMapForm");
 	
 	public KeyMapForm(KeyMap map) {
 		super("Key Maps");
@@ -49,11 +57,8 @@ public class KeyMapForm extends JFrame {
 		}
 		
 		JList keyList = new JList(model);
+		keyList.setBorder(new LineBorder(Color.black));
 		keyList.setSelectedIndex(0);
-		Dimension d = new Dimension();
-		d.width = 200;
-		d.height = keyList.getMinimumSize().height;
-		keyList.setSize(d);
 		add(new JScrollPane(keyList), BorderLayout.LINE_START);
 		
 		JPanel settings = new JPanel();
@@ -108,5 +113,82 @@ public class KeyMapForm extends JFrame {
 	    public String getValue() {
 	        return _value;
 	    }
+	}
+	
+	class buttonClick implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			
+			_logger.logInfo("Button click: '" + cmd + "'");
+			
+			if (cmd.equalsIgnoreCase("Worlds")) {
+			}			
+			
+		}		
+	}
+	
+	class KeyHandler implements KeyListener {
+		private KeyCode keyCode = new KeyCode(0);
+
+		@Override
+		public void keyPressed(KeyEvent keyEvent) {
+			int key = keyEvent.getKeyCode();
+			
+			switch (key) {
+			case KeyEvent.VK_ALT:
+				keyCode.ctrl(true);;
+				break;
+
+			case KeyEvent.VK_CONTROL:
+				keyCode.ctrl(true);;
+				break;
+			
+			case KeyEvent.VK_SHIFT:
+				keyCode.shift(true);
+				break;
+			
+			case KeyEvent.VK_WINDOWS:
+				keyCode.windows(true);
+				break;
+				
+			default:
+				// some other key. take an interest if any of the magic keys are also pressed
+				keyCode.set(key);
+				if (keyCode.nonPrintable()) {
+				}
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent keyEvent) {
+			int key = keyEvent.getKeyCode();
+			
+			switch (key) {
+			case KeyEvent.VK_ALT:
+				keyCode.alt(false);;
+				break;
+
+			case KeyEvent.VK_CONTROL:
+				keyCode.ctrl(false);;
+				break;
+			
+			case KeyEvent.VK_SHIFT:
+				keyCode.shift(false);
+				break;
+			
+			case KeyEvent.VK_WINDOWS:
+				keyCode.windows(false);
+				break;
+
+			default:
+				keyCode.set(0);
+				break;
+			}
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+		}	
 	}
 }
