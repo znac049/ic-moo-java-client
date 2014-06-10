@@ -37,7 +37,9 @@ public class KeyMapForm extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Logger _logger = new Logger("KeyMapForm");
 	private WorldTab worldTab;
-	
+	private int detectedKey;
+	private JTextArea bindingPanel;
+	private JComboBox macroList;
 	private JList keyList;
 	
 	public KeyMapForm(WorldTab tab) {
@@ -94,16 +96,25 @@ public class KeyMapForm extends JFrame {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridheight = 3;
-		gbc.fill = GridBagConstraints.HORIZONTAL;
+
+		gbc.weightx = 0.0;
+		gbc.weighty = 0.0;
+		
+		gbc.fill = GridBagConstraints.BOTH;
 		add(makeListOfBindings(worldTab.getKeyMap()), gbc);
 		
 		gbc.gridx = 1;
 		gbc.gridheight = 1;
-		add(makeBindingPanel(), gbc);
+
+		gbc.weightx = 0.5;
+		gbc.weighty = 0.5;
+		bindingPanel = makeBindingPanel();
+		add(bindingPanel, gbc);
 		
 		gbc.gridx = 2;
 		gbc.anchor = GridBagConstraints.PAGE_START;
-		add(makeListOfMacros(), gbc);
+		macroList = makeListOfMacros();
+		add(macroList, gbc);
 		
 		JTextArea help = new JTextArea();
 		help.setLineWrap(true);
@@ -124,12 +135,6 @@ public class KeyMapForm extends JFrame {
 		gbc.gridwidth = 3;
 		gbc.fill = GridBagConstraints.NONE;
 		panel.add(makeButtonsPanel(), gbc);
-		//getContentPane().add(makeListOfBindings(worldTab.getKeyMap()), BorderLayout.LINE_START);
-		
-		//getContentPane().add(makeBindingPanel(), BorderLayout.CENTER);
-		
-		//getContentPane().add(makeButtonsPanel(), BorderLayout.PAGE_END);
-			
 	}
 	
 	private JScrollPane makeListOfBindings(KeyMap map) {
@@ -161,13 +166,16 @@ public class KeyMapForm extends JFrame {
 		return macroList;
 	}
 	
-	private JPanel makeBindingPanel() {
-		JPanel codeBox = new JPanel();
+	private JTextArea makeBindingPanel() {
+		JTextArea codeBox = new JTextArea();
 		codeBox.setAlignmentX(CENTER_ALIGNMENT);
 		codeBox.setBorder(new LineBorder(Color.black));
 		codeBox.setPreferredSize(new Dimension(100, 100));
 		codeBox.setBackground(new Color(240, 224, 64));
 		codeBox.setBorder(new LineBorder(Color.black));
+		codeBox.addKeyListener(new KeyHandler());
+		codeBox.setLineWrap(true);
+		codeBox.setEditable(false);
 		
 		return codeBox;
 	}
@@ -224,18 +232,25 @@ public class KeyMapForm extends JFrame {
 				dispose();
 			}
 			else if (cmd.equalsIgnoreCase("Save")) {
-				_logger.logInfo("Need to code save");
-				worldTab.getKeyMap().save(worldTab.getPrefs());
-				setVisible(false);
-				dispose();
+				if (detectedKey != 0) {
+					KeyMap km = worldTab.getKeyMap();
+					
+					_logger.logInfo("Adding key code " + detectedKey + " to keymap");
+				
+					km.add(detectedKey,  macroList.getSelectedItem().toString());
+					km.save(worldTab.getPrefs());
+				
+					setVisible(false);
+					dispose();
+				}
 			}
 			
 		}		
 	}
 	
 	class KeyHandler implements KeyListener {
-		private KeyCode keyCode = new KeyCode(0);
-
+		private KeyCode keyCode = new KeyCode(0);	
+		
 		@Override
 		public void keyPressed(KeyEvent keyEvent) {
 			int key = keyEvent.getKeyCode();
@@ -261,8 +276,10 @@ public class KeyMapForm extends JFrame {
 				// some other key. take an interest if any of the magic keys are also pressed
 				keyCode.set(key);
 				if (keyCode.nonPrintable()) {
-					_logger.logInfo("Got key: " + keyCode.toString());
+					bindingPanel.setText(keyCode.toString());
+					detectedKey = keyCode.get();
 				}
+				break;
 			}
 		}
 
@@ -296,7 +313,5 @@ public class KeyMapForm extends JFrame {
 		@Override
 		public void keyTyped(KeyEvent e) {
 		}	
-	}
-	
-	
+	}	
 }
