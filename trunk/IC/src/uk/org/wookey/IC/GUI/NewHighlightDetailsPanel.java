@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newUtils.Prefs;
+import uk.org.wookey.IC.Utils.Prefs;
 import webBoltOns.layoutManager.GridFlowLayout;
 import webBoltOns.layoutManager.GridFlowLayoutParameter;
 

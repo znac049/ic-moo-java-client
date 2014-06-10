@@ -1,9 +1,7 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import uk.org.wookey.IC.Utils.Logger;
 
 public class MacroManager {
 	private static final Logger _logger = new Logger("MacroManager");

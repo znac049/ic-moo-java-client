@@ -7,7 +7,7 @@ import java.util.prefs.Preferences;
 import javax.swing.*;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newUtils.Prefs;
+import uk.org.wookey.IC.Utils.Prefs;
 import webBoltOns.layoutManager.*;
 
 public class WorldDetailsPanel extends JPanel {

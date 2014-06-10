@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 import java.util.prefs.Preferences;
 

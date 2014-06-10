@@ -1,6 +1,5 @@
 package uk.org.wookey.IC.Utils;
 
-import uk.org.wookey.IC.newUtils.CorePluginInterface;
 
 public class CorePlugin implements CorePluginInterface {
 	private Logger _logger = new Logger("CorePlugin");

@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newGUI;
+package uk.org.wookey.IC.GUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -24,14 +24,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
+import uk.org.wookey.IC.Utils.HorizontalPanel;
+import uk.org.wookey.IC.Utils.KeyCode;
+import uk.org.wookey.IC.Utils.KeyMap;
+import uk.org.wookey.IC.Utils.KeyMapping;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newUtils.HorizontalPanel;
-import uk.org.wookey.IC.newUtils.KeyCode;
-import uk.org.wookey.IC.newUtils.KeyMap;
-import uk.org.wookey.IC.newUtils.KeyMapping;
-import uk.org.wookey.IC.newUtils.Macro;
-import uk.org.wookey.IC.newUtils.MacroManager;
-import uk.org.wookey.IC.newUtils.VerticalPanel;
+import uk.org.wookey.IC.Utils.Macro;
+import uk.org.wookey.IC.Utils.MacroManager;
+import uk.org.wookey.IC.Utils.VerticalPanel;
 
 public class KeyMapForm extends JFrame {
 	private static final long serialVersionUID = 1L;

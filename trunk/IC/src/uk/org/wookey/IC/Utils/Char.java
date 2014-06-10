@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 public class Char {
 	private int ch;

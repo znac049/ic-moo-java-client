@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newGUI;
+package uk.org.wookey.IC.GUI;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,15 +8,14 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
-import uk.org.wookey.IC.GUI.Screen;
+import uk.org.wookey.IC.Utils.JSEngine;
+import uk.org.wookey.IC.Utils.KeyCode;
+import uk.org.wookey.IC.Utils.KeyMap;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newUtils.JSEngine;
-import uk.org.wookey.IC.newUtils.KeyCode;
-import uk.org.wookey.IC.newUtils.KeyMap;
-import uk.org.wookey.IC.newUtils.Prefs;
-import uk.org.wookey.IC.newUtils.ServerPort;
-import uk.org.wookey.IC.newUtils.TabInterface;
+import uk.org.wookey.IC.Utils.Prefs;
+import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.TabInterface;
 
 public class WorldTab extends JPanel implements ActionListener, TabInterface, Runnable {
 	private static final long serialVersionUID = 1L;

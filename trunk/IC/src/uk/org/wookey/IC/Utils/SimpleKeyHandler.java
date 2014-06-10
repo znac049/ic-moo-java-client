@@ -1,9 +1,7 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
-import uk.org.wookey.IC.Utils.Logger;
 
 public class SimpleKeyHandler implements KeyListener {
 	private Logger _logger = new Logger("SimpleKeyListener");

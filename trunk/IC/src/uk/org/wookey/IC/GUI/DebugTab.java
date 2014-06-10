@@ -5,7 +5,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newUtils.TabInterface;
+import uk.org.wookey.IC.Utils.TabInterface;
 
 public class DebugTab extends GenericTab implements TabInterface {
 	private static final long serialVersionUID = 6325314968517017778L;

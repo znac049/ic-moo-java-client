@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newGUI.WorldTab;
 
 public class QuickLaunch extends JPanel {
 	private static final long serialVersionUID = 1L;

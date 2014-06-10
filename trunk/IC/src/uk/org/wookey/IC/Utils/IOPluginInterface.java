@@ -1,4 +1,5 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
+
 
 public interface IOPluginInterface {
 	public enum Status {

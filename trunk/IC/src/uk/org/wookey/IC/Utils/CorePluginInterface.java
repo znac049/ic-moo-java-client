@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 public interface CorePluginInterface {
 	public final static int interfaceVersion = 1;

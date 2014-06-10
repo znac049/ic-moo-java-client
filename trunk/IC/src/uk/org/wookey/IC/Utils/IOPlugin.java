@@ -1,10 +1,6 @@
 package uk.org.wookey.IC.Utils;
 
-import uk.org.wookey.IC.newGUI.WorldTab;
-import uk.org.wookey.IC.newUtils.Char;
-import uk.org.wookey.IC.newUtils.IOPluginInterface;
-import uk.org.wookey.IC.newUtils.Line;
-import uk.org.wookey.IC.newUtils.ServerPort;
+import uk.org.wookey.IC.GUI.WorldTab;
 
 public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	//private Logger _logger = new Logger("Base Plugin");
