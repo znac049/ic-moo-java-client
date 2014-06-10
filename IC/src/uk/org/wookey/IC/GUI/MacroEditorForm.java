@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newGUI;
+package uk.org.wookey.IC.GUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

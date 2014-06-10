@@ -9,8 +9,8 @@ import java.nio.file.Paths;
 import javax.script.ScriptEngine;
 
 import uk.org.wookey.IC.Editor.EditorForm;
+import uk.org.wookey.IC.GUI.MacroEditorForm;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newGUI.MacroEditorForm;
 
 public class Macro {
 	private enum MacroType {
