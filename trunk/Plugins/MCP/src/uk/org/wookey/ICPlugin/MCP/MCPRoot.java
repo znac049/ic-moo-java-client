@@ -2,12 +2,14 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.Utils.IOPluginInterface;
+import uk.org.wookey.IC.Utils.Line;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
-import uk.org.wookey.IC.Utils.Plugin;
+import uk.org.wookey.IC.Utils.IOPlugin;
 
-public class MCPRoot extends Plugin {
+public class MCPRoot extends IOPlugin {
 	private Logger _logger = new Logger("MCP Root");
 	private MCPVersion _minVer;
 	private MCPVersion _maxVer;
@@ -40,7 +42,8 @@ public class MCPRoot extends Plugin {
 	}
 
 	@Override
-	public int handleRemoteLineInput(String line) {
+	public Status remoteLineIn(Line l) {
+		String line = l.get();
 		MCPCommand cmd = new MCPCommand();
 		
 		try {
@@ -60,7 +63,7 @@ public class MCPRoot extends Plugin {
 			pending = _core.getPendingCommand();
 		}
 		
-		return Plugin.Handled;
+		return IOPluginInterface.Status.CONSUMED;
 	}
 	
 	public void registerMultiline(MCPCommand command) {
@@ -131,7 +134,7 @@ public class MCPRoot extends Plugin {
 	
 	private void sendToServer(String line) {
 		_logger.logMsg("MCP C->S: " + line);
-		worldTab.writeRemote(line);
+		worldTab.getServerPort().writeLine(line);
 	}
 	
 	private MCPHandler findHandler(String command) {

@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.GUI;
+package uk.org.wookey.ICPlugin.MCP;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.LineBorder;
 
-import uk.org.wookey.IC.Utils.Player;
-import uk.org.wookey.IC.Utils.Sorter;
 import uk.org.wookey.IC.Utils.TimeUtils;
 
 public class PlayerList extends JPanel {

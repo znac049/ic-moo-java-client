@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.Utils;
+package uk.org.wookey.ICPlugin.MCP;
 
 public class Player {
 	private String name;

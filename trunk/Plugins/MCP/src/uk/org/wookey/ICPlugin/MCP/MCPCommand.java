@@ -2,9 +2,10 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
+import uk.org.wookey.IC.Utils.ServerPort;
 import uk.org.wookey.IC.Utils.StringParser;
 
 public class MCPCommand {
@@ -143,6 +144,7 @@ public class MCPCommand {
 	}
 	
 	public void sendToServer(WorldTab worldTab) {
+		ServerPort server = worldTab.getServerPort();
 		String sessionKey = new MCPSession().getSessionKey();
 		String ref = getParam("reference");
 		String type = getParam("type");
@@ -150,15 +152,15 @@ public class MCPCommand {
 				ref + " type: " + type + " content*: " + '"' + '"' + " _data-tag: " + 
 				sessionKey;
 				
-		worldTab.writeRemote(line);
+		server.writeLine(line);
 		
 		// Now send each line as a continuation
 		String lines[] = getParam("content*").split("\n");
 		for (int i=0; i<lines.length; i++) {
 			line = "#$#* " + sessionKey + " content: " + lines[i];
-			worldTab.writeRemote(line);
+			server.writeLine(line);
 		}
-		worldTab.writeRemote("#$#: " + sessionKey);
+		server.writeLine("#$#: " + sessionKey);
 	}
 
 	public void addParam(String key, String value) {

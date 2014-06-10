@@ -1,6 +1,6 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 
@@ -59,6 +59,6 @@ public class MCPHandler implements MCPHandlerInterface {
 	
 	public void sendToServer(String line) {
 		logger.logMsg("MCP C->S: " + line);
-		worldTab.writeRemote(line);
+		worldTab.getServerPort().writeLine(line);
 	}
 }
