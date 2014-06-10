@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newGUI;
+package uk.org.wookey.IC.GUI;
 
 public class MainAppWindow {
 

@@ -19,7 +19,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newGUI.DebugTab;
 import uk.org.wookey.IC.newGUI.WorldTab;
 import uk.org.wookey.IC.newUtils.TabInterface;
 

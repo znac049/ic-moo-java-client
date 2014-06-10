@@ -71,7 +71,10 @@ public class KeyMapForm extends JFrame {
 		gbc.gridwidth = 1;
 		gbc.gridheight = 1;
 		
-		gbc.insets = new Insets(2, 2, 2, 2);
+		gbc.weightx = 0.5;
+		gbc.weighty = 0.5;
+		
+		gbc.insets = new Insets(4, 4, 4, 4);
 		
 		//gbc.fill = GridBagConstraints.BOTH;
 		
@@ -91,6 +94,7 @@ public class KeyMapForm extends JFrame {
 		gbc.gridx = 0;
 		gbc.gridy = 1;
 		gbc.gridheight = 3;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
 		add(makeListOfBindings(worldTab.getKeyMap()), gbc);
 		
 		gbc.gridx = 1;
@@ -98,12 +102,15 @@ public class KeyMapForm extends JFrame {
 		add(makeBindingPanel(), gbc);
 		
 		gbc.gridx = 2;
-		gbc.fill = GridBagConstraints.SOUTH;
+		gbc.anchor = GridBagConstraints.PAGE_START;
 		add(makeListOfMacros(), gbc);
 		
 		JTextArea help = new JTextArea();
 		help.setLineWrap(true);
-		help.setText("willy wily had a coo!");
+		help.setText("Select a key combination from the list to the left " +
+				"or select <New>. Type the key combination in the yellow " +
+				"box and then select a macro from the dropdown or type in " +
+				"the name of a new macro to create a new macro");
 		help.setEditable(false);
 		
 		gbc.gridx = 1;

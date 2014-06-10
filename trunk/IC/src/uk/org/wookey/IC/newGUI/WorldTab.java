@@ -8,6 +8,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
+import uk.org.wookey.IC.GUI.Screen;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newUtils.JSEngine;
@@ -70,6 +71,8 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	}
 	
 	public void setup() {
+		KeyHandler kh = new KeyHandler();
+		
 		localEcho = true;
 		
 		statusLED = new LED(0, 0, 0);
@@ -79,7 +82,8 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		screen = new Screen();
 		screen.setFocusable(true);
 		screen.requestFocusInWindow();
-		//screen.addKeyListener(new KeyForwarder());	
+		//screen.addKeyListener(new KeyForwarder());
+		screen.addKeyListener(kh);
 
 		JScrollPane scroller = new JScrollPane(screen);
 		scroller.setFocusable(false);
@@ -94,7 +98,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		keyboard.requestFocus();
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
 		keyboard.addActionListener(this);
-		keyboard.addKeyListener(new KeyHandler());
+		keyboard.addKeyListener(kh);
 		add(keyboard, 0, 1, 1.0, 0.0);
 	}
 	
@@ -253,6 +257,10 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		return prefs;
 	}
 	
+	public ServerPort getServerPort() {
+		return server;
+	}
+	
 	class KeyHandler implements KeyListener {
 		private KeyCode keyCode = new KeyCode(0);
 
@@ -291,6 +299,13 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 			
 			case KeyEvent.VK_WINDOWS:
 				keyCode.windows(true);
+				break;
+				
+			case KeyEvent.VK_ENTER:
+				_logger.logInfo("Pressed ENTER");
+				if (keyEvent.getComponent() != keyboard) {
+					keyboard.postActionEvent();
+				}
 				break;
 				
 			default:
@@ -333,23 +348,11 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 
 		@Override
 		public void keyTyped(KeyEvent e) {
+			if (e.getComponent() != keyboard) {
+				// forward the character to the keyboard
+				_logger.logInfo("Forwarding key '" + e.getKeyChar() + "'");
+				keyboard.setText(keyboard.getText() + e.getKeyChar());
+			}
 		}	
-	}
-	
-	class KeyForwarder implements KeyListener {
-		@Override
-		public void keyPressed(KeyEvent arg0) {
-		}
-
-		@Override
-		public void keyReleased(KeyEvent arg0) {
-		}
-
-		@Override
-		public void keyTyped(KeyEvent arg0) {
-			_logger.logInfo("Forwarding key '" + arg0.getKeyChar() + "'");
-			keyboard.setText(keyboard.getText() + arg0.getKeyChar());
-		}
-		
 	}
 }
