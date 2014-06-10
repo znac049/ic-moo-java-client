@@ -3,6 +3,7 @@ package uk.org.wookey.ICPlugin.MCP;
 import java.io.IOException;
 
 import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.IOPluginInterface;
 import uk.org.wookey.IC.Utils.Line;
 import uk.org.wookey.IC.Utils.Logger;
@@ -17,12 +18,23 @@ public class MCP extends IOPlugin {
 	private StringParser cmdParser = new StringParser("");
 	private MCPRoot mcp;
 
-	public boolean onConnect() {
+	public boolean activate() {
+		setName("MCP");
+		
 		try {
-			mcp = new MCPRoot(_worldTab);
+			mcp = new MCPRoot(server);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			return false;
+		}
+
+		return true;
+	}
+	
+	public boolean supports(CorePluginInterface.PluginType pluginType) {
+		switch (pluginType) {
+		case IOPLUGIN:
+			return true;
 		}
 		
 		return true;

@@ -3,12 +3,13 @@ package uk.org.wookey.ICPlugin.MCP;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
+import uk.org.wookey.IC.Utils.ServerPort;
 
 public class MCPSimpleEdit extends MCPHandler {
 	private Logger _logger = new Logger("MCP SimpleEdit");
 	
-	public MCPSimpleEdit(WorldTab tab, MCPRoot mcpRoot) throws ParserException {
-		super("dns-org-mud-moo-simpleedit", "1.0", "1.0", tab, mcpRoot);
+	public MCPSimpleEdit(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
+		super("dns-org-mud-moo-simpleedit", "1.0", "1.0", svr, mcpRoot);
 	}
 	
 	public void handle(MCPCommand command, String key) {
@@ -34,7 +35,7 @@ public class MCPSimpleEdit extends MCPHandler {
 			_logger.logMsg("Type='" + type + "'");
 			_logger.logMsg("Content='" + content + "'");
 			
-			new MCPEditorForm(itemName, ref, type, content, worldTab, key);
+			new MCPEditorForm(itemName, ref, type, content, server, key);
 		}
 	}
 }

@@ -5,13 +5,14 @@ import java.util.ArrayList;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
+import uk.org.wookey.IC.Utils.ServerPort;
 
 public class MCPVisual extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCP Visual");
 	private ArrayList<Player> players;
 	
-	public MCPVisual(WorldTab tab, MCPRoot mcpRoot) throws ParserException {
-		super("dns-com-awns-visual", "1.0", "1.0", tab, mcpRoot);
+	public MCPVisual(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
+		super("dns-com-awns-visual", "1.0", "1.0", svr, mcpRoot);
 		
 		players = new ArrayList<Player>();
 	}

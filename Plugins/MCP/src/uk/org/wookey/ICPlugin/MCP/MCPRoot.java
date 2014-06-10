@@ -8,32 +8,34 @@ import uk.org.wookey.IC.Utils.Line;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.IOPlugin;
+import uk.org.wookey.IC.Utils.ServerPort;
 
 public class MCPRoot extends IOPlugin {
+	private static int worldCounter = 0;
 	private Logger _logger = new Logger("MCP Root");
 	private MCPVersion _minVer;
 	private MCPVersion _maxVer;
 	public MCPSession _mcpSession;
 	private CoreHandler _core;
 	private ArrayList<MCPHandler> _handlers;
-	private WorldTab worldTab;
+	private ServerPort _server;
 	private String outOfBandToken = "#$#";
 
-	public MCPRoot(WorldTab tab) throws ParserException {
+	public MCPRoot(ServerPort server) throws ParserException {
 		_minVer = new MCPVersion("2.1");
 		_maxVer = new MCPVersion("2.1");
-		worldTab = tab;
+		_server = server;
 		_mcpSession = new MCPSession();
 		_handlers = new ArrayList<MCPHandler>();
 		
 		//_handlers.clear();
 		
 		try {
-			_core = new CoreHandler(worldTab, this);
+			_core = new CoreHandler(server, this);
 			_handlers.add(_core);
-			_handlers.add(new MCPNegotiate(worldTab, this));
-			_handlers.add(new MCPSimpleEdit(worldTab, this));
-			_handlers.add(new MCPVisual(worldTab, this));
+			_handlers.add(new MCPNegotiate(server, this));
+			_handlers.add(new MCPSimpleEdit(server, this));
+			_handlers.add(new MCPVisual(server, this));
 		} catch (ParserException e) {
 			// Any handler that generates an exception just gets binned.
 			_logger.logMsg("Caught MCP Exception");
@@ -134,7 +136,7 @@ public class MCPRoot extends IOPlugin {
 	
 	private void sendToServer(String line) {
 		_logger.logMsg("MCP C->S: " + line);
-		worldTab.getServerPort().writeLine(line);
+		server.writeLine(line);
 	}
 	
 	private MCPHandler findHandler(String command) {
@@ -149,14 +151,8 @@ public class MCPRoot extends IOPlugin {
 	}
 	
 	public String getWorldName() {
-		return worldTab.getName();
-	}
-	
-	public boolean worldIsVisible() {
-		return worldTab.tabVisible();
-	}
-	
-	public WorldTab getWorldTab() {
-		return worldTab;
+		worldCounter++;
+		
+		return "World #" + worldCounter;
 	}
 }

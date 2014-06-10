@@ -4,18 +4,17 @@ import java.util.ArrayList;
 
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.ParserException;
+import uk.org.wookey.IC.Utils.ServerPort;
 
 public class MCPNegotiate extends MCPHandler {
 	private boolean _negotiating = true;
 	private ArrayList<MCPPackage> _canList;
 	
-	public MCPNegotiate(WorldTab tab, MCPRoot mcpRoot) throws ParserException {
-		super("mcp-negotiate", "1.0", "2.0", tab, mcpRoot);
+	public MCPNegotiate(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
+		super("mcp-negotiate", "1.0", "2.0", svr, mcpRoot);
 		
 		_canList = new ArrayList<MCPPackage>();
 		_canList.clear();
-		
-		worldTab = tab;
 	}
 	
 	public void handle(MCPCommand command, String key) {
