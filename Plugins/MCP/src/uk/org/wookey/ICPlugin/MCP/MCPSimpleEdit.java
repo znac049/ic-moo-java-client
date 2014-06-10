@@ -1,6 +1,6 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 

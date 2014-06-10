@@ -2,10 +2,9 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
-import uk.org.wookey.IC.Utils.Player;
 
 public class MCPVisual extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCP Visual");
@@ -59,7 +58,7 @@ public class MCPVisual extends MCPHandler implements Runnable {
 				players.add(new Player(names[i], ids[i], locs[i], idles[i]));
 			}
 			
-			mcp.getWorldTab().getVisInfo().getPlayerList().setData(players);
+			//mcp.getWorldTab().getVisInfo().getPlayerList().setData(players);
 		}
 	}
 	

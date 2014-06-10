@@ -5,7 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import uk.org.wookey.IC.Editor.EditorForm;
-import uk.org.wookey.IC.Tabs.WorldTab;
+import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class MCPEditorForm extends EditorForm implements ActionListener {
@@ -13,12 +13,14 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 	private final Logger _logger = new Logger("MCPEditorForm");
 	private String _key;
 	private String _ref;
+	private WorldTab _tab;
 
 	public MCPEditorForm(String name, String ref, String type, String content, WorldTab tab, String key) {
-		super(name, type, content, tab);
+		super(name, type, content);
 		
 		_ref = ref;
 		_key = key;
+		_tab = tab;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -38,7 +40,7 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			
 			_logger.logMsg("Save back to MOO (MCP)!");
 			// worldTab.writeRemote(":blinks");
-			command.sendToServer(worldTab);
+			command.sendToServer(_tab);
 			setVisible(false);
 			dispose();
 		}
