@@ -2,13 +2,13 @@ package uk.org.wookey.IC.GUI;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,34 +22,45 @@ import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.newGUI.DebugTab;
 import uk.org.wookey.IC.newGUI.WorldTab;
 import uk.org.wookey.IC.newUtils.TabInterface;
-import uk.org.wookey.IC.newUtils.Tray;
 
-public class ApplicationWindow {
-	@SuppressWarnings("unused")
+public class ApplicationWindow extends JFrame {
+	private static final long serialVersionUID = 1L;
 	private final static Logger _logger = new Logger("ApplicationWindow");
-	private static JFrame appWindow = null;
 	private static JTabbedPane tabs;
 	
 	public ApplicationWindow() {
+		super("IC");
+		
+		GridBagConstraints gbc = new GridBagConstraints();
 		MainMenuBar menu;
 		
-		if (appWindow != null) {
-			return;
-		}
+		gbc.gridx = 0;
+		gbc.gridy = 0;
 		
-		appWindow = new JFrame("IC");
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
 		
-		appWindow.setSize(900, 700);
-		appWindow.setLocation(100, 0);
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.0;
+		
+		gbc.insets = new Insets(2, 2, 2, 2);
+		
+		gbc.fill = GridBagConstraints.BOTH;
+		
+		gbc.anchor = GridBagConstraints.PAGE_START;
+		
+		setSize(900, 700);
+		setLocation(100, 0);
 
-		appWindow.setLayout(new BoxLayout(appWindow.getContentPane(), BoxLayout.Y_AXIS));
+		setLayout(new GridBagLayout());
 		
-		appWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		menu = new MainMenuBar();
-		appWindow.setJMenuBar(menu);
+		menu.add(new QuickLaunch());
+		setJMenuBar(menu);
 		
-		appWindow.add(new QuickLaunch());
+		//add(new QuickLaunch(), gbc);
 		
 		tabs = new JTabbedPane();
 		// Turn the activity LED off when a tab gets focus
@@ -62,19 +73,21 @@ public class ApplicationWindow {
         menu.addTabs(tabs);
 
 		tabs.add("Console", new DebugTab());
-		appWindow.add(tabs);
 		
-		//appWindow.add(new MainStatusBar());
-		appWindow.add(MainStatusBar.getBar());
-		appWindow.setVisible(true);
+		gbc.gridy++;
+		gbc.weighty = 1.0;
+		add(tabs, gbc);
+		
+		gbc.gridy++;
+		gbc.weighty = 0.0;
+		
+		add(MainStatusBar.getBar(), gbc);
+		
+		setVisible(true);
 	}
 
 	public static void addTab(WorldTab tab) {
 		String title;
-		
-		if (appWindow == null) {
-			new ApplicationWindow();
-		}
 		
 		//Tray.activate();
 		

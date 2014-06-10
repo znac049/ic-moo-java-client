@@ -79,7 +79,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		screen = new Screen();
 		screen.setFocusable(true);
 		screen.requestFocusInWindow();
-		screen.addKeyListener(new KeyForwarder());	
+		//screen.addKeyListener(new KeyForwarder());	
 
 		JScrollPane scroller = new JScrollPane(screen);
 		scroller.setFocusable(false);
@@ -129,16 +129,20 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		screen.info("Connection closed");
 	}
 
-	private void add(Component c, int x, int y, double wx, double wy) {
+	private void add(Component c, int x, int y, double wx, double wy, int fill) {
 		GridBagConstraints constraints = new GridBagConstraints();
 		
 		constraints.gridx = x;
 		constraints.gridy = y;
 		constraints.weightx = wx;
 		constraints.weighty = wy;
-		constraints.fill = 1;
+		constraints.fill = fill;
 		
 		add(c, constraints);
+	}
+
+	private void add(Component c, int x, int y, double wx, double wy) {
+		add(c, x, y, wx, wy, GridBagConstraints.BOTH);
 	}
 	
 	private void attemptToConnect() {
