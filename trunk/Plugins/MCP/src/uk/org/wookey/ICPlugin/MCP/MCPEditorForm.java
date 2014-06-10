@@ -7,20 +7,20 @@ import javax.swing.*;
 import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.ServerPort;
 
 public class MCPEditorForm extends EditorForm implements ActionListener {
 	private static final long serialVersionUID = 8974376117801769307L;
 	private final Logger _logger = new Logger("MCPEditorForm");
 	private String _key;
 	private String _ref;
-	private WorldTab _tab;
-
-	public MCPEditorForm(String name, String ref, String type, String content, WorldTab tab, String key) {
+	private ServerPort _server;
+	public MCPEditorForm(String name, String ref, String type, String content, ServerPort svr, String key) {
 		super(name, type, content);
 		
 		_ref = ref;
 		_key = key;
-		_tab = tab;
+		_server = svr;
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -40,7 +40,7 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			
 			_logger.logMsg("Save back to MOO (MCP)!");
 			// worldTab.writeRemote(":blinks");
-			command.sendToServer(_tab);
+			command.sendToServer(_server);
 			setVisible(false);
 			dispose();
 		}

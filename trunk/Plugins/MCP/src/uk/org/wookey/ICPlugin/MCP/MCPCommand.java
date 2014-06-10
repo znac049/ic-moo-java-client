@@ -143,8 +143,7 @@ public class MCPCommand {
 		}
 	}
 	
-	public void sendToServer(WorldTab worldTab) {
-		ServerPort server = worldTab.getServerPort();
+	public void sendToServer(ServerPort server) {
 		String sessionKey = new MCPSession().getSessionKey();
 		String ref = getParam("reference");
 		String type = getParam("type");

@@ -3,21 +3,22 @@ package uk.org.wookey.ICPlugin.MCP;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
+import uk.org.wookey.IC.Utils.ServerPort;
 
 public class MCPHandler implements MCPHandlerInterface {
 	private Logger logger = new Logger("MCPHandler");
 	protected String name;
 	private MCPVersion minVersion;
 	private MCPVersion maxVersion;
-	protected WorldTab worldTab;
+	protected ServerPort server;
 	protected boolean negotiated;
 	protected MCPRoot mcp;
 	
-	public MCPHandler(String pkgName, String min, String max, WorldTab tab, MCPRoot mcpRoot) throws ParserException {
+	public MCPHandler(String pkgName, String min, String max, ServerPort svr, MCPRoot mcpRoot) throws ParserException {
 		name = pkgName;
 		minVersion = new MCPVersion(min);
 		maxVersion = new MCPVersion(max);
-		worldTab = tab;
+		server = svr;
 		mcp = mcpRoot;
 		negotiated = false;
 	}
@@ -59,6 +60,6 @@ public class MCPHandler implements MCPHandlerInterface {
 	
 	public void sendToServer(String line) {
 		logger.logMsg("MCP C->S: " + line);
-		worldTab.getServerPort().writeLine(line);
+		server.writeLine(line);
 	}
 }
