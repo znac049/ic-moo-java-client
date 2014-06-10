@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.util.prefs.Preferences;
 
 import uk.org.wookey.IC.GUI.ApplicationWindow;
+import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newGUI.WorldTab;
-import uk.org.wookey.IC.newUtils.PluginManager;
-import uk.org.wookey.IC.newUtils.Prefs;
-import uk.org.wookey.IC.newUtils.Worlds;
+import uk.org.wookey.IC.Utils.PluginManager;
+import uk.org.wookey.IC.Utils.Prefs;
+import uk.org.wookey.IC.Utils.Worlds;
 
 public class MainApplication {
 	private ApplicationWindow mainWindow;

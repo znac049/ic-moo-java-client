@@ -1,11 +1,7 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 import java.io.File;
 import java.util.ArrayList;
-
-import uk.org.wookey.IC.Utils.CorePlugin;
-import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.PluginLoader;
 
 public class PluginManager {
 	private static final Logger _logger = new Logger("PluginManager");

@@ -5,10 +5,8 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import uk.org.wookey.IC.Utils.KeyMap;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newGUI.KeyMapForm;
-import uk.org.wookey.IC.newGUI.WorldTab;
-import uk.org.wookey.IC.newUtils.KeyMap;
 
 
 public class MainMenuBar extends JMenuBar implements ActionListener {

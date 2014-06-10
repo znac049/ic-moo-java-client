@@ -1,6 +1,5 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
-import uk.org.wookey.IC.Utils.Logger;
 
 public class KeyMapping {
 	Logger _logger = new Logger("KeyMapping");

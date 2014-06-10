@@ -19,8 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.newGUI.WorldTab;
-import uk.org.wookey.IC.newUtils.TabInterface;
+import uk.org.wookey.IC.Utils.TabInterface;
 
 public class ApplicationWindow extends JFrame {
 	private static final long serialVersionUID = 1L;

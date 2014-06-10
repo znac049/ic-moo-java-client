@@ -1,10 +1,8 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
-
-import uk.org.wookey.IC.Utils.Logger;
 
 public class KeyMap {
 	private Logger _logger;

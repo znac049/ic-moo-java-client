@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,10 +7,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
-
-import uk.org.wookey.IC.Utils.CorePlugin;
-import uk.org.wookey.IC.Utils.IOPlugin;
-import uk.org.wookey.IC.Utils.Logger;
 
 public class ServerPort {
 	private Logger _logger = new Logger("ServerPort");

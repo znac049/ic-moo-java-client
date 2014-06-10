@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.newUtils;
+package uk.org.wookey.IC.Utils;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,7 +10,6 @@ import javax.script.ScriptEngine;
 
 import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.GUI.MacroEditorForm;
-import uk.org.wookey.IC.Utils.Logger;
 
 public class Macro {
 	private enum MacroType {
