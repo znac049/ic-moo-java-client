@@ -91,7 +91,7 @@ public class MainMenuBar extends JMenuBar implements ActionListener {
 				
 				if (tab instanceof WorldTab) {
 					_logger.logInfo("Find the keymap of the worldtab");
-					new KeyMapForm(((WorldTab) tab).getKeyMap());
+					new KeyMapForm((WorldTab) tab);
 				}
 			}
 		}

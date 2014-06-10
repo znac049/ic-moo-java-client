@@ -66,7 +66,6 @@ public class ApplicationWindow {
 		
 		//appWindow.add(new MainStatusBar());
 		appWindow.add(MainStatusBar.getBar());
-		
 		appWindow.setVisible(true);
 	}
 

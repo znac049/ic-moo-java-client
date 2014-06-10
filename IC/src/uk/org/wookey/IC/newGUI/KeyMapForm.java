@@ -27,21 +27,18 @@ import uk.org.wookey.IC.newUtils.KeyMapping;
 import uk.org.wookey.IC.newUtils.Macro;
 import uk.org.wookey.IC.newUtils.MacroManager;
 import uk.org.wookey.IC.newUtils.VerticalPanel;
-import webBoltOns.layoutManager.GridFlowLayout;
-import webBoltOns.layoutManager.GridFlowLayoutParameter;
-import java.awt.FlowLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
 
 public class KeyMapForm extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private Logger _logger = new Logger("KeyMapForm");
+	private WorldTab worldTab;
 	
 	private JList keyList;
 	
-	public KeyMapForm(KeyMap map) {
+	public KeyMapForm(WorldTab tab) {
 		super("Key Maps");
+		
+		worldTab = tab;
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -51,14 +48,14 @@ public class KeyMapForm extends JFrame {
 
 		getContentPane().setLayout(new BorderLayout());
 		
-		getContentPane().add(makeListOfBindings(map), BorderLayout.LINE_START);
+		getContentPane().add(makeListOfBindings(worldTab.getKeyMap()), BorderLayout.LINE_START);
 		
 		getContentPane().add(makeBindingPanel(), BorderLayout.CENTER);
 		
 		getContentPane().add(makeButtonsPanel(), BorderLayout.PAGE_END);
 		
 		setLocation(300, 300);
-		pack();
+		//pack();
 		setResizable(false);
 		setVisible(true);
 	}
@@ -98,8 +95,6 @@ public class KeyMapForm extends JFrame {
 		codeBox.setBorder(new LineBorder(Color.black));
 		codeBox.setPreferredSize(new Dimension(100, 100));
 		panel.add(codeBox);
-		codeBox.setLayout(new FormLayout(new ColumnSpec[] {},
-			new RowSpec[] {}));
 		
 		lab = new JLabel("Macro");
 		lab.setAlignmentX(CENTER_ALIGNMENT);
@@ -176,6 +171,9 @@ public class KeyMapForm extends JFrame {
 			}
 			else if (cmd.equalsIgnoreCase("Save")) {
 				_logger.logInfo("Need to code save");
+				worldTab.getKeyMap().save(worldTab.getPrefs());
+				setVisible(false);
+				dispose();
 			}
 			
 		}		

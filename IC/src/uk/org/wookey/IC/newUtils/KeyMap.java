@@ -1,6 +1,8 @@
 package uk.org.wookey.IC.newUtils;
 
 import java.util.ArrayList;
+import java.util.prefs.BackingStoreException;
+import java.util.prefs.Preferences;
 
 import uk.org.wookey.IC.Utils.Logger;
 
@@ -61,5 +63,53 @@ public class KeyMap {
 	
 	public ArrayList<KeyMapping> getMappings() {
 		return map;
+	}
+	
+	public boolean save(Preferences parentPrefs) {
+		Preferences prefs = parentPrefs.node("KeyMap");
+
+		_logger.logInfo("Saving keymap to node " + prefs.absolutePath());
+		
+		for (KeyMapping km: map) {
+			KeyCode key = new KeyCode(km.getKeyCode());
+			String keyName = key.toString(); 
+			Preferences p = prefs.node(keyName);
+			
+			_logger.logInfo("Saving key " + key.toString());
+			p.putInt("KeyCode", km.getKeyCode());
+			p.put("Macro", km.getMacro().getName());
+		}
+		
+		try {
+			prefs.flush();
+		} catch (BackingStoreException e1) {
+			_logger.logError("Failed to flush preferences at " + prefs.absolutePath());
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean load(Preferences parentPrefs) {
+		Preferences prefs = parentPrefs.node("KeyMap");
+
+		_logger.logInfo("Loading keymap from node " + prefs.absolutePath());
+
+		try {
+			for (String nodeName: prefs.childrenNames()) {
+				Preferences p = prefs.node(nodeName);
+				KeyCode keyCode = new KeyCode(p.getInt("KeyCode", 0));
+				String macroName = p.get("Macro", "");
+				
+				add(keyCode, macroName);
+				
+				_logger.logInfo("Loading key " + nodeName + " for " + macroName);
+			}
+		} catch (BackingStoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return true;
 	}
 }
