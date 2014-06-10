@@ -2,7 +2,11 @@ package uk.org.wookey.IC.newGUI;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
 import uk.org.wookey.IC.Utils.Logger;
@@ -46,25 +51,81 @@ public class KeyMapForm extends JFrame {
 		requestFocusInWindow();
 		addKeyListener(new KeyHandler());
 
-		getContentPane().setLayout(new BorderLayout());
+		getContentPane().setLayout(new GridBagLayout());
+		layoutContents();
 		
-		getContentPane().add(makeListOfBindings(worldTab.getKeyMap()), BorderLayout.LINE_START);
-		
-		getContentPane().add(makeBindingPanel(), BorderLayout.CENTER);
-		
-		getContentPane().add(makeButtonsPanel(), BorderLayout.PAGE_END);
-		
+		setSize(500, 250);
 		setLocation(300, 300);
-		//pack();
+		pack();
 		setResizable(false);
 		setVisible(true);
 	}
 	
-	private JPanel makeListOfBindings(KeyMap map) {
-		VerticalPanel panel = new VerticalPanel();
+	private void layoutContents() {
+		Container panel = getContentPane();
+		GridBagConstraints gbc = new GridBagConstraints();
+		
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		
+		gbc.gridwidth = 1;
+		gbc.gridheight = 1;
+		
+		gbc.insets = new Insets(2, 2, 2, 2);
+		
+		//gbc.fill = GridBagConstraints.BOTH;
+		
+		gbc.anchor = GridBagConstraints.CENTER;
+		
+		JLabel lab1 = new JLabel("Current Bindings");
+		panel.add(lab1, gbc);
+		
+		JLabel lab2 = new JLabel("Key to Map");
+		gbc.gridx++;
+		panel.add(lab2, gbc);
 
-		panel.add(new JLabel("Current Bindings"));
+		JLabel lab3 = new JLabel("Macro");
+		gbc.gridx++;
+		panel.add(lab3, gbc);
 
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridheight = 3;
+		add(makeListOfBindings(worldTab.getKeyMap()), gbc);
+		
+		gbc.gridx = 1;
+		gbc.gridheight = 1;
+		add(makeBindingPanel(), gbc);
+		
+		gbc.gridx = 2;
+		gbc.fill = GridBagConstraints.SOUTH;
+		add(makeListOfMacros(), gbc);
+		
+		JTextArea help = new JTextArea();
+		help.setLineWrap(true);
+		help.setText("willy wily had a coo!");
+		help.setEditable(false);
+		
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.BOTH;
+		add(help, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		gbc.gridwidth = 3;
+		gbc.fill = GridBagConstraints.NONE;
+		panel.add(makeButtonsPanel(), gbc);
+		//getContentPane().add(makeListOfBindings(worldTab.getKeyMap()), BorderLayout.LINE_START);
+		
+		//getContentPane().add(makeBindingPanel(), BorderLayout.CENTER);
+		
+		//getContentPane().add(makeButtonsPanel(), BorderLayout.PAGE_END);
+			
+	}
+	
+	private JScrollPane makeListOfBindings(KeyMap map) {
 		// Populate the key list with all existing key mappings
 		DefaultListModel model = new DefaultListModel();
 		ArrayList<KeyMapping> mappings = map.getMappings();
@@ -78,44 +139,29 @@ public class KeyMapForm extends JFrame {
 		keyList = new JList(model);
 		keyList.setBorder(new LineBorder(Color.black));
 		keyList.setSelectedIndex(0);
-		panel.add(new JScrollPane(keyList));
-				
-		return panel;
+		
+		return new JScrollPane(keyList);
 	}
 	
-	private JPanel makeBindingPanel() {
-		VerticalPanel panel = new VerticalPanel();
-		
-		JLabel lab = new JLabel("Key Code");
-		lab.setAlignmentX(CENTER_ALIGNMENT);
-		panel.add(lab);
-
-		JPanel codeBox = new JPanel();
-		codeBox.setAlignmentX(CENTER_ALIGNMENT);
-		codeBox.setBorder(new LineBorder(Color.black));
-		codeBox.setPreferredSize(new Dimension(100, 100));
-		panel.add(codeBox);
-		
-		lab = new JLabel("Macro");
-		lab.setAlignmentX(CENTER_ALIGNMENT);
-		panel.add(lab);
-
+	private JComboBox makeListOfMacros() {
 		JComboBox macroList = new JComboBox();
 		macroList.setAlignmentX(CENTER_ALIGNMENT);
 		for (Macro macro: MacroManager.getMacroList()) {
 			macroList.addItem(new ComboItem(macro.getName(), macro.getName()));
 		}
 		macroList.setEditable(true);
-		panel.add(macroList);
-		
-		JLabel help = new JLabel();
-		help.setAlignmentX(CENTER_ALIGNMENT);
-		help.setBorder(new LineBorder(Color.black));
-		help.setPreferredSize(new Dimension(250, 100));
-		help.setText("Select a macro to bind to or type the name of a new macro");
-		panel.add(help);
 
-		return panel;
+		return macroList;
+	}
+	
+	private JPanel makeBindingPanel() {
+		JPanel codeBox = new JPanel();
+		codeBox.setAlignmentX(CENTER_ALIGNMENT);
+		codeBox.setBorder(new LineBorder(Color.black));
+		codeBox.setPreferredSize(new Dimension(100, 100));
+		codeBox.setBackground(new Color(0, 128, 128));
+		
+		return codeBox;
 	}
 
 	private JPanel makeButtonsPanel() {
