@@ -1,4 +1,4 @@
-#description of macros and how they can make your life easier
+#summary description of macros and how they can make your life easier
 
 = Introduction =
 Macros are ways of automating aspects of your interaction with the remote world. Macros can exert some control over the behaviour of IC and both send and receive data from the remote world.
