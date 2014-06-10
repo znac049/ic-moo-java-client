@@ -45,7 +45,7 @@ public class KeyMapping {
 		return key;
 	}
 	
-	public String getMacroName() {
-		return "{bilbo}";
+	public Macro getMacro() {
+		return macro;
 	}
 }

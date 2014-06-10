@@ -99,23 +99,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	}
 	
 	private void setupKeyMap() {
-		KeyCode key = new KeyCode();
-		
-		key.ctrl(true);
-		key.set(KeyEvent.VK_H);
-		
-		if (worldName == null) {
-			keyMap = new KeyMap(hostName, jsEngine, server);
-		}
-		else {
-			keyMap = new KeyMap(worldName, jsEngine, server);
-		}
-		
-		keyMap.add(key, "help");
-		
-		key.set(KeyEvent.VK_L);
-		keyMap.add(key,  "lookaround");
-
+		keyMap.load(prefs);
 	}
 	
 	public void runThread() {		
