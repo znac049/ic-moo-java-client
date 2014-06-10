@@ -112,7 +112,7 @@ public class ServerPort {
 			_logger.logInfo("No IOPlugins found");
 		}
 		else {
-			_logger.logInfo("The following IOPlugins were loaded:");
+			_logger.logInfo("The following " + plugins.size() + " IOPlugins were loaded:");
 			for (CorePluginInterface plugin: plugins) {
 				IOPlugin p = (IOPlugin) plugin;
 				
