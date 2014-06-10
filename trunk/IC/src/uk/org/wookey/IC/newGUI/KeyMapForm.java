@@ -159,7 +159,8 @@ public class KeyMapForm extends JFrame {
 		codeBox.setAlignmentX(CENTER_ALIGNMENT);
 		codeBox.setBorder(new LineBorder(Color.black));
 		codeBox.setPreferredSize(new Dimension(100, 100));
-		codeBox.setBackground(new Color(0, 128, 128));
+		codeBox.setBackground(new Color(240, 224, 64));
+		codeBox.setBorder(new LineBorder(Color.black));
 		
 		return codeBox;
 	}
