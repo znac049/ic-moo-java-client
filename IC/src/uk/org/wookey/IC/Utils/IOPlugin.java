@@ -3,8 +3,7 @@ package uk.org.wookey.IC.Utils;
 import uk.org.wookey.IC.GUI.WorldTab;
 
 public class IOPlugin extends CorePlugin implements IOPluginInterface {
-	//private Logger _logger = new Logger("Base Plugin");
-	//protected WorldTab _worldTab = null;
+	private Logger _logger = new Logger("Base Plugin");
 	protected String _worldName = null;
 	protected boolean _enabled = false; // Disabled by default
 
@@ -33,6 +32,8 @@ public class IOPlugin extends CorePlugin implements IOPluginInterface {
 
 	@Override
 	public boolean attach(ServerPort serverPort) {
+		_logger.logInfo("Attaching to ServerPort");
+		
 		server = serverPort;
 		
 		return true;
