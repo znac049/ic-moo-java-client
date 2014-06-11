@@ -18,13 +18,11 @@ public class MCPRoot extends IOPlugin {
 	public MCPSession _mcpSession;
 	private CoreHandler _core;
 	private ArrayList<MCPHandler> _handlers;
-	private ServerPort _server;
 	private String outOfBandToken = "#$#";
 
-	public MCPRoot(ServerPort server) throws ParserException {
+	public MCPRoot(ServerPort svr) throws ParserException {
 		_minVer = new MCPVersion("2.1");
 		_maxVer = new MCPVersion("2.1");
-		_server = server;
 		_mcpSession = new MCPSession();
 		_handlers = new ArrayList<MCPHandler>();
 		
@@ -33,9 +31,11 @@ public class MCPRoot extends IOPlugin {
 		try {
 			_core = new CoreHandler(server, this);
 			_handlers.add(_core);
-			_handlers.add(new MCPNegotiate(server, this));
-			_handlers.add(new MCPSimpleEdit(server, this));
-			_handlers.add(new MCPVisual(server, this));
+			_handlers.add(new MCPNegotiate(svr, this));
+			_handlers.add(new MCPSimpleEdit(svr, this));
+			_handlers.add(new MCPVisual(svr, this));
+
+			attach(svr);
 		} catch (ParserException e) {
 			// Any handler that generates an exception just gets binned.
 			_logger.logMsg("Caught MCP Exception");
@@ -136,7 +136,12 @@ public class MCPRoot extends IOPlugin {
 	
 	private void sendToServer(String line) {
 		_logger.logMsg("MCP C->S: " + line);
-		server.writeLine(line);
+		if (server != null) {
+			server.writeLine(line);
+		}
+		else {
+			_logger.logError("server is NULL in MCP.sendToServer");
+		}
 	}
 	
 	private MCPHandler findHandler(String command) {
