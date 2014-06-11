@@ -34,6 +34,7 @@ public class MCPRoot extends IOPlugin {
 			_handlers.add(new MCPNegotiate(svr, this));
 			_handlers.add(new MCPSimpleEdit(svr, this));
 			_handlers.add(new MCPVisual(svr, this));
+			_handlers.add(new MCPServerInfo(svr, this));
 
 			attach(svr);
 		} catch (ParserException e) {
