@@ -60,6 +60,8 @@ public class ServerPort {
 				Line l = new Line(line);
 				boolean consumed = false;
 				
+				_logger.logSuccess("S->C: " + line);
+				
 				if (plugins != null) {
 					for (CorePluginInterface plugin: plugins) {
 						IOPlugin p = (IOPlugin) plugin;
@@ -90,6 +92,8 @@ public class ServerPort {
 	}
 	
 	public void writeLine(String line) {
+		_logger.logSuccess("C->S: " + line);
+		
 		remoteOutput.println(line);
 		remoteOutput.flush();
 	}
