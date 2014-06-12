@@ -19,14 +19,15 @@ public class MCPRoot extends IOPlugin {
 	private CoreHandler _core;
 	private ArrayList<MCPHandler> _handlers;
 	private String outOfBandToken = "#$#";
+	public String authKey;
 
 	public MCPRoot(ServerPort svr) throws ParserException {
 		_minVer = new MCPVersion("2.1");
 		_maxVer = new MCPVersion("2.1");
 		_mcpSession = new MCPSession();
 		_handlers = new ArrayList<MCPHandler>();
-		
-		//_handlers.clear();
+
+		authKey = "Woozle42";
 		
 		try {
 			_core = new CoreHandler(server, this);
@@ -35,6 +36,7 @@ public class MCPRoot extends IOPlugin {
 			_handlers.add(new MCPSimpleEdit(svr, this));
 			_handlers.add(new MCPVisual(svr, this));
 			_handlers.add(new MCPServerInfo(svr, this));
+			_handlers.add(new MCPTimezone(svr, this));
 
 			attach(svr);
 		} catch (ParserException e) {
@@ -93,16 +95,14 @@ public class MCPRoot extends IOPlugin {
 				_maxVer = _maxVer.min(cmd.getParam("to"));
 				
 				// Tell the other end that we do MCP too!
-				String key = _mcpSession.getSessionKey();
-				sendToServer("#$#mcp authentication-key: " + key + " version: " + _minVer + " to: " + _maxVer);
-				//sendToServer("#$#mcp-negotiate-can " + key + " package: mcp-negotiate min-version: 1.0 max-version: 2.0");
+				sendToServer("#$#mcp authentication-key: " + authKey + " version: " + _minVer + " to: " + _maxVer);
 
 				//Tell the other end what we can do...
 				for (int i=0; i<_handlers.size(); i++) {
 					MCPHandler h = _handlers.get(i);
-					sendToServer("#$#mcp-negotiate-can " + key + " package: " + h.getName() + " min-version: " + h.getMinVersion() + " max-version: " + h.getMaxVersion());
+					sendToServer("#$#mcp-negotiate-can " + authKey + " package: " + h.getName() + " min-version: " + h.getMinVersion() + " max-version: " + h.getMaxVersion());
 				}
-				sendToServer("#$#mcp-negotiate-end " + key);
+				sendToServer("#$#mcp-negotiate-end " + authKey);
 			}
 			catch (ParserException e) {
 				// Do nothing
@@ -120,7 +120,8 @@ public class MCPRoot extends IOPlugin {
 			if (h != null) {
 				//_logger.logMsg("Handler for '" + cmdName + "' is " + h.getName());
 				
-				h.handle(cmd, _mcpSession.getSessionKey());
+				//h.handle(cmd, _mcpSession.getSessionKey());
+				h.handle(cmd, authKey);
 				return null;
 			}
 			else {
