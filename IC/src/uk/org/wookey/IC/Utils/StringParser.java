@@ -1,8 +1,8 @@
 package uk.org.wookey.IC.Utils;
 
 public class StringParser {
-	//private final Logger _logger = new Logger("StringParser");
-	private String _line;
+	private final Logger _logger = new Logger("StringParser");
+	protected String _line;
 	
 	public StringParser(String line) {
 		_line = line;
@@ -16,6 +16,8 @@ public class StringParser {
 		int space = _line.indexOf(' ');
 		int quote = _line.indexOf('"');
 		String item = "";
+		
+		//_logger.logInfo("Line: '" + _line + "'");
 		
 		if ((space == -1) && (quote == -1)) {
 			item = _line;

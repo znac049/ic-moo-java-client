@@ -25,7 +25,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	private Logger _logger = new Logger("WorldTab");
 	private Screen screen;
 	private JTextField keyboard;
-	
+	private StatusPanel infoPanel;
 	private ServerPort server;
 	private LED statusLED;
 	
@@ -99,6 +99,9 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		keyboard.addActionListener(this);
 		keyboard.addKeyListener(kh);
 		add(keyboard, 0, 1, 1.0, 0.0);
+		
+		infoPanel = new StatusPanel();
+		add(infoPanel, 0, 2, 1.0, 0.0);
 	}
 	
 	private void setupKeyMap() {
