@@ -30,6 +30,7 @@ public class LocalEditorForm extends EditorForm implements ActionListener {
 		}
 		else if (cmd.equalsIgnoreCase("Save")) {
 			_logger.logMsg("Save back to MOO (OOB)!");
+			saveLocalCopy();
 			server.writeLine(_upload);
 			server.writeLine(_editor.getText());
 			server.writeLine(".");
