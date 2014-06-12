@@ -2,6 +2,8 @@ package uk.org.wookey.IC.Editor;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.*;
 
@@ -13,6 +15,7 @@ public class EditorForm extends JFrame implements ActionListener {
 	private final Logger _logger = new Logger("EditorForm");
 	protected String _type;
 	protected GenericEditor _editor;
+	protected String saveName;
 	
 	public EditorForm(String name, String type, String content) {
 		super();
@@ -43,13 +46,17 @@ public class EditorForm extends JFrame implements ActionListener {
 		_type = type;
 		if (type.equalsIgnoreCase("moo-code")) {
 			_editor = new MOOCodeEditor();
+			saveName = name + ".moo";
 		}
 		else if (type.equalsIgnoreCase("Javascript") | type.equalsIgnoreCase("JS")) {
 			_editor = new JavascriptEditor();
+			saveName = name + ".js";
 		}
 		else {
 			_editor = new GenericEditor();
+			saveName = name + ".txt";
 		}
+		
 		_editor.colourize(content);
 		setTitle(_editor.editorName() + ": " + name);
 
@@ -75,5 +82,20 @@ public class EditorForm extends JFrame implements ActionListener {
 			setVisible(false);
 			dispose();
 		}
+	}
+	
+	public boolean saveLocalCopy() {
+		_logger.logInfo("Save local copy");
+		
+		try {
+			_editor.write(new FileWriter("code/" + saveName));
+		} catch (IOException e) {
+			_logger.logError("Failed to save local copy of document");
+			return false;
+		}
+		
+		_logger.logSuccess("Saved local copy to 'code/" + saveName + "'");
+		
+		return true;
 	}
 }
