@@ -2,11 +2,9 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerPort;
-import uk.org.wookey.IC.Utils.StringParser;
 
 public class MCPCommand {
 	private String _line;
@@ -17,23 +15,22 @@ public class MCPCommand {
 	
 	public MCPCommand() {
 		_line = null;
-		_name = null;
+		_name = "mcp-nopackage";
 		_key = null;
 		_params = new ArrayList<MCPParam>();
-		_params.clear();	
 	}
 	
 	public void parseLine(String line) throws ParserException {
 		_line = line;
 		
-		StringParser parser = new StringParser(line);
+		MCPStringParser parser = new MCPStringParser(line);
 		String next;
 		try {
 			_name = parser.nextItem();
+			//_logger.logInfo("Name=" + _name);
 
 			next = parser.nextItem();
 		} catch (uk.org.wookey.IC.Utils.ParserException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return;
 		}
@@ -144,22 +141,44 @@ public class MCPCommand {
 	}
 	
 	public void sendToServer(ServerPort server) {
-		String sessionKey = new MCPSession().getSessionKey();
-		String ref = getParam("reference");
-		String type = getParam("type");
-		String line = "#$#dns-org-mud-moo-simpleedit-set " + _key + " reference: " + 
-				ref + " type: " + type + " content*: " + '"' + '"' + " _data-tag: " + 
-				sessionKey;
-				
-		server.writeLine(line);
+		String line = "#$#" + getName() + " " + _key;
+		boolean multiline = false;
 		
-		// Now send each line as a continuation
-		String lines[] = getParam("content*").split("\n");
-		for (int i=0; i<lines.length; i++) {
-			line = "#$#* " + sessionKey + " content: " + lines[i];
+		for (MCPParam para: _params) {
+			if (para.requiresMultiline()) {
+				line = line + " " + para.getKey() + ": \"\"";
+				multiline = true;
+			}
+			else {
+				line = line + " " + para.getKey() + ": " + para.getValueQuoteSafe();
+			}
+		}
+		
+		if (!multiline) {
 			server.writeLine(line);
 		}
-		server.writeLine("#$#: " + sessionKey);
+		else {
+			String sessionKey = new MCPSession().getSessionKey();
+
+			server.writeLine(line + " " + sessionKey);
+			
+			for (MCPParam para: _params) {
+				if (para.requiresMultiline()) {
+					String key = para.getKey();
+					key = key.substring(0, key.length() - 1);
+
+					String prefix = "#$#* " + sessionKey + " " + key + ": ";
+					
+					// Now send each line as a continuation
+					String lines[] = para.getValue().split("\n");
+					for (int i=0; i<lines.length; i++) {
+						server.writeLine(prefix + lines[i]);
+					}
+				}
+			}
+				
+			server.writeLine("#$#: " + sessionKey);
+		}
 	}
 
 	public void addParam(String key, String value) {

@@ -17,6 +17,6 @@ public class MCPSession {
 	}
 	
 	public String getSessionKey() {
-		return "IC-" + _sessionId;
+		return "IC-" + Long.toHexString(_sessionId);
 	}
 }

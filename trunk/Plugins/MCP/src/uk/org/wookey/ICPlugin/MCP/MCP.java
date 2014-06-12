@@ -16,7 +16,7 @@ import uk.org.wookey.IC.Utils.IOPluginInterface.Status;
 public class MCP extends IOPlugin {
 	public final Logger _logger = new Logger("MCP");
 	private String outOfBandToken = "#$#";
-	private StringParser cmdParser = new StringParser("");
+	private MCPStringParser cmdParser = new MCPStringParser("");
 	private MCPRoot mcp = null;
 
 	public boolean activate() {		

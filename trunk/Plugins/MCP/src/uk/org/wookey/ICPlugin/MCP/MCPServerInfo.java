@@ -1,13 +1,11 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import java.util.ArrayList;
-
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerPort;
 
 public class MCPServerInfo extends MCPHandler implements Runnable {
-	private Logger _logger = new Logger("MCP Visual");
+	private Logger _logger = new Logger("MCP ServerInfo");
 	
 	public MCPServerInfo(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
 		super("dns-com-awns-serverinfo", "1.0", "1.0", svr, mcpRoot);
@@ -29,18 +27,11 @@ public class MCPServerInfo extends MCPHandler implements Runnable {
 	}
 	
 	public void run() {
-		String command = name + "-get " + mcp._mcpSession.getSessionKey();
+		MCPCommand command = new MCPCommand();
+		command.setName(name);
 		
-		while (true) {
-			mcp.sendMCPCommand(command);
-
-			try {
-				Thread.sleep(30000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+		command.setKey(mcp.authKey);
+		command.sendToServer(server);
 	}
-
 }
 

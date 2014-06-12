@@ -27,6 +27,14 @@ public class MCPParam {
 		return _value;
 	}
 	
+	public String getValueQuoteSafe() {
+		if (_value.indexOf(' ') >= 0) {
+			return '"' + _value + '"';
+		}
+		
+		return _value;
+	}
+	
 	public void setKey(String key) {
 		if (key.endsWith(":")) {
 			_key = key.substring(0, key.length()-1);
@@ -42,5 +50,17 @@ public class MCPParam {
 	
 	public void appendValue(String extra) {
 		_value += extra;
+	}
+	
+	public boolean requiresMultiline() {
+		if (_key.length() == 0) {
+			return false;
+		}
+		
+		if (_key.charAt(_key.length() - 1) == '*') {
+			return true;
+		}
+		
+		return false;
 	}
 }
