@@ -47,6 +47,8 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			dispose();
 		}
 		else if (cmd.equalsIgnoreCase("Upload")) {
+			saveLocalCopy();
+
 			MCPCommand command = new MCPCommand();
 			command.setName("dns-org-mud-moo-simpleedit-set");
 			command.setAuthKey(_key);
@@ -57,6 +59,8 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			command.sendToServer(_server);
 		}
 		else if (cmd.equalsIgnoreCase("Save")) {
+			saveLocalCopy();
+
 			MCPCommand command = new MCPCommand();
 			command.setName("dns-org-mud-moo-simpleedit-set");
 			command.setAuthKey(_key);
