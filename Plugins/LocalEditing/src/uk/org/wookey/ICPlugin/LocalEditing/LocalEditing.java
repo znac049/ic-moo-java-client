@@ -34,11 +34,11 @@ public class LocalEditing extends IOPlugin {
 		line = line.substring(outOfBandToken.length());
 		cmdParser.setString(line.trim());
 		
-		_logger.logMsg("Handle '" + line + "'");
+		//_logger.logMsg("Handle '" + line + "'");
 
 		try {
 			cmd = cmdParser.nextItem();
-			_logger.logMsg("Command is '" + cmd + "'");
+			//_logger.logMsg("Command is '" + cmd + "'");
 			
 			if (cmd.equalsIgnoreCase("edit")) {
 				String type = "moo-code";
@@ -59,10 +59,10 @@ public class LocalEditing extends IOPlugin {
 				name = name.trim();
 				upload = cmdParser.getRemainingLine().trim();
 				
-				_logger.logMsg("Name='" + name + "'");
-				_logger.logMsg("Upload='" + upload + "'");
-				_logger.logMsg("Type='" + type + "'");
-				_logger.logMsg("Content='" + content + "'");
+				//_logger.logMsg("Name='" + name + "'");
+				//_logger.logMsg("Upload='" + upload + "'");
+				//_logger.logMsg("Type='" + type + "'");
+				//_logger.logMsg("Content='" + content + "'");
 				
 				new LocalEditorForm(name, type, upload, content, server);
 
@@ -81,12 +81,12 @@ public class LocalEditing extends IOPlugin {
 		String line;
 		
 		line = server.readLine();
-		_logger.logMsg("Gobble: '" + line + "'");
+		//_logger.logMsg("Gobble: '" + line + "'");
 			
 		while (line.compareTo(".") != 0) {
 			gobbled += line + '\n';
 			line = server.readLine();
-			_logger.logMsg("Gobble: '" + line + "'");
+			//_logger.logMsg("Gobble: '" + line + "'");
 		}
 		
 		return gobbled;
