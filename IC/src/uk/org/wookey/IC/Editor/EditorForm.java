@@ -47,15 +47,15 @@ public class EditorForm extends JFrame implements ActionListener {
 		_type = type;
 		if (type.equalsIgnoreCase("moo-code")) {
 			_editor = new MOOCodeEditor();
-			saveName = name + ".moo";
+			saveName = _editor.sanitizeMOOName(name) + ".moo";
 		}
 		else if (type.equalsIgnoreCase("Javascript") | type.equalsIgnoreCase("JS")) {
 			_editor = new JavascriptEditor();
-			saveName = name + ".js";
+			saveName = _editor.sanitizeMOOName(name) + ".js";
 		}
 		else {
 			_editor = new GenericEditor();
-			saveName = name + ".txt";
+			saveName = _editor.sanitizeMOOName(name) + ".txt";
 		}
 		
 		_editor.colourize(content);
@@ -86,7 +86,7 @@ public class EditorForm extends JFrame implements ActionListener {
 	}
 	
 	public boolean saveLocalCopy() {
-		_logger.logInfo("Save local copy");
+		_logger.logInfo("Save local copy to '" + saveName + "'");
 		
 		try {
 			_editor.write(new FileWriter("code/" + saveName));

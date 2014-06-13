@@ -79,7 +79,7 @@ public class ApplicationWindow extends JFrame {
 		gbc.gridy++;
 		gbc.weighty = 0.0;
 		
-		add(MainStatusBar.getBar(), gbc);
+		//add(MainStatusBar.getBar(), gbc);
 		
 		setVisible(true);
 	}

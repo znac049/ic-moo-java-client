@@ -92,7 +92,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		historyIndex = 0;
 		
 		keyboard = new JTextField();
-		Font font = new Font("Courier", Font.BOLD, 14);
+		Font font = new Font("Courier", Font.BOLD, 16);
 		keyboard.setFont(font);
 		keyboard.requestFocus();
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));

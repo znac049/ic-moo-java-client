@@ -2,15 +2,31 @@ package uk.org.wookey.IC.Editor;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.BoxView;
+import javax.swing.text.ComponentView;
 import javax.swing.text.Document;
+import javax.swing.text.Element;
+import javax.swing.text.IconView;
+import javax.swing.text.LabelView;
+import javax.swing.text.ParagraphView;
+import javax.swing.text.PlainDocument;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledEditorKit;
+import javax.swing.text.View;
+import javax.swing.text.ViewFactory;
+
+import uk.org.wookey.IC.Utils.Logger;
 
 public class GenericEditor extends JTextPane {
-	private static final long serialVersionUID = -2687827440556254316L;
+	private Logger _logger = new Logger("GenericEditor");
+	private static final long serialVersionUID = 1L;
 	protected SimpleAttributeSet normalAttributes;
 	protected SimpleAttributeSet reservedWordAttributes;
 	protected SimpleAttributeSet seperatorAttributes;
@@ -25,17 +41,20 @@ public class GenericEditor extends JTextPane {
 		
 		myName = "Text";
 		
+		setEditorKit(new NumberedEditorKit());
+		
 		normalAttributes = new SimpleAttributeSet();
 		StyleConstants.setForeground(normalAttributes, Color.black);
 		
 		reservedWordAttributes = new SimpleAttributeSet();
-		StyleConstants.setForeground(reservedWordAttributes, new Color(212, 116, 2));
+		StyleConstants.setForeground(reservedWordAttributes, new Color(0x73, 0x04, 0x73));
+		StyleConstants.setBold(reservedWordAttributes, true);
 		
 		seperatorAttributes = new SimpleAttributeSet();
-		StyleConstants.setForeground(seperatorAttributes, Color.blue);
+		StyleConstants.setForeground(seperatorAttributes, Color.red);
 		
 		stringAttributes = new SimpleAttributeSet();
-		StyleConstants.setForeground(stringAttributes, Color.red);
+		StyleConstants.setForeground(stringAttributes, Color.blue);
 		StyleConstants.setItalic(stringAttributes, true);
 		
 		reservedWords = new ReservedWordList(reservedWordAttributes);
@@ -114,5 +133,90 @@ public class GenericEditor extends JTextPane {
 		}
 				
 		append(content.substring(startingIndex), normalAttributes);
+	}
+	
+	public String sanitizeMOOName(String target) {
+		target = target.replaceAll("^Verb: ", "");
+		target = target.replaceAll("[: ]", "-");
+		
+		_logger.logInfo("Sanitised name: '" + target + "'");
+		
+		return target;
+	}
+	
+	class NumberedEditorKit extends StyledEditorKit {
+	    public ViewFactory getViewFactory() {
+	        return new NumberedViewFactory();
+	    }
+	}
+	
+	class NumberedViewFactory implements ViewFactory {
+		@Override
+		public View create(Element elem) {
+	        String kind = elem.getName();
+	        if (kind != null) {
+	            if (kind.equals(AbstractDocument.ContentElementName)) {
+	                return new LabelView(elem);
+	            }
+	            else if (kind.equals(AbstractDocument.ParagraphElementName)) {
+	                return new NumberedParagraphView(elem);
+	            }
+	            else if (kind.equals(AbstractDocument.SectionElementName)) {
+	                return new BoxView(elem, View.Y_AXIS);
+	            }
+	            else if (kind.equals(StyleConstants.ComponentElementName)) {
+	                return new ComponentView(elem);
+	            }
+	            else if (kind.equals(StyleConstants.IconElementName)) {
+	                return new IconView(elem);
+	            }
+	        }
+	        
+	        // default to text display
+	        return new LabelView(elem);
+	    }
+	}
+	
+	class NumberedParagraphView extends ParagraphView {
+	    public static final short NUMBERS_WIDTH=25;
+
+	    public NumberedParagraphView(Element e) {
+	        super(e);
+	        short top = 0;
+	        short left = 0;
+	        short bottom = 0;
+	        short right = 0;
+	        this.setInsets(top, left, bottom, right);
+	    }
+
+	    protected void setInsets(short top, short left, short bottom, short right) {
+	    	super.setInsets(top,(short)(left+NUMBERS_WIDTH),bottom,right);
+	    }
+
+	    public void paintChild(Graphics g, Rectangle r, int n) {
+	        super.paintChild(g, r, n);
+	        
+	        int previousLineCount = getPreviousLineCount();
+	        int numberX = r.x - getLeftInset();
+	        int numberY = r.y + r.height - 5;
+	        g.drawString(Integer.toString(previousLineCount + n + 1),
+	                                      numberX, numberY);
+	    }
+
+	    public int getPreviousLineCount() {
+	        int lineCount = 0;
+	        
+	        View parent = this.getParent();
+	        int count = parent.getViewCount();
+	        for (int i = 0; i < count; i++) {
+	            if (parent.getView(i) == this) {
+	                break;
+	            }
+	            else {
+	                lineCount += parent.getView(i).getViewCount();
+	            }
+	        }
+	        return lineCount;
+	    }
 	}
 }
