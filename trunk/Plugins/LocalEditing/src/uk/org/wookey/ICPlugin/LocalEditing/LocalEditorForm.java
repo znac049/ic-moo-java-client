@@ -1,7 +1,13 @@
 package uk.org.wookey.ICPlugin.LocalEditing;
 
+import java.awt.Event;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 
 import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.GUI.WorldTab;
@@ -19,6 +25,21 @@ public class LocalEditorForm extends EditorForm implements ActionListener {
 		
 		_upload = upload;
 		server = svr;
+		
+		JMenuItem uploadItem = new JMenuItem("Upload");
+		uploadItem.setMnemonic(KeyEvent.VK_U);
+		uploadItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, Event.CTRL_MASK));
+		uploadItem.addActionListener(this);
+		
+		for (int i = 0; i < _menu.getMenuCount(); i++) {
+			JMenu menu = _menu.getMenu(i);
+			
+			_logger.logInfo("Check Menu '" + menu.getText() + "'");
+			
+			if (menu.getText().equalsIgnoreCase("File")) {
+				menu.add(uploadItem);
+			}
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -28,13 +49,18 @@ public class LocalEditorForm extends EditorForm implements ActionListener {
 			setVisible(false);
 			dispose();
 		}
-		else if (cmd.equalsIgnoreCase("Save")) {
-			_logger.logMsg("Save back to MOO (OOB)!");
+		else if (cmd.equalsIgnoreCase("Upload")) {
 			saveLocalCopy();
 			server.writeLine(_upload);
 			server.writeLine(_editor.getText());
 			server.writeLine(".");
-			//server.writeLine(":blinks");
+		}
+		else if (cmd.equalsIgnoreCase("Save")) {
+			saveLocalCopy();
+			server.writeLine(_upload);
+			server.writeLine(_editor.getText());
+			server.writeLine(".");
+
 			setVisible(false);
 			dispose();
 		}
