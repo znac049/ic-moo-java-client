@@ -30,7 +30,7 @@ public class MCPServerInfo extends MCPHandler implements Runnable {
 		MCPCommand command = new MCPCommand();
 		command.setName(name);
 		
-		command.setKey(mcp.authKey);
+		command.setAuthKey(mcp.authKey);
 		command.sendToServer(server);
 	}
 }

@@ -122,11 +122,11 @@ public class MCPCommand {
 		return false;
 	}
 	
-	public String getKey() {
+	public String getAuthKey() {
 		return _key;
 	}
 	
-	public void setKey(String key) {
+	public void setAuthKey(String key) {
 		_key = key;
 	}
 
@@ -160,7 +160,7 @@ public class MCPCommand {
 		else {
 			String sessionKey = new MCPSession().getSessionKey();
 
-			server.writeLine(line + " " + sessionKey);
+			server.writeLine(line + " _data-tag: " + sessionKey);
 			
 			for (MCPParam para: _params) {
 				if (para.requiresMultiline()) {

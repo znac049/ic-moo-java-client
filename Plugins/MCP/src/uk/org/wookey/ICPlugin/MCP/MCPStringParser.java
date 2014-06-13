@@ -48,7 +48,7 @@ public class MCPStringParser extends StringParser {
 			_line = "";
 		}
 		else {
-			_line = _line.substring(endQuote+2).trim();
+			_line = _line.substring(endQuote+2);
 		}
 		
 		return item;
@@ -64,7 +64,7 @@ public class MCPStringParser extends StringParser {
 		}
 		else {
 			item = _line.substring(0, nextSpace);
-			_line = _line.substring(nextSpace+1).trim();
+			_line = _line.substring(nextSpace+1);
 		}
 		return item;
 	}

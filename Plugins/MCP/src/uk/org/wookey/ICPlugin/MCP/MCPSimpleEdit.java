@@ -21,6 +21,8 @@ public class MCPSimpleEdit extends MCPHandler {
 	
 	private void handleContentCommand(MCPCommand command, String key) {
 		_logger.logMsg("Content command.");
+		_logger.logError("KEY IS " + key);
+		
 		if (command.isMultiLine()) {
 			mcp.registerMultiline(command);
 		}
