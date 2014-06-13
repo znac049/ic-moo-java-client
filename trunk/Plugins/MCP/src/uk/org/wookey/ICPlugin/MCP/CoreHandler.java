@@ -36,7 +36,7 @@ public class CoreHandler extends MCPHandler {
 	}
 	
 	private void completeMultilineCommand(MCPCommand command) {
-		String dataTag = command.getKey();
+		String dataTag = command.getAuthKey();
 		//_logger.logMsg("Look for a multiline keymatch for " + dataTag);
 		for (int i=0; i<_multilineSessions.size(); i++) {
 			MCPCommand session = _multilineSessions.get(i);
@@ -52,7 +52,7 @@ public class CoreHandler extends MCPHandler {
 	}
 	
 	private void handleMultilineCommand(MCPCommand command) {
-		String dataTag = command.getKey();
+		String dataTag = command.getAuthKey();
 		//_logger.logMsg("Look for a multiline keymatch for " + dataTag);
 		for (int i=0; i<_multilineSessions.size(); i++) {
 			MCPCommand session = _multilineSessions.get(i);

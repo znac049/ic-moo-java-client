@@ -120,8 +120,7 @@ public class MCPRoot extends IOPlugin {
 			if (h != null) {
 				//_logger.logMsg("Handler for '" + cmdName + "' is " + h.getName());
 				
-				//h.handle(cmd, _mcpSession.getSessionKey());
-				h.handle(cmd, authKey);
+				h.handle(cmd, cmd.getAuthKey());
 				return null;
 			}
 			else {

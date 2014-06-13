@@ -20,7 +20,7 @@ public class MCPTimezone extends MCPHandler implements Runnable {
 		MCPCommand command = new MCPCommand();
 		command.setName(name);
 		
-		command.setKey(mcp.authKey);
+		command.setAuthKey(mcp.authKey);
 		command.addParam("timezone", "UTC");
 		
 		command.sendToServer(server);
