@@ -15,12 +15,13 @@ public class EditorForm extends JFrame implements ActionListener {
 	private final Logger _logger = new Logger("EditorForm");
 	protected String _type;
 	protected GenericEditor _editor;
+	protected JMenuBar _menu;
 	protected String saveName;
 	
 	public EditorForm(String name, String type, String content) {
 		super();
 		
-		JMenuBar menu = new JMenuBar();
+		_menu = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);	
 
@@ -35,9 +36,9 @@ public class EditorForm extends JFrame implements ActionListener {
 		exitItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, Event.CTRL_MASK));
 		exitItem.addActionListener(this);
 		fileMenu.add(exitItem);
-		menu.add(fileMenu);
+		_menu.add(fileMenu);
 
-		setJMenuBar(menu);
+		setJMenuBar(_menu);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -64,7 +65,7 @@ public class EditorForm extends JFrame implements ActionListener {
 		add(scroller, BorderLayout.CENTER);
 
 		setLocation(300, 300);
-		setSize(500, 400);
+		setSize(700, 500);
 
 		setVisible(true);
 	}
