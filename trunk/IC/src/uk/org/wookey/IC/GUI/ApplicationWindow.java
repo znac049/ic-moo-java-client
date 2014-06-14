@@ -3,6 +3,8 @@ package uk.org.wookey.IC.GUI;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -111,6 +113,7 @@ public class ApplicationWindow extends JFrame {
 		closeButton.setBorder(BorderFactory.createEmptyBorder());
 		closeButton.setContentAreaFilled(false);
 		closeButton.setRolloverEnabled(true);
+		closeButton.addMouseListener(tab);
 					
 		GridBagConstraints gbc = new GridBagConstraints();
 		gbc.gridx = 0;
@@ -124,7 +127,5 @@ public class ApplicationWindow extends JFrame {
 		newTab.add(closeButton, gbc);
 
 		tabs.setTabComponentAt(index, newTab);
-
-		//btnClose.addActionListener(myCloseActionHandler);
 	}
 }
