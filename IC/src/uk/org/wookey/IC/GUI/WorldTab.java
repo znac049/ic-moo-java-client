@@ -17,7 +17,7 @@ import uk.org.wookey.IC.Utils.Prefs;
 import uk.org.wookey.IC.Utils.ServerPort;
 import uk.org.wookey.IC.Utils.TabInterface;
 
-public class WorldTab extends JPanel implements ActionListener, TabInterface, Runnable {
+public class WorldTab extends JPanel implements ActionListener, TabInterface, Runnable, MouseListener {
 	private static final long serialVersionUID = 1L;
 	
 	private static int tabNum = 0;
@@ -356,5 +356,38 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 				keyboard.setText(keyboard.getText() + e.getKeyChar());
 			}
 		}	
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		int button = e.getButton();
+		
+		if ((button & MouseEvent.BUTTON1) == MouseEvent.BUTTON1) {
+			_logger.logInfo("Left click!");
+		}
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
