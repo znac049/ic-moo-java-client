@@ -1,8 +1,13 @@
 package uk.org.wookey.ICPlugin.MCP;
 
+import java.awt.GridBagConstraints;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerPort;
@@ -10,6 +15,7 @@ import uk.org.wookey.IC.Utils.ServerPort;
 public class MCPVisual extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCP Visual");
 	private ArrayList<Player> players;
+	private PlayerList playerList;
 	
 	public MCPVisual(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
 		super("dns-com-awns-visual", "1.0", "1.0", svr, mcpRoot);
@@ -59,7 +65,7 @@ public class MCPVisual extends MCPHandler implements Runnable {
 				players.add(new Player(names[i], ids[i], locs[i], idles[i]));
 			}
 			
-			//mcp.getWorldTab().getVisInfo().getPlayerList().setData(players);
+			playerList.setData(players);
 		}
 	}
 	
@@ -84,14 +90,40 @@ public class MCPVisual extends MCPHandler implements Runnable {
 	}
 
 	public void born() {
+		addGUI();
 		new Thread(this, "vis: " + mcp.getWorldName()).start();
 	}
 	
-	public void run() {
-		String command = name + "-getusers " + mcp._mcpSession.getSessionKey();
+	private void addGUI() {
+		JPanel lhs = mcp.getWorldTab().getPanel(WorldTab.LEFT_SIDEBAR);
+		GridBagConstraints gbc = new GridBagConstraints();
 		
+		_logger.logInfo("Adding to lhs side panel...");
+		
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.weightx = 0.1;
+		gbc.weighty = 1.0;
+		
+		gbc.anchor = GridBagConstraints.CENTER;
+		gbc.fill = GridBagConstraints.BOTH;
+		
+		playerList = new PlayerList();
+		
+		lhs.add(playerList, gbc);
+		
+		lhs.revalidate();
+		lhs.repaint();
+	}
+	
+	public void run() {
 		while (true) {
-			mcp.sendMCPCommand(command);
+			MCPCommand command = new MCPCommand();
+			command.setName(name, "getusers");
+		
+			command.setAuthKey(mcp.authKey);
+		
+			command.sendToServer(server);
 
 			try {
 				Thread.sleep(30000);

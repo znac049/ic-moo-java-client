@@ -15,10 +15,10 @@ import javax.swing.border.LineBorder;
 import uk.org.wookey.IC.Utils.TimeUtils;
 
 public class PlayerList extends JPanel {
-    private static final long serialVersionUID = 1590212426402405754L;
+    private static final long serialVersionUID = 1L;
 
 	static class MyCellRenderer extends JPanel implements ListCellRenderer {
-		private static final long serialVersionUID = 6774711558579077438L;
+		private static final long serialVersionUID = 1L;
 		JLabel player;
 		JLabel idle;
 		
