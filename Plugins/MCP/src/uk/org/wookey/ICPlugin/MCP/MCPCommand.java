@@ -69,6 +69,10 @@ public class MCPCommand {
 		_name = name;
 	}
 	
+	public void setName(String name, String cmd) {
+		_name = name + '-' + cmd;
+	}
+	
 	public String getLine() {
 		return _line;
 	}
@@ -85,6 +89,24 @@ public class MCPCommand {
 			}
 		}
 		return null;
+	}
+	
+	public String getParam(int idx) {
+		if ((idx < 0) | (idx >= _params.size())) {
+			_logger.logError("Parameter index out of range: " + idx);
+			return null;
+		}
+		
+		return _params.get(idx).getValue();
+	}
+	
+	public String getParamName(int idx) {
+		if ((idx < 0) | (idx >= _params.size())) {
+			_logger.logError("Parameter index out of range: " + idx);
+			return null;
+		}
+		
+		return _params.get(idx).getKey();
 	}
 	
 	public ArrayList<MCPParam> getParams() {
@@ -187,5 +209,9 @@ public class MCPCommand {
 		}
 		
 		_params.add(new MCPParam(key, value));
+	}
+	
+	public int getParamCount() {
+		return _params.size();
 	}
 }

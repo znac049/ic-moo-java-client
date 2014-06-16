@@ -1,7 +1,5 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import java.io.IOException; 
-
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.IOPluginInterface;
@@ -10,13 +8,10 @@ import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.IOPlugin;
 import uk.org.wookey.IC.Utils.ServerPort;
-import uk.org.wookey.IC.Utils.StringParser;
-import uk.org.wookey.IC.Utils.IOPluginInterface.Status;
 
 public class MCP extends IOPlugin {
 	public final Logger _logger = new Logger("MCP");
 	private String outOfBandToken = "#$#";
-	private MCPStringParser cmdParser = new MCPStringParser("");
 	private MCPRoot mcp = null;
 
 	public boolean activate() {		
@@ -25,9 +20,9 @@ public class MCP extends IOPlugin {
 		return true;
 	}
 	
-	public boolean attach(ServerPort svr) {		
+	public boolean attach(ServerPort svr, WorldTab tab) {		
 		try {
-			mcp = new MCPRoot(svr);
+			mcp = new MCPRoot(svr, tab);
 		} catch (ParserException e) {
 			e.printStackTrace();
 			return false;
