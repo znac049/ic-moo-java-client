@@ -13,12 +13,15 @@ import uk.org.wookey.IC.Utils.KeyCode;
 import uk.org.wookey.IC.Utils.KeyMap;
 import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.Macro;
 import uk.org.wookey.IC.Utils.Prefs;
 import uk.org.wookey.IC.Utils.ServerPort;
 import uk.org.wookey.IC.Utils.TabInterface;
 
 public class WorldTab extends JPanel implements ActionListener, TabInterface, Runnable, MouseListener {
 	private static final long serialVersionUID = 1L;
+	public static final int LEFT_SIDEBAR = 1;
+	public static final int RIGHT_SIDEBAR = 2;
 	
 	private static int tabNum = 0;
 	
@@ -28,6 +31,9 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	private StatusPanel infoPanel;
 	private ServerPort server;
 	private LED statusLED;
+	
+	private JPanel leftSide;
+	private JPanel rightSide;
 	
 	private String worldName;
 	private String hostName;
@@ -86,7 +92,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 
 		JScrollPane scroller = new JScrollPane(screen);
 		scroller.setFocusable(false);
-		add(scroller, 0, 0, 1.0, 1.0);
+		add(scroller, 1, 0, 1.0, 1.0);
 				
 		keyboardHistory = new ArrayList<String>();
 		historyIndex = 0;
@@ -98,10 +104,29 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
 		keyboard.addActionListener(this);
 		keyboard.addKeyListener(kh);
-		add(keyboard, 0, 1, 1.0, 0.0);
+		add(keyboard, 1, 1, 1.0, 0.0);
 		
 		infoPanel = new StatusPanel();
-		add(infoPanel, 0, 2, 1.0, 0.0);
+		add(infoPanel, 1, 2, 1.0, 0.0);
+		
+		leftSide = new JPanel();
+		leftSide.setLayout(new GridBagLayout());
+		add(leftSide, 0, 0, 0.0, 1.0);
+		
+		rightSide = new JPanel();
+		rightSide.setLayout(new GridBagLayout());
+		add(rightSide, 2, 0, 0.0, 1.0);
+	}
+	
+	public JPanel getPanel(int whichPanel) {
+		if (whichPanel == LEFT_SIDEBAR) {
+			return leftSide;
+		}
+		else if (whichPanel == RIGHT_SIDEBAR) {
+			return rightSide;
+		}
+		
+		return null;
 	}
 	
 	private void setupKeyMap() {
@@ -173,7 +198,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		}
 		
 		if ((hostPort != -1) && !hostName.equals("")) {
-			server = new ServerPort(hostName, hostPort, prefs);
+			server = new ServerPort(hostName, hostPort, this, prefs);
 			
 			setupKeyMap();
 					
@@ -182,6 +207,10 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 				server.writeLine("connect " + userName + " " + password);
 			}
 		}
+		
+		// Run onConnect macro, if it exists
+		Macro onConnect = new Macro("onConnect");
+		onConnect.exec(jsEngine, server);
 	}
 	
 	public boolean tabVisible() {
@@ -382,6 +411,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		
 		if ((button & MouseEvent.BUTTON1) == MouseEvent.BUTTON1) {
 			_logger.logInfo("Left click!");
+			
 		}
 	}
 

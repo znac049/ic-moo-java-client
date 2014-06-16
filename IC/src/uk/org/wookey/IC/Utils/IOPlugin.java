@@ -6,7 +6,8 @@ public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	private Logger _logger = new Logger("Base Plugin");
 	protected String _worldName = null;
 	protected boolean _enabled = false; // Disabled by default
-
+	
+	protected WorldTab worldTab = null;
 	protected ServerPort server = null;
 	
 	public boolean activate() {
@@ -31,12 +32,15 @@ public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	}
 
 	@Override
-	public boolean attach(ServerPort serverPort) {
-		_logger.logInfo("Attaching to ServerPort");
-		
+	public boolean attach(ServerPort serverPort, WorldTab tab) {
 		server = serverPort;
+		worldTab = tab;
 		
 		return true;
 	}
 	
+	@Override
+	public WorldTab getWorldTab() {
+		return worldTab;
+	}
 }
