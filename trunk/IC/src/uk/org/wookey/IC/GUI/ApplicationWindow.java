@@ -1,8 +1,12 @@
 package uk.org.wookey.IC.GUI;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -96,36 +100,20 @@ public class ApplicationWindow extends JFrame {
 		tabs.setSelectedComponent(tab);
 		
 		int index = tabs.indexOfTab(title);
-		JPanel newTab = new JPanel(new GridBagLayout());
-		newTab.setOpaque(false);
-		JLabel titleLab = new JLabel(title + "  ", tab.getIndicator(), JLabel.LEFT);
-		
-		BufferedImage buttonIcon = null;
-		BufferedImage nullIcon = null;
-		try {
-			nullIcon = ImageIO.read(new File("images/blank.png"));
-			buttonIcon = ImageIO.read(new File("images/cross.png"));
-		} catch (IOException e) {
-			_logger.logError("Failed to load cross.png");
+		tabs.setTabComponentAt(index, new TabLabel(title, tab.getIndicator()));
+	}
+	
+	class FocusHandler implements FocusListener {
+		@Override
+		public void focusGained(FocusEvent fev) {
+			Component c = fev.getComponent();
+			c.setBackground(c.getBackground().darker());
 		}
-		JButton closeButton = new JButton(new ImageIcon(nullIcon));
-		closeButton.setRolloverIcon(new ImageIcon(buttonIcon));
-		closeButton.setBorder(BorderFactory.createEmptyBorder());
-		closeButton.setContentAreaFilled(false);
-		closeButton.setRolloverEnabled(true);
-		closeButton.addMouseListener(tab);
-					
-		GridBagConstraints gbc = new GridBagConstraints();
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		gbc.weightx = 1;
-		
-		newTab.add(titleLab, gbc);
 
-		gbc.gridx++;
-		gbc.weightx = 0;
-		newTab.add(closeButton, gbc);
-
-		tabs.setTabComponentAt(index, newTab);
+		@Override
+		public void focusLost(FocusEvent fev) {
+			Component c = fev.getComponent();
+			c.setBackground(c.getBackground().brighter());
+		}
 	}
 }

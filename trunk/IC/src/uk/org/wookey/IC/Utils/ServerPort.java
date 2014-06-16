@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
+import uk.org.wookey.IC.GUI.WorldTab;
+
 public class ServerPort {
 	private Logger _logger = new Logger("ServerPort");
 	private Socket socket;
@@ -21,12 +23,17 @@ public class ServerPort {
 	
 	private Preferences prefs = null;
 	
-	public ServerPort(String hostName, int hostPort) {
+	private WorldTab worldTab = null;
+	
+	public ServerPort(String hostName, int hostPort, WorldTab tab) {
+		worldTab = tab;
+		
 		connect(hostName, hostPort);
 	}
 
-	public ServerPort(String hostName, int hostPort, Preferences root) {
+	public ServerPort(String hostName, int hostPort, WorldTab tab, Preferences root) {
 		prefs = root;
+		worldTab = tab;
 		
 		connect(hostName, hostPort);
 	}
@@ -122,7 +129,7 @@ public class ServerPort {
 				
 				_logger.logInfo("  " + plugin.getName());
 				
-				p.attach(this);
+				p.attach(this, worldTab);
 			}
 		}
 	}
