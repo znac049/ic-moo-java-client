@@ -117,19 +117,19 @@ public class ServerPort {
 	}
 	
 	private void loadIOPlugins() {
-		plugins = PluginManager.pluginsSupporting(CorePluginInterface.PluginType.IOPLUGIN);
-		
-		if (plugins == null) {
-			_logger.logInfo("No IOPlugins found");
-		}
-		else {
-			_logger.logInfo("The following " + plugins.size() + " IOPlugins were loaded:");
-			for (CorePluginInterface plugin: plugins) {
-				IOPlugin p = (IOPlugin) plugin;
+		_logger.logInfo("The following IOPlugins were found:");
+		for (CorePluginInterface plugin: PluginManager.pluginsSupporting(CorePluginInterface.PluginType.IOPLUGIN)) {
+			IOPlugin p = (IOPlugin) plugin;
 				
-				_logger.logInfo("  " + plugin.getName());
+			if (Prefs.pluginEnabledGlobally(p.getName())) {
+				_logger.logInfo("  " + plugin.getName() + " enabled globally");
+				
+				plugins.add((CorePlugin) plugin);
 				
 				p.attach(this, worldTab);
+			}
+			else {
+				_logger.logInfo("  - Plugin " + p.getName() + " has been disabled globally");
 			}
 		}
 	}
