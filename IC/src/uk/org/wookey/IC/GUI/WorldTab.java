@@ -91,7 +91,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		screen.addKeyListener(kh);
 
 		JScrollPane scroller = new JScrollPane(screen);
-		scroller.setFocusable(false);
+		scroller.setFocusable(false); 
 		add(scroller, 1, 0, 1.0, 1.0);
 				
 		keyboardHistory = new ArrayList<String>();
@@ -107,15 +107,15 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		add(keyboard, 1, 1, 1.0, 0.0);
 		
 		infoPanel = new StatusPanel();
-		add(infoPanel, 1, 2, 1.0, 0.0);
+		add(infoPanel, 0, 2, 1.0, 0.0, GridBagConstraints.BOTH, 2, 1);
 		
 		leftSide = new JPanel();
 		leftSide.setLayout(new GridBagLayout());
-		add(leftSide, 0, 0, 0.0, 1.0);
+		add(leftSide, 0, 0, 0.0, 1.0, GridBagConstraints.BOTH, 1, 2);
 		
 		rightSide = new JPanel();
 		rightSide.setLayout(new GridBagLayout());
-		add(rightSide, 2, 0, 0.0, 1.0);
+		add(rightSide, 2, 0, 0.0, 1.0,  GridBagConstraints.BOTH, 1, 2);
 	}
 	
 	public JPanel getPanel(int whichPanel) {
@@ -160,7 +160,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		screen.info("Connection closed");
 	}
 
-	private void add(Component c, int x, int y, double wx, double wy, int fill) {
+	private void add(Component c, int x, int y, double wx, double wy, int fill, int width, int height) {
 		GridBagConstraints constraints = new GridBagConstraints();
 		
 		constraints.gridx = x;
@@ -168,8 +168,14 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		constraints.weightx = wx;
 		constraints.weighty = wy;
 		constraints.fill = fill;
+		constraints.gridwidth = width;
+		constraints.gridheight = height;
 		
 		add(c, constraints);
+	}
+	
+	private void add(Component c, int x, int y, double wx, double wy, int fill) {
+		add(c, x, y, wx, wy, fill, 1, 1);
 	}
 
 	private void add(Component c, int x, int y, double wx, double wy) {
@@ -200,11 +206,13 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		if ((hostPort != -1) && !hostName.equals("")) {
 			server = new ServerPort(hostName, hostPort, this, prefs);
 			
-			setupKeyMap();
+			if (worldName != null) {
+				setupKeyMap();
 					
-			if (server.connected() & autoConnect & !userName.equals("")) {
-				_logger.logInfo("Autologin as '" + userName + "'");
-				server.writeLine("connect " + userName + " " + password);
+				if (server.connected() & autoConnect & !userName.equals("")) {
+					_logger.logInfo("Autologin as '" + userName + "'");
+					server.writeLine("connect " + userName + " " + password);
+				}
 			}
 		}
 		

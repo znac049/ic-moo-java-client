@@ -1,8 +1,11 @@
 package uk.org.wookey.IC.Utils;
 
+import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 public class Prefs {
+	public static Logger _logger = new Logger("Prefs");
+	
 	public static final String AppRoot = "uk/org/wookey/IC";
 	public static final String WorldsRoot = AppRoot + "/worlds";
 	
@@ -20,7 +23,24 @@ public class Prefs {
 		return Preferences.userRoot().node(name);
 	}
 
-	public static Preferences node(String root, String name) {
+	public static Preferences node(String root, String name) {  
 		return Prefs.node(root + "/" + name);
+	}
+	
+	public static boolean pluginEnabledGlobally(String name) {
+		Preferences prefs = node(pluginNodeName);
+		
+		_logger.logInfo("root node: " + Preferences.userRoot());
+		_logger.logInfo("checking pref: " + prefs.absolutePath() + "/" + name + "Enabled");
+		
+		boolean res = prefs.getBoolean(name+"Enabled", false);
+		prefs.putBoolean(name+"Enabled", res);
+		try {
+			prefs.flush();
+		} catch (BackingStoreException e) {
+			_logger.logError("Failed to save prefs");
+		}
+		
+		return res;
 	}
 }

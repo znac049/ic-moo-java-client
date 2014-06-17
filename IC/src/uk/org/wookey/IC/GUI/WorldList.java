@@ -6,7 +6,7 @@ import javax.swing.*;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class WorldList extends JList {
-	private static final long serialVersionUID = -8852387005116477784L;
+	private static final long serialVersionUID = 1L;
 	private final Logger _logger = new Logger("WorldList");
 
 	public WorldList() {
