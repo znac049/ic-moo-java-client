@@ -10,14 +10,14 @@ import javax.swing.JScrollPane;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPVisual extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCP Visual");
 	private ArrayList<Player> players;
 	private PlayerList playerList;
 	
-	public MCPVisual(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPVisual(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
 		super("dns-com-awns-visual", "1.0", "1.0", svr, mcpRoot);
 		
 		players = new ArrayList<Player>();
@@ -128,7 +128,8 @@ public class MCPVisual extends MCPHandler implements Runnable {
 			try {
 				Thread.sleep(30000);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				_logger.logError("Backend thread for " + getName() + " has been interrupted");
+				return;
 			}
 		}
 	}

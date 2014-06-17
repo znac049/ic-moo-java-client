@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPCommand {
 	private String _line;
@@ -162,7 +162,7 @@ public class MCPCommand {
 		}
 	}
 	
-	public void sendToServer(ServerPort server) {
+	public void sendToServer(ServerConnection server) {
 		String line = "#$#" + getName() + " " + _key;
 		boolean multiline = false;
 		

@@ -2,12 +2,12 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPServerInfo extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCP ServerInfo");
 	
-	public MCPServerInfo(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPServerInfo(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
 		super("dns-com-awns-serverinfo", "1.0", "1.0", svr, mcpRoot);
 	}
 	

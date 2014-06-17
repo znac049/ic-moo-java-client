@@ -8,7 +8,7 @@ import uk.org.wookey.IC.Utils.Line;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.IOPlugin;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPRoot extends IOPlugin {
 	private static int worldCounter = 0;
@@ -23,7 +23,7 @@ public class MCPRoot extends IOPlugin {
     private ArrayList<MCPCommand> _pendingSessions;
     private ArrayList<MCPCommand> _multilineSessions;
 
-	public MCPRoot(ServerPort svr, WorldTab tab) throws ParserException {
+	public MCPRoot(ServerConnection svr, WorldTab tab) throws ParserException {
 		_minVer = new MCPVersion("2.1");
 		_maxVer = new MCPVersion("2.1");
 		_mcpSession = new MCPSession();

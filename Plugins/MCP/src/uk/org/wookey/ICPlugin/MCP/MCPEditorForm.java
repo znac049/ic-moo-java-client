@@ -8,15 +8,15 @@ import javax.swing.*;
 import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPEditorForm extends EditorForm implements ActionListener {
 	private static final long serialVersionUID = 8974376117801769307L;
 	private final Logger _logger = new Logger("MCPEditorForm");
 	private String _key;
 	private String _ref;
-	private ServerPort _server;
-	public MCPEditorForm(String name, String ref, String type, String content, ServerPort svr, String key) {
+	private ServerConnection _server;
+	public MCPEditorForm(String name, String ref, String type, String content, ServerConnection svr, String key) {
 		super(name, type, content);
 		
 		_ref = ref;
