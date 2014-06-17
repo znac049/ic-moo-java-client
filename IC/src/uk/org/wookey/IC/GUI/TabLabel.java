@@ -1,6 +1,7 @@
 package uk.org.wookey.IC.GUI;
 
 import java.awt.Color;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -21,9 +22,12 @@ import uk.org.wookey.IC.Utils.Logger;
 
 public class TabLabel extends JPanel {
 	private Logger _logger = new Logger("TabLabel");
+	private WorldTab worldTab;
 	
-	public TabLabel(String lab, LED led) {
+	public TabLabel(String lab, LED led, ActionListener listener, WorldTab tab) {
 		super();
+		
+		worldTab = tab;
 		
 		setOpaque(false);
 		
@@ -44,27 +48,12 @@ public class TabLabel extends JPanel {
 		closeButton.setBorder(BorderFactory.createEmptyBorder());
 		closeButton.setContentAreaFilled(false);
 		closeButton.setRolloverEnabled(true);
+		closeButton.addActionListener(listener);
 		
 		add(closeButton);
-		
-        //addMouseMotionListener(new MouseStuff());
 	}
 	
-	class MouseStuff implements MouseMotionListener {
-		public void MouseEntered(MouseEvent e) {
-			_logger.logInfo("Entered tab area");
-		}
-
-		public void MouseExited(MouseEvent e) {
-			_logger.logInfo("Exited tab area");
-		}
-
-		@Override
-		public void mouseDragged(MouseEvent arg0) {
-		}
-
-		@Override
-		public void mouseMoved(MouseEvent arg0) {
-		}
+	public WorldTab getWorldTab() {
+		return worldTab;
 	}
 }

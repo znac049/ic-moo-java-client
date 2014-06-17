@@ -61,40 +61,56 @@ public class ServerPort {
 	} 
 	
 	public String readLine() {
-		while (connected) {			
-			try {
-				String line = remoteInput.readLine();
-				Line l = new Line(line);
-				boolean consumed = false;
-				
-				_logger.logSuccess("S->C: " + line);
-				
-				if (plugins != null) {
-					for (CorePluginInterface plugin: plugins) {
-						IOPlugin p = (IOPlugin) plugin;
-						
-						if (p.remoteLineIn(l) == IOPluginInterface.Status.CONSUMED) {
-							consumed = true;
-							break;
-						}
+		while (connected) {
+			String line = getNextLine();
+			
+			if (line == null) {
+				return null;
+			}
+
+			Line l = new Line(line);
+			boolean consumed = false;
+			
+			if (plugins != null) {
+				for (CorePluginInterface plugin: plugins) {
+					IOPlugin p = (IOPlugin) plugin;
+								
+					if (p.remoteLineIn(l) == IOPluginInterface.Status.CONSUMED) {
+						consumed = true;
+						break;
 					}
 				}
-				
-				if (!consumed) {
-					return line;
-				}
-				
-			} catch (IOException e) {
-				try {
-					socket.close();
-				} catch (IOException ex) {
-					_logger.logError("Failed to close socket to " + host + ", port " + port);
-				}
-				connected = false;
-				return null;
-			}	
+			}
+						
+			if (!consumed) {
+				return line;
+			}
 		}
 		
+		return null;
+	}
+	
+	private String getNextLine() {
+		try {
+			if (Thread.interrupted()) {
+				connected = false;
+				return null;
+			}
+			
+			while (!remoteInput.ready()) {
+				Thread.sleep(5);
+			}
+			
+			String line = remoteInput.readLine();
+			//_logger.logSuccess("S->C: " + line);
+			return line;
+		} catch (IOException e) {
+			_logger.logError("S->Ccaught an IOException");
+		} catch (InterruptedException e) {
+			_logger.logInfo("Thread interrupted!");
+		}
+		
+		connected = false;
 		return null;
 	}
 	
@@ -106,14 +122,25 @@ public class ServerPort {
 	}
 	
 	public boolean connected() {
-		if (connected) {
-			
+		if (connected) {	
 			if (socket.isClosed()) {
 				connected = false;
 			}
 		}
 		
 		return connected;
+	}
+	
+	public void close() {
+		_logger.logInfo("Closing connection to " + host + ":" + port);
+		try {
+			remoteInput.close();
+			remoteOutput.close();
+			socket.close();
+			connected = false;
+		} catch (IOException e) {
+			_logger.logError("Caught exception while closing server connection");
+		}
 	}
 	
 	private void loadIOPlugins() {

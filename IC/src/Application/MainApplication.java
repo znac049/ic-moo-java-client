@@ -18,11 +18,9 @@ public class MainApplication {
 		mainWindow = new ApplicationWindow();
 		
 		// Plugins
-		_logger.logMsg("Looking for plugins");
 		PluginManager.scanForPlugins();
 		
 		// Check for worlds to autoconnect to
-		_logger.logMsg("Look for worlds to autoconnect to...");
 		for (String world: Worlds.getListOfWorlds()) {
 			Preferences prefs = Preferences.userRoot().node(Prefs.WorldsRoot + "/" + world);
 			

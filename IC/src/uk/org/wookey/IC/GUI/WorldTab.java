@@ -40,6 +40,8 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	private int hostPort;
 	private boolean localEcho;
 	
+	private Thread listenerThread;
+	
 	private Preferences prefs;
 	
 	private ArrayList<String> keyboardHistory;
@@ -118,6 +120,16 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		add(rightSide, 2, 0, 0.0, 1.0,  GridBagConstraints.BOTH, 1, 2);
 	}
 	
+	public void tearDown() {
+		_logger.logInfo("Die, die!");
+		
+		Macro onClose = new Macro("onClose");
+		onClose.exec(jsEngine, server);
+		
+		listenerThread.interrupt();
+		server.close();
+	}
+	
 	public JPanel getPanel(int whichPanel) {
 		if (whichPanel == LEFT_SIDEBAR) {
 			return leftSide;
@@ -142,7 +154,8 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	
 	public void runThread() {		
 		tabNum++;
-		new Thread(this, "World: " + tabNum).start();
+		listenerThread = new Thread(this, "World: " + tabNum);
+		listenerThread.start();
 	}
 	
 	public void run() {

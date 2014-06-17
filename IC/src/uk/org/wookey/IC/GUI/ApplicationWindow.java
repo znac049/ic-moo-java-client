@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
@@ -27,10 +29,10 @@ import javax.swing.event.ChangeListener;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.TabInterface;
 
-public class ApplicationWindow extends JFrame {
+public class ApplicationWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static Logger _logger = new Logger("ApplicationWindow");
-	private static JTabbedPane tabs;
+	private JTabbedPane tabs;
 	
 	public ApplicationWindow() {
 		super("IC");
@@ -61,12 +63,11 @@ public class ApplicationWindow extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		menu = new MainMenuBar();
-		menu.add(new QuickLaunch());
+		menu.add(new QuickLaunch(this));
 		setJMenuBar(menu);
 		
-		//add(new QuickLaunch(), gbc);
-		
 		tabs = new JTabbedPane();
+		
 		// Turn the activity LED off when a tab gets focus
         tabs.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent e) {
@@ -85,22 +86,18 @@ public class ApplicationWindow extends JFrame {
 		gbc.gridy++;
 		gbc.weighty = 0.0;
 		
-		//add(MainStatusBar.getBar(), gbc);
-		
 		setVisible(true);
 	}
 
-	public static void addTab(WorldTab tab) {
+	public void addTab(WorldTab tab) {
 		String title;
-		
-		//Tray.activate();
 		
 		title = tab.getWorldName();
 		tabs.addTab(title, tab.getIndicator(), tab);
 		tabs.setSelectedComponent(tab);
 		
 		int index = tabs.indexOfTab(title);
-		tabs.setTabComponentAt(index, new TabLabel(title, tab.getIndicator()));
+		tabs.setTabComponentAt(index, new TabLabel(title, tab.getIndicator(), this, tab));
 	}
 	
 	class FocusHandler implements FocusListener {
@@ -114,6 +111,32 @@ public class ApplicationWindow extends JFrame {
 		public void focusLost(FocusEvent fev) {
 			Component c = fev.getComponent();
 			c.setBackground(c.getBackground().brighter());
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		_logger.logInfo("Got a close tab click");
+		Component x = (Component) event.getSource();
+		
+		x = x.getParent();
+		
+		if (x instanceof TabLabel) {
+			_logger.logInfo("It's a WorldTab");
+			WorldTab tab = ((TabLabel)x).getWorldTab();
+			
+			tab.tearDown();
+			
+			for (int i=0; i<tabs.getComponentCount(); i++) {
+				if (tabs.getComponentAt(i) == tab) {
+					_logger.logInfo("Found world tab at index " + i);
+					tabs.remove(i);
+					break;
+				}
+			}
+		}
+		else {
+			_logger.logInfo("Not sure what to do with this type of tab: " + x.toString());
 		}
 	}
 }
