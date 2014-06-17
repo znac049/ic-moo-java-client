@@ -61,7 +61,7 @@ public class Logger {
 		StyleConstants.setForeground(_errAttribs, Color.red);
 	}
 	
-	public void logMsg(String msg, SimpleAttributeSet labAttribs, SimpleAttributeSet msgAttribs) {
+	public synchronized void logMsg(String msg, SimpleAttributeSet labAttribs, SimpleAttributeSet msgAttribs) {
 		if (_logLevel == 0) {
 			return;
 		}

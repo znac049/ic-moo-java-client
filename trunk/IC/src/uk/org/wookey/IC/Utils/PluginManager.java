@@ -67,7 +67,6 @@ public class PluginManager {
 	}
 	
 	private static void loadPlugin(File dir) {
-		_logger.logMsg("Plugin directory: " + dir.getName());
 		PluginLoader loader = new PluginLoader();
 		
 		String packageName = dir.getName();
@@ -82,7 +81,6 @@ public class PluginManager {
 			_logger.logMsg(className + " is a plugin");
 			
 			plugins.add(c);
-			_logger.logMsg(" Added to plugin list");
 		}
 	}
 		

@@ -16,10 +16,13 @@ public class QuickLaunch extends JPanel {
 	private Logger _logger = new Logger("QuickLaunch");
 	private JTextField world;
 	private JTextField port;
+	private ApplicationWindow app;
 	
-	public QuickLaunch() {
+	public QuickLaunch(ApplicationWindow applicationWindow) {
 		super();
 	
+		app = applicationWindow;
+		
 		JLabel lab;
 		
 		lab = new JLabel("Quick Connect.");
@@ -52,7 +55,7 @@ public class QuickLaunch extends JPanel {
 			if (!world.getText().isEmpty() & (portNum > 0)) {
 				try {
 					WorldTab tab = new WorldTab(world.getText(), portNum);
-					ApplicationWindow.addTab(tab);
+					app.addTab(tab);
 					tab.runThread();
 					
 					world.setText("");
