@@ -1,13 +1,13 @@
 package uk.org.wookey.ICPlugin.MCP;
 
 import java.awt.GridBagConstraints;
+import java.awt.ScrollPane;
 import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import uk.org.wookey.IC.GUI.WorldTab;
-import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerPort;
@@ -95,14 +95,14 @@ public class MCPVisual extends MCPHandler implements Runnable {
 	}
 	
 	private void addGUI() {
-		JPanel lhs = mcp.getWorldTab().getPanel(WorldTab.LEFT_SIDEBAR);
+		JPanel lhs = mcp.getWorldTab().getPanel(WorldTab.RIGHT_SIDEBAR);
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		_logger.logInfo("Adding to lhs side panel...");
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.weightx = 0.1;
+		gbc.weightx = 1.0;
 		gbc.weighty = 1.0;
 		
 		gbc.anchor = GridBagConstraints.CENTER;
