@@ -7,7 +7,7 @@ import uk.org.wookey.IC.Utils.Line;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.IOPlugin;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCP extends IOPlugin {
 	public final Logger _logger = new Logger("MCP");
@@ -20,7 +20,7 @@ public class MCP extends IOPlugin {
 		return true;
 	}
 	
-	public boolean attach(ServerPort svr, WorldTab tab) {		
+	public boolean attach(ServerConnection svr, WorldTab tab) {		
 		try {
 			mcp = new MCPRoot(svr, tab);
 		} catch (ParserException e) {

@@ -4,12 +4,12 @@ import java.util.TimeZone;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPTimezone extends MCPHandler implements Runnable {
 	Logger _logger = new Logger("MCPTimezone");
 	
-	public MCPTimezone(ServerPort svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPTimezone(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
 		super("dns-com-awns-timezone", "1.0", "1.0", svr, mcpRoot);
 	}
 	
