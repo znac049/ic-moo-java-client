@@ -9,6 +9,7 @@ public interface CorePluginInterface {
 	}
 	
 	public boolean activate();
+	public void deactivate();
 	public boolean supports(PluginType t);
 	public String getName();
 	public void setName(String n);

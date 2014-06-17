@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MacroEditorForm  extends EditorForm implements ActionListener {
 	private static final long serialVersionUID = 1L;

@@ -27,9 +27,13 @@ public class CorePlugin implements CorePluginInterface {
 
 	@Override
 	public boolean activate() {
-		_logger.logInfo("Activating Core plugin " + getName());
+		_logger.logInfo("Activating plugin " + getName());
 		
 		return true;
 	}
 
+	@Override
+	public void deactivate() {
+		_logger.logInfo("Deactivating plugin " + getName());
+	}
 }

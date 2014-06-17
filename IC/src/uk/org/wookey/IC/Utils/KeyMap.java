@@ -9,9 +9,9 @@ public class KeyMap {
 	private ArrayList<KeyMapping> map;
 	private String name;
 	private JSEngine js;
-	private ServerPort server;
+	private ServerConnection server;
 	
-	public KeyMap(String mapName, JSEngine jsEngine, ServerPort serverPort) {
+	public KeyMap(String mapName, JSEngine jsEngine, ServerConnection serverPort) {
 		_logger = new Logger("KeyMap - " + mapName);
 		
 		name = mapName;

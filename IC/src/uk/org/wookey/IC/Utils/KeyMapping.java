@@ -26,7 +26,7 @@ public class KeyMapping {
 		macro = new Macro(macroName);
 	}
 	
-	public boolean invoke(JSEngine js, ServerPort server) {
+	public boolean invoke(JSEngine js, ServerConnection server) {
 		_logger.logInfo("invoking macro '" + macro.getName());
 		
 		return macro.exec(js,  server);
