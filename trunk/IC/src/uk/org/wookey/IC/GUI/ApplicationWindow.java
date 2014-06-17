@@ -5,6 +5,7 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -55,8 +56,20 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 		
 		gbc.anchor = GridBagConstraints.PAGE_START;
 		
-		setSize(900, 700);
-		setLocation(100, 0);
+		Toolkit tk = Toolkit.getDefaultToolkit();
+		int xSize = tk.getScreenSize().width;
+		int ySize = tk.getScreenSize().height;
+		
+		if (xSize > 1360) {
+			xSize = 1360;
+		}
+		
+		if (ySize > 768) {
+			ySize = 768;
+		}
+		
+		setSize(xSize, ySize);
+		setLocation((tk.getScreenSize().width - xSize) / 2, (tk.getScreenSize().height - ySize) / 2);
 
 		setLayout(new GridBagLayout());
 		
@@ -92,7 +105,7 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 	public void addTab(WorldTab tab) {
 		String title;
 		
-		title = tab.getWorldName();
+		title = tab.getName();
 		tabs.addTab(title, tab.getIndicator(), tab);
 		tabs.setSelectedComponent(tab);
 		

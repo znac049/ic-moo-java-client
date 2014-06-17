@@ -93,20 +93,20 @@ public class Logger {
 		logMsg(msg, _labAttribs, attribs);
 	}
 	
-	public void printBacktrace(String msg, Exception e) {
+	public void printBacktrace(String msg, Exception e, SimpleAttributeSet attribs) {
 		StackTraceElement[] trace = e.getStackTrace();
 
-		logMsg(msg);
+		logMsg(msg, attribs);
 		for (int i=0; i<trace.length; i++) {
-			append(trace[i].toString() + '\n', _errAttribs);
+			append(trace[i].toString() + '\n', attribs);
 		}
 	}
 	
 	public void printBacktrace(Exception e) {
-		printBacktrace("Caught an exception:", e);
+		printBacktrace("Caught an exception:", e, _errAttribs);
 	}
 	
-	protected void append(String msg, SimpleAttributeSet attributes) {
+	protected synchronized void append(String msg, SimpleAttributeSet attributes) {
 		Document doc = _log.getDocument();
 		
 		try {
@@ -135,5 +135,9 @@ public class Logger {
 	
 	public void logError(String msg) {
 		logMsg(msg, _errAttribs);
+	}
+	
+	public void logError(String msg, Exception e) {
+		printBacktrace(msg, e, _errAttribs);
 	}
 }

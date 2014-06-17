@@ -9,7 +9,7 @@ public interface IOPluginInterface {
 		CONSUMED
 	};
 	
-	public boolean attach(ServerPort server, WorldTab tab);
+	public boolean attach(ServerConnection server, WorldTab tab);
 	
 	public WorldTab getWorldTab();
 	

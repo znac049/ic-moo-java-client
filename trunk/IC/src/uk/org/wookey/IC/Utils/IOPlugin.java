@@ -8,7 +8,7 @@ public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	protected boolean _enabled = false; // Disabled by default
 	
 	protected WorldTab worldTab = null;
-	protected ServerPort server = null;
+	protected ServerConnection server = null;
 	
 	public boolean activate() {
 		setName("IOPlugin");
@@ -32,7 +32,7 @@ public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	}
 
 	@Override
-	public boolean attach(ServerPort serverPort, WorldTab tab) {
+	public boolean attach(ServerConnection serverPort, WorldTab tab) {
 		server = serverPort;
 		worldTab = tab;
 		

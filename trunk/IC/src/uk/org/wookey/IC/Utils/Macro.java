@@ -40,7 +40,7 @@ public class Macro {
 		jsFile = js;
 	}
 	
-	public boolean exec(JSEngine js, ServerPort server) {
+	public boolean exec(JSEngine js, ServerConnection server) {
 		boolean res = false;
 		
 		_logger.logInfo("Execute macro " + name);

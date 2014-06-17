@@ -15,7 +15,7 @@ import uk.org.wookey.IC.Utils.LED;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.Macro;
 import uk.org.wookey.IC.Utils.Prefs;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 import uk.org.wookey.IC.Utils.TabInterface;
 
 public class WorldTab extends JPanel implements ActionListener, TabInterface, Runnable, MouseListener {
@@ -23,13 +23,11 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	public static final int LEFT_SIDEBAR = 1;
 	public static final int RIGHT_SIDEBAR = 2;
 	
-	private static int tabNum = 0;
-	
 	private Logger _logger = new Logger("WorldTab");
 	private Screen screen;
 	private JTextField keyboard;
 	private StatusPanel infoPanel;
-	private ServerPort server;
+	private ServerConnection server;
 	private LED statusLED;
 	
 	private JPanel leftSide;
@@ -77,6 +75,14 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		setup();
 	}
 	
+	public String getName() {
+		if (worldName == null) {
+			return hostName + ":" + hostPort;
+		}
+		
+		return worldName;
+	}
+	
 	public void setup() {
 		KeyHandler kh = new KeyHandler();
 		
@@ -89,8 +95,6 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		screen = new Screen();
 		screen.setFocusable(true);
 		screen.requestFocusInWindow();
-		//screen.addKeyListener(new KeyForwarder());
-		screen.addKeyListener(kh);
 
 		JScrollPane scroller = new JScrollPane(screen);
 		scroller.setFocusable(false); 
@@ -127,7 +131,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		onClose.exec(jsEngine, server);
 		
 		listenerThread.interrupt();
-		server.close();
+		server.disconnect();
 	}
 	
 	public JPanel getPanel(int whichPanel) {
@@ -152,22 +156,19 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		keyMap.load(prefs);
 	}
 	
-	public void runThread() {		
-		tabNum++;
-		listenerThread = new Thread(this, "World: " + tabNum);
+	public void runThread() {
+		listenerThread = new Thread(this, "Listener-" + getName());
 		listenerThread.start();
 	}
 	
 	public void run() {
-		screen.info("Connecting to world '" + worldName + "'.");
+		screen.info("Connecting to '" + getName() + "'");
+		
 		attemptToConnect();
 		
-		while (server.connected()) {
+		while (server.isConnected()) {
 			String line = server.readLine();
-				
-			if (line != null) {
-				handleRemoteInputLine(line);
-			}
+			handleRemoteInputLine(line);
 		}
 		
 		screen.info("Connection closed");
@@ -217,12 +218,12 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		}
 		
 		if ((hostPort != -1) && !hostName.equals("")) {
-			server = new ServerPort(hostName, hostPort, this, prefs);
+			server = new ServerConnection(hostName, hostPort, this, prefs);
 			
 			if (worldName != null) {
 				setupKeyMap();
 					
-				if (server.connected() & autoConnect & !userName.equals("")) {
+				if (server.isConnected() & autoConnect & !userName.equals("")) {
 					_logger.logInfo("Autologin as '" + userName + "'");
 					server.writeLine("connect " + userName + " " + password);
 				}
@@ -289,7 +290,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		}
 	}
 	
-	public String getWorldName() {
+	public String OLDgetWorldName() {
 		if (worldName != null) {
 			return worldName;
 		}
@@ -309,7 +310,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		return prefs;
 	}
 	
-	public ServerPort getServerPort() {
+	public ServerConnection getServerPort() {
 		return server;
 	}
 	
