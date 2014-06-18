@@ -20,7 +20,7 @@ As ever, if you spot any errors or omissions, please let us know.
 {{{$#$dns-uk-org-wookey-core-getinfo}}}
 
 === getobj ===
-{{{$#$dns-uk-org-wookey-core-getinfo (objnum}}}
+{{{$#$dns-uk-org-wookey-core-getobj (objnum)}}}
 
 == S->C ==
 === info ===
