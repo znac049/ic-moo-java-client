@@ -35,7 +35,7 @@ As well as the standard packages, the authors have created a package and produce
 
 *dns-uk-org-wookey-core*. This package takes the needs of MOO programmers to a new level, presenting much of the underlying detail of the MOO's object hierarchy in a tree, emphasing those areas that the user has declared a specific interest in. It presents much of the information about these objects, such as it's properties, it's verbs and it's place in the object hierarchy visually without all that nasty messing around in hyperspace!
 
-The package protocol is still changing, but the latest definition can be found in the MCPWookeyCorePackage page.
+The package protocol is still changing, but the latest definition can be found in the [WookeyCoreMCPPackage] page.
 
 = Caveats =
 If you are writing your own MCP package handlers, care should be taken to ensure that the package closes down cleanly when told to do so by the main MCP [IOPlugin]. It is not uncommon for package handlers to create threads and these need to be closed down cleanly.
