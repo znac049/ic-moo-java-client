@@ -27,4 +27,4 @@ As ever, if you spot any errors or omissions, please let us know.
 {{{$#$dns-uk-org-wookey-core-info}}} (maxobj, playerobj)
 
 === info ===
-{{{$#$dns-uk-org-wookey-core-info (objnum, properties*, verbs*}}}
+{{{$#$dns-uk-org-wookey-core-info (objnum, properties*, verbs*, parents*)}}}
