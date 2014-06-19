@@ -29,18 +29,81 @@ public class Prefs {
 	
 	public static boolean pluginEnabledGlobally(String name) {
 		Preferences prefs = node(pluginNodeName);
+		String keyName = name + "Enabled";
+		boolean keyExists = false;
 		
-		_logger.logInfo("root node: " + Preferences.userRoot());
-		_logger.logInfo("checking pref: " + prefs.absolutePath() + "/" + name + "Enabled");
+		_logger.logInfo("checking global pref: " + prefs.absolutePath() + "/" + keyName);
 		
-		boolean res = prefs.getBoolean(name+"Enabled", false);
-		prefs.putBoolean(name+"Enabled", res);
+		// Does the key exist?
 		try {
-			prefs.flush();
+			for (String key: prefs.keys()) {
+				if (key.equals(keyName)) {
+					keyExists = true;
+					break;
+				}
+			}
 		} catch (BackingStoreException e) {
-			_logger.logError("Failed to save prefs");
+			_logger.logError("Caught exception while getting list of pref keys", e);
 		}
 		
-		return res;
+		if (!keyExists) {
+			_logger.logInfo("no key - defaulting to disabled");
+			return false;
+		}
+		
+		
+		boolean enabled = prefs.getBoolean(keyName, false);
+		_logger.logInfo(enabled?"Enabled":"Disabled");
+		
+		return enabled;
+	}
+
+	public static boolean pluginEnabledForWorld(String worldName, String pluginName) {
+		Preferences prefs = node(WorldsRoot);
+		String keyName = pluginName + "Enabled";
+		boolean keyExists = false;
+		boolean worldExists = false;
+		
+		_logger.logInfo("checking world pref: " + prefs.absolutePath() + "/" + worldName + "/" + keyName);
+		
+		// Does an entry for that world exist?
+		try {
+			for (String world: prefs.childrenNames()) {
+				if (world.equals(worldName)) {
+					worldExists = true;
+					break;
+				}
+			}
+		} catch (BackingStoreException e) {
+			_logger.logError("Caught exception while getting list of pref keys", e);
+			return pluginEnabledGlobally(pluginName);
+		}
+		
+		if (!worldExists) {
+			return pluginEnabledGlobally(pluginName);
+		}
+		
+		// Does the key exist?
+		try {
+			for (String key: prefs.keys()) {
+				if (key.equals(keyName)) {
+					keyExists = true;
+					break;
+				}
+			}
+		} catch (BackingStoreException e) {
+			_logger.logError("Caught exception while getting list of pref keys", e);
+		}
+		
+		if (!keyExists) {
+			_logger.logInfo("no key - defaulting to disabled");
+			return pluginEnabledGlobally(pluginName);
+		}
+		
+		
+		boolean enabled = prefs.getBoolean(keyName, false);
+		_logger.logInfo(enabled?"Enabled":"Disabled");
+		
+		return enabled;
 	}
 }

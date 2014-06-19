@@ -1,9 +1,6 @@
 package uk.org.wookey.IC.Utils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -79,7 +76,7 @@ public class ServerConnection {
 					}
 				}
 			}
-						
+			
 			if (!consumed) {
 				return line;
 			}
@@ -93,15 +90,15 @@ public class ServerConnection {
 		for (CorePluginInterface plugin: PluginManager.pluginsSupporting(CorePluginInterface.PluginType.IOPLUGIN)) {
 			IOPlugin p = (IOPlugin) plugin;
 				
-			if (Prefs.pluginEnabledGlobally(p.getName())) {
-				_logger.logInfo("  " + plugin.getName() + " enabled globally");
+			if (Prefs.pluginEnabledForWorld(worldTab.getName(), p.getName())) {
+				_logger.logInfo("  " + plugin.getName() + " enabled");
 				
 				plugins.add((CorePlugin) plugin);
 				
 				p.attach(this, worldTab);
 			}
 			else {
-				_logger.logInfo("  - Plugin " + p.getName() + " has been disabled globally");
+				_logger.logInfo("  - Plugin " + p.getName() + " has been disabled");
 			}
 		}
 	}
