@@ -1,6 +1,8 @@
 package uk.org.wookey.IC.Utils;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -8,6 +10,7 @@ import javax.swing.text.*;
 
 public class Logger {
 	private static JTextPane _log = null;
+	private static PrintWriter _out = null;
 	private String _logName;
 	private int _logLevel = 1;
 	private SimpleAttributeSet _labAttribs;
@@ -42,6 +45,13 @@ public class Logger {
 			_logName = "[" + tag + "]:";
 		}
 		
+		if (_out == null) {
+			try {
+				_out = new PrintWriter("debug.txt");
+			} catch (FileNotFoundException e) {
+			}
+		}
+		
 		_msgBuffer = new ArrayList<String[]>();
 		
 		_labAttribs = new SimpleAttributeSet();
@@ -64,6 +74,11 @@ public class Logger {
 	public synchronized void logMsg(String msg, SimpleAttributeSet labAttribs, SimpleAttributeSet msgAttribs) {
 		if (_logLevel == 0) {
 			return;
+		}
+		
+		if (_out != null) {
+			_out.println(msg);
+			_out.flush();
 		}
 		
 		if (_log != null) {

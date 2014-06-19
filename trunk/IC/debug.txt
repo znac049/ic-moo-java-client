@@ -1,0 +1,1239 @@
+Scanning for plugins
+LocalEditing is a plugin
+MCP is a plugin
+Autoconnect to world 'ht'
+CommandRunner thread started
+Connecting to: moo.harpers-tale.com port 7007
+Connected
+The following IOPlugins were found:
+Plugin LocalEditing instance activated
+Plugin MCP instance activated
+CommandRunner thread started
+checking world pref: /uk/org/wookey/IC/worlds/ht/LocalEditingEnabled
+no key - defaulting to disabled
+checking global pref: /uk/org/wookey/IC/plugins/LocalEditingEnabled
+Enabled
+  LocalEditing enabled
+checking world pref: /uk/org/wookey/IC/worlds/ht/MCPEnabled
+no key - defaulting to disabled
+checking global pref: /uk/org/wookey/IC/plugins/MCPEnabled
+Enabled
+  MCP enabled
+Loading keymap from node /uk/org/wookey/IC/worlds/ht/KeyMap
+Mapping key Alt-O to macro 'fishify'
+Loading key Alt-O for fishify
+Mapping key Ctrl-H to macro 'help'
+Loading key Ctrl-H for help
+Mapping key Ctrl-L to macro 'lookaround'
+Loading key Ctrl-L for lookaround
+Autologin as 'Delron'
+C->S: connect Delron znac049
+Execute macro onConnect
+JS file is C:\Users\bob\personal-workspace\IC\.\macros\onConnect.js
+File exists and is readable
+S->C:                           ___====-_  _-====___
+S->C:                     _--^^^#####//      \\#####^^^--_
+S->C:                  _-^##########// (    ) \\##########^-_
+S->C:                 -############//  |\^^/|  \\############-
+S->C:               _/############//   (>::<)   \\############\_
+S->C:              /#############((     \\//     ))#############\
+S->C:             -###############\\    (oo)    //###############-
+S->C:            -#################\\  /    \  //#################-
+S->C:           -###################\\/      \//###################-
+S->C:          _#/|##########/\######(   /\   )######/\##########|\#_
+S->C:          |/ |#/\#/\#/\/  \#/\##\  |  |  /##/\#/  \/\#/\#/\#| \|
+S->C:          '  |/  V  V  '   V  \#\| |  | |/#/  V   '  V  V  \|  '
+S->C:             '   '  '      '   / | |  | | \   '      '  '   '
+S->C:   ##  ##    #########        (  | |  | |  )      __________________________
+S->C:   ##  ##        ##          __\ | |  | | /__    | A Pern Themed Moo, based |
+S->C:   ######        ##         (vvv(VVV)(VVV)vvv)   | on 'Dragonriders of Pern'|
+S->C:   ##  ##        ##                              | books, by Anne McCaffery |
+S->C:   ##  ## arpers ## ale                           ~~~~~~~~~~~~~~~~~~~~~~~~~~
+S->C: ---------------------------------------------------------------------------
+S->C: The "Dragonriders of Pern" (tm) books are copyright 1967 by Anne McCaffrey.
+S->C: You are playing this game by the kind permission of Anne McCaffrey and her agent, Virginia Kidd.
+S->C: 
+S->C:  Type:
+S->C:     create <name> <password> <email>    to create a new character
+S->C:     connect <player> <password>         to login to an existing character
+S->C:     connect guest                       to login as a guest character
+S->C:     @quit                               to logoff
+S->C: 
+S->C: *** Connected ***
+S->C: #$# Client Check
+No handler for MCP command 'Client'
+S->C: #$#mcp version: 2.1 to: 2.1
+Added command mcp to queue. New length is 1
+Added command mcp-negotiate-can to queue. New length is 2
+Added command mcp-negotiate-can to queue. New length is 3
+Added command mcp-negotiate-can to queue. New length is 4
+Added command mcp-negotiate-can to queue. New length is 5
+Added command mcp-negotiate-can to queue. New length is 6
+Added command mcp-negotiate-can to queue. New length is 7
+Sending queued command mcp. New length is 6
+Added command mcp-negotiate-end to queue. New length is 7
+C->S: #$#mcp authentication-key: ic04 version: 2.1 to: 2.1
+S->C: [#Monitor] Delron has connected on Thu Jun 19 16:31:31 2014 PDT.
+S->C: Delron's Cave
+S->C: You see nothing special.
+S->C: You see Pot of paint here.
+S->C: You notice Norled asleep here.
+S->C: Obvious exits:
+Sending queued command mcp-negotiate-can. New length is 6
+S->C: out
+S->C: Last connected Thu Jun 19 16:26:58 2014 PDT from i-83-67-114-139.freedom2surf.net
+C->S: #$#mcp-negotiate-can ic04 package: dns-uk-org-wookey-core min-version: 1.0 max-version: 1.0
+Sending queued command mcp-negotiate-can. New length is 5
+C->S: #$#mcp-negotiate-can ic04 package: mcp-negotiate min-version: 1.0 max-version: 2.0
+Sending queued command mcp-negotiate-can. New length is 4
+C->S: #$#mcp-negotiate-can ic04 package: dns-org-mud-moo-simpleedit min-version: 1.0 max-version: 1.0
+Sending queued command mcp-negotiate-can. New length is 3
+C->S: #$#mcp-negotiate-can ic04 package: dns-com-awns-visual min-version: 1.0 max-version: 1.0
+Sending queued command mcp-negotiate-can. New length is 2
+C->S: #$#mcp-negotiate-can ic04 package: dns-com-awns-serverinfo min-version: 1.0 max-version: 1.0
+Sending queued command mcp-negotiate-can. New length is 1
+C->S: #$#mcp-negotiate-can ic04 package: dns-com-awns-timezone min-version: 1.0 max-version: 1.0
+Sending queued command mcp-negotiate-end. New length is 0
+C->S: #$#mcp-negotiate-end ic04
+S->C: #$#mcp-negotiate-can ic04 package: dns-org-mud-moo-simpleedit min-version: 1.0 max-version: 1.0
+Birth of 'dns-org-mud-moo-simpleedit'
+S->C: #$#mcp-negotiate-can ic04 package: mcp-negotiate min-version: 1.0 max-version: 2.0
+Birth of 'mcp-negotiate'
+S->C: #$#mcp-negotiate-can ic04 package: mcp-cord min-version: 1.0 max-version: 1.0
+S->C: #$#mcp-negotiate-can ic04 package: dns-com-awns-serverinfo min-version: 1.0 max-version: 1.0
+Added command dns-com-awns-serverinfo to queue. New length is 1
+S->C: #$#mcp-negotiate-can ic04 package: dns-com-awns-timezone min-version: 1.0 max-version: 1.0
+Sending queued command dns-com-awns-serverinfo. New length is 0
+TZ=Europe/London
+Added command dns-com-awns-timezone to queue. New length is 1
+S->C: #$#mcp-negotiate-can ic04 package: dns-com-awns-visual min-version: 1.0 max-version: 1.0
+C->S: #$#dns-com-awns-serverinfo ic04
+Adding to lhs side panel...
+Added command dns-com-awns-visual-getusers to queue. New length is 2
+S->C: #$#mcp-negotiate-can ic04 package: dns-uk-org-wookey-core min-version: 1.0 max-version: 1.0
+Sending queued command dns-com-awns-timezone. New length is 1
+C->S: #$#dns-com-awns-timezone ic04 timezone: Europe/London
+Sending queued command dns-com-awns-visual-getusers. New length is 0
+C->S: #$#dns-com-awns-visual-getusers ic04
+Adding to lhs side panel...
+S->C: #$#mcp-negotiate-end ic04
+Added command dns-uk-org-wookey-core-getinfo to queue. New length is 1
+Sending queued command dns-uk-org-wookey-core-getinfo. New length is 0
+C->S: #$#dns-uk-org-wookey-core-getinfo ic04
+S->C: #$#dns-com-awns-visual-users ic04 id*: "" name*: "" location*: "" idle*: "" _data-tag: 127713039611744
+S->C: #$#* 127713039611744 id: #26374
+S->C: #$#* 127713039611744 id: #27495
+S->C: #$#* 127713039611744 id: #27626
+S->C: #$#* 127713039611744 id: #27346
+S->C: #$#* 127713039611744 id: #27740
+S->C: #$#* 127713039611744 id: #28027
+S->C: #$#* 127713039611744 id: #27938
+S->C: #$#* 127713039611744 id: #27975
+S->C: #$#* 127713039611744 id: #27833
+S->C: #$#* 127713039611744 id: #26989
+S->C: #$#* 127713039611744 id: #18654
+S->C: #$#* 127713039611744 id: #26762
+S->C: #$#* 127713039611744 id: #26968
+S->C: #$#* 127713039611744 id: #28017
+S->C: #$#* 127713039611744 id: #27057
+S->C: #$#* 127713039611744 id: #27746
+S->C: #$#* 127713039611744 id: #26758
+S->C: #$#* 127713039611744 id: #27729
+S->C: #$#* 127713039611744 id: #28004
+S->C: #$#* 127713039611744 id: #28006
+S->C: #$#* 127713039611744 id: #27713
+S->C: #$#* 127713039611744 id: #15850
+S->C: #$#* 127713039611744 id: #8833
+S->C: #$#* 127713039611744 id: #22400
+S->C: #$#* 127713039611744 id: #2
+S->C: #$#* 127713039611744 name: Delron
+S->C: #$#* 127713039611744 name: H'ris
+S->C: #$#* 127713039611744 name: A'lory
+S->C: #$#* 127713039611744 name: Trek
+S->C: #$#* 127713039611744 name: Arianne
+S->C: #$#* 127713039611744 name: F'dan
+S->C: #$#* 127713039611744 name: Ebben
+S->C: #$#* 127713039611744 name: Finn
+S->C: #$#* 127713039611744 name: T'ral
+S->C: #$#* 127713039611744 name: El'ai
+S->C: #$#* 127713039611744 name: Hannah
+S->C: #$#* 127713039611744 name: D'ren
+S->C: #$#* 127713039611744 name: Tanmorand
+S->C: #$#* 127713039611744 name: Linden
+S->C: #$#* 127713039611744 name: Sienna
+S->C: #$#* 127713039611744 name: Mayte
+S->C: #$#* 127713039611744 name: Bailey
+S->C: #$#* 127713039611744 name: Yules
+S->C: #$#* 127713039611744 name: Kaliya
+S->C: #$#* 127713039611744 name: Niyati
+S->C: #$#* 127713039611744 name: Ruby
+S->C: #$#* 127713039611744 name: Siem
+S->C: #$#* 127713039611744 name: Fyren
+S->C: #$#* 127713039611744 name: Diz
+S->C: #$#* 127713039611744 name: Kira
+S->C: #$#* 127713039611744 location: #25159
+S->C: #$#* 127713039611744 location: #11820
+S->C: #$#* 127713039611744 location: #25468
+S->C: #$#* 127713039611744 location: #24277
+S->C: #$#* 127713039611744 location: #18318
+S->C: #$#* 127713039611744 location: #16810
+S->C: #$#* 127713039611744 location: #23198
+S->C: #$#* 127713039611744 location: #8640
+S->C: #$#* 127713039611744 location: #23198
+S->C: #$#* 127713039611744 location: #1569
+S->C: #$#* 127713039611744 location: #24485
+S->C: #$#* 127713039611744 location: #16810
+S->C: #$#* 127713039611744 location: #6504
+S->C: #$#* 127713039611744 location: #23198
+S->C: #$#* 127713039611744 location: #19958
+S->C: #$#* 127713039611744 location: #11272
+S->C: #$#* 127713039611744 location: #19540
+S->C: #$#* 127713039611744 location: #12192
+S->C: #$#* 127713039611744 location: #9722
+S->C: #$#* 127713039611744 location: #23198
+S->C: #$#* 127713039611744 location: #8943
+S->C: #$#* 127713039611744 location: #50
+S->C: #$#* 127713039611744 location: #4321
+S->C: #$#* 127713039611744 location: #1525
+S->C: #$#* 127713039611744 location: #1525
+S->C: #$#* 127713039611744 idle: 0
+S->C: #$#* 127713039611744 idle: 694
+S->C: #$#* 127713039611744 idle: 13
+S->C: #$#* 127713039611744 idle: 1148
+S->C: #$#* 127713039611744 idle: 26
+S->C: #$#* 127713039611744 idle: 294
+S->C: #$#* 127713039611744 idle: 943
+S->C: #$#* 127713039611744 idle: 266
+S->C: #$#* 127713039611744 idle: 83
+S->C: #$#* 127713039611744 idle: 11685
+S->C: #$#* 127713039611744 idle: 2400
+S->C: #$#* 127713039611744 idle: 220
+S->C: #$#* 127713039611744 idle: 15676
+S->C: #$#* 127713039611744 idle: 90
+S->C: #$#* 127713039611744 idle: 9331
+S->C: #$#* 127713039611744 idle: 274
+S->C: #$#* 127713039611744 idle: 1788
+S->C: #$#* 127713039611744 idle: 2272
+S->C: #$#* 127713039611744 idle: 74
+S->C: #$#* 127713039611744 idle: 94
+S->C: #$#* 127713039611744 idle: 828
+S->C: #$#* 127713039611744 idle: 101
+S->C: #$#* 127713039611744 idle: 101
+S->C: #$#* 127713039611744 idle: 10429935
+S->C: #$#* 127713039611744 idle: 201931
+S->C: #$#: 127713039611744
+S->C: #$#dns-uk-org-wookey-core-info ic04 maxobj: #28030 playerobj: #26374
+Player object number set to 26374
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 26374
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: Delron objnum: #26374 properties*: "" verbs*: "" parents*: "" _data-tag: 17607884011745
+S->C: #$#* 17607884011745 properties: flibble
+S->C: #$#* 17607884011745 properties: MCP_snoop
+S->C: #$#* 17607884011745 properties: interests
+S->C: #$#* 17607884011745 verbs: think
+S->C: #$#* 17607884011745 verbs: snug_msg pummel_msg hug_msg patpat_msg bonk_msg tickle_msg hi5_msg poke_msg thwap_msg foof_msg kiss_msg bap_msg wave_msg bug_msg noogie_msg
+S->C: #$#* 17607884011745 verbs: details
+S->C: #$#* 17607884011745 verbs: @sethug @setsnug @setpummel @setpatpat @setbonk @settickle @sethi5 @setpoke @setthwap @setfoof @setkiss @setbap @setwave @setbug @setnoogie
+S->C: #$#* 17607884011745 verbs: fverbs
+S->C: #$#* 17607884011745 verbs: l+
+S->C: #$#* 17607884011745 verbs: l-
+S->C: #$#* 17607884011745 verbs: edit_set_program
+S->C: #$#* 17607884011745 verbs: @summon
+S->C: #$#* 17607884011745 verbs: @whereverb
+S->C: #$#* 17607884011745 verbs: @alts
+S->C: #$#* 17607884011745 verbs: doing_msg
+S->C: #$#* 17607884011745 verbs: @dbtree
+S->C: #$#* 17607884011745 verbs: @@who
+S->C: #$#* 17607884011745 verbs: tostring
+S->C: #$#* 17607884011745 verbs: zz
+S->C: #$#* 17607884011745 verbs: ts
+S->C: #$#* 17607884011745 parents: #13153
+S->C: #$#* 17607884011745 parents: #59
+S->C: #$#* 17607884011745 parents: #4
+S->C: #$#* 17607884011745 parents: #101
+S->C: #$#* 17607884011745 parents: #125
+S->C: #$#* 17607884011745 parents: #6
+S->C: #$#* 17607884011745 parents: #1
+S->C: #$#: 17607884011745
+Decoding string: '#26374', len=6
+Decoding string: '#1', len=2
+Does object #1 exist?
+No
+Parent: #1 doesn't exist
+Look up object #1
+No object - creating one
+Root node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
+Decoding string: '#6', len=2
+Does object #6 exist?
+No
+Parent: #6 doesn't exist
+Look up object #6
+No object - creating one
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 2
+Decoding string: '#125', len=4
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 1
+Does object #125 exist?
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 1
+No
+Parent: #125 doesn't exist
+Look up object #125
+No object - creating one
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 2
+Decoding string: '#101', len=4
+Does object #101 exist?
+No
+Parent: #101 doesn't exist
+Look up object #101
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 1
+No object - creating one
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 6
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 2
+Decoding string: '#4', len=2
+Does object #4 exist?
+No
+Parent: #4 doesn't exist
+Look up object #4
+No object - creating one
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 3
+Decoding string: '#59', len=3
+Does object #59 exist?
+No
+Parent: #59 doesn't exist
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 2
+Look up object #59
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 125
+No object - creating one
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 3
+Decoding string: '#13153', len=6
+Does object #13153 exist?
+No
+Parent: #13153 doesn't exist
+Look up object #13153
+No object - creating one
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 4
+Look up object #26374
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 3
+No object - creating one
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 101
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 2
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 4
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 1
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 59
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 13153
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "Root Class" objnum: #1 properties*: "" verbs*: "" parents*: "" _data-tag: 36374954211746
+S->C: #$#* 36374954211746 properties: key
+S->C: #$#* 36374954211746 properties: aliases
+S->C: #$#* 36374954211746 properties: description
+S->C: #$#* 36374954211746 properties: race
+S->C: #$#* 36374954211746 properties: forced
+S->C: #$#* 36374954211746 properties: listen
+S->C: #$#* 36374954211746 properties: object_size
+S->C: #$#* 36374954211746 properties: motile_msg
+S->C: #$#* 36374954211746 properties: url
+S->C: #$#* 36374954211746 properties: water_motile_msg
+S->C: #$#* 36374954211746 properties: fly_motile_msg
+S->C: #$#* 36374954211746 properties: edit_ok
+S->C: #$#* 36374954211746 properties: htext
+S->C: #$#* 36374954211746 properties: facing
+S->C: #$#* 36374954211746 properties: c
+S->C: #$#* 36374954211746 properties: watch_ooc
+S->C: #$#* 36374954211746 properties: puppet
+S->C: #$#* 36374954211746 properties: picture_url
+S->C: #$#* 36374954211746 properties: can_control
+S->C: #$#* 36374954211746 properties: creation_time
+S->C: #$#* 36374954211746 properties: longdesc
+S->C: #$#* 36374954211746 properties: markparts
+S->C: #$#* 36374954211746 properties: markpartcap
+S->C: #$#* 36374954211746 verbs: initialize
+S->C: #$#* 36374954211746 verbs: recycle
+S->C: #$#* 36374954211746 verbs: set_name
+S->C: #$#* 36374954211746 verbs: title
+S->C: #$#* 36374954211746 verbs: titlec
+S->C: #$#* 36374954211746 verbs: set_aliases
+S->C: #$#* 36374954211746 verbs: match
+S->C: #$#* 36374954211746 verbs: match_object
+S->C: #$#* 36374954211746 verbs: set_description
+S->C: #$#* 36374954211746 verbs: description longdesc
+S->C: #$#* 36374954211746 verbs: look_self
+S->C: #$#* 36374954211746 verbs: exam*ine
+S->C: #$#* 36374954211746 verbs: notify
+S->C: #$#* 36374954211746 verbs: tell
+S->C: #$#* 36374954211746 verbs: tell_lines
+S->C: #$#* 36374954211746 verbs: accept
+S->C: #$#* 36374954211746 verbs: moveto
+S->C: #$#* 36374954211746 verbs: eject
+S->C: #$#* 36374954211746 verbs: is_unlocked_for
+S->C: #$#* 36374954211746 verbs: huh
+S->C: #$#* 36374954211746 verbs: set_message
+S->C: #$#* 36374954211746 verbs: do_examine
+S->C: #$#* 36374954211746 verbs: examine_key
+S->C: #$#* 36374954211746 verbs: examine_names
+S->C: #$#* 36374954211746 verbs: examine_desc
+S->C: #$#* 36374954211746 verbs: examine_contents
+S->C: #$#* 36374954211746 verbs: examine_verbs
+S->C: #$#* 36374954211746 verbs: get_message
+S->C: #$#* 36374954211746 verbs: room_announce*_all_but
+S->C: #$#* 36374954211746 verbs: init_for_core
+S->C: #$#* 36374954211746 verbs: contents
+S->C: #$#* 36374954211746 verbs: examine_verb_ok
+S->C: #$#* 36374954211746 verbs: is_listening
+S->C: #$#* 36374954211746 verbs: hidden_verbs
+S->C: #$#* 36374954211746 verbs: examine_owner
+S->C: #$#* 36374954211746 verbs: announce*_all_but
+S->C: #$#* 36374954211746 verbs: ahear
+S->C: #$#* 36374954211746 verbs: do_url
+S->C: #$#* 36374954211746 verbs: tell_lines_suspended
+S->C: #$#* 36374954211746 verbs: @setage
+S->C: #$#* 36374954211746 verbs: htext
+S->C: #$#* 36374954211746 verbs: do_web_header
+S->C: #$#* 36374954211746 verbs: do_web_footer do_web_tailer
+S->C: #$#* 36374954211746 verbs: new_contents
+S->C: #$#* 36374954211746 verbs: do_look
+S->C: #$#* 36374954211746 verbs: @menu
+S->C: #$#* 36374954211746 verbs: do_web_footer_old
+S->C: #$#* 36374954211746 verbs: etitle
+S->C: #$#: 36374954211746
+Decoding string: '#1', len=2
+Look up object #1
+Found it
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "generic player" objnum: #6 properties*: "" verbs*: "" parents*: "" _data-tag: 198900330811747
+S->C: #$#* 198900330811747 properties: features
+S->C: #$#* 198900330811747 properties: previous_connection
+S->C: #$#* 198900330811747 properties: mail_lists
+S->C: #$#* 198900330811747 properties: email_address
+S->C: #$#* 198900330811747 properties: help
+S->C: #$#* 198900330811747 properties: more_msg
+S->C: #$#* 198900330811747 properties: linetask
+S->C: #$#* 198900330811747 properties: linesleft
+S->C: #$#* 198900330811747 properties: linebuffer
+S->C: #$#* 198900330811747 properties: pagelen
+S->C: #$#* 198900330811747 properties: _mail_task
+S->C: #$#* 198900330811747 properties: owned_objects
+S->C: #$#* 198900330811747 properties: linelen
+S->C: #$#* 198900330811747 properties: current_folder
+S->C: #$#* 198900330811747 properties: all_connect_places
+S->C: #$#* 198900330811747 properties: last_connect_place
+S->C: #$#* 198900330811747 properties: dict
+S->C: #$#* 198900330811747 properties: messages_going
+S->C: #$#* 198900330811747 properties: brief
+S->C: #$#* 198900330811747 properties: responsible
+S->C: #$#* 198900330811747 properties: lines
+S->C: #$#* 198900330811747 properties: page_absent_msg
+S->C: #$#* 198900330811747 properties: pq
+S->C: #$#* 198900330811747 properties: pqc
+S->C: #$#* 198900330811747 properties: page_origin_msg
+S->C: #$#* 198900330811747 properties: page_echo_msg
+S->C: #$#* 198900330811747 properties: mail_notify
+S->C: #$#* 198900330811747 properties: mail_forward
+S->C: #$#* 198900330811747 properties: edit_options
+S->C: #$#* 198900330811747 properties: mail_options
+S->C: #$#* 198900330811747 properties: current_message
+S->C: #$#* 198900330811747 properties: messages
+S->C: #$#* 198900330811747 properties: ownership_quota
+S->C: #$#* 198900330811747 properties: prc
+S->C: #$#* 198900330811747 properties: ppc
+S->C: #$#* 198900330811747 properties: poc
+S->C: #$#* 198900330811747 properties: psc
+S->C: #$#* 198900330811747 properties: pr
+S->C: #$#* 198900330811747 properties: pp
+S->C: #$#* 198900330811747 properties: po
+S->C: #$#* 198900330811747 properties: ps
+S->C: #$#* 198900330811747 properties: home
+S->C: #$#* 198900330811747 properties: password
+S->C: #$#* 198900330811747 properties: gaglist
+S->C: #$#* 198900330811747 properties: paranoid
+S->C: #$#* 198900330811747 properties: display_options
+S->C: #$#* 198900330811747 properties: list_options
+S->C: #$#* 198900330811747 properties: verb_subs
+S->C: #$#* 198900330811747 properties: first_connect_time
+S->C: #$#* 198900330811747 properties: osnug_msg
+S->C: #$#* 198900330811747 properties: opummel_msg
+S->C: #$#* 198900330811747 properties: ohug_msg
+S->C: #$#* 198900330811747 properties: opatpat_msg
+S->C: #$#* 198900330811747 properties: otickle_msg
+S->C: #$#* 198900330811747 properties: ohi5_msg
+S->C: #$#* 198900330811747 properties: opoke_msg
+S->C: #$#* 198900330811747 properties: othwap_msg
+S->C: #$#* 198900330811747 properties: ofoof_msg
+S->C: #$#* 198900330811747 properties: want_globals
+S->C: #$#* 198900330811747 properties: okiss_msg
+S->C: #$#* 198900330811747 properties: backstage
+S->C: #$#* 198900330811747 properties: last_connect_time
+S->C: #$#* 198900330811747 properties: last_disconnect_time
+S->C: #$#* 198900330811747 properties: monitor
+S->C: #$#* 198900330811747 properties: admin
+S->C: #$#* 198900330811747 properties: move_ok
+S->C: #$#* 198900330811747 properties: obvious
+S->C: #$#* 198900330811747 properties: last_command
+S->C: #$#* 198900330811747 properties: last_activity_called
+S->C: #$#* 198900330811747 properties: bigtick_snapshot
+S->C: #$#* 198900330811747 properties: watch_monitor
+S->C: #$#* 198900330811747 properties: feature_ok
+S->C: #$#* 198900330811747 properties: watch_checkpoint
+S->C: #$#* 198900330811747 properties: quota_summary
+S->C: #$#* 198900330811747 properties: size_quota
+S->C: #$#* 198900330811747 properties: is_byte_quota
+S->C: #$#* 198900330811747 properties: nukeme
+S->C: #$#* 198900330811747 properties: obug_msg
+S->C: #$#* 198900330811747 properties: rename_ok
+S->C: #$#* 198900330811747 properties: isalt
+S->C: #$#* 198900330811747 properties: alts
+S->C: #$#* 198900330811747 properties: gender
+S->C: #$#* 198900330811747 properties: builder
+S->C: #$#* 198900330811747 properties: okd
+S->C: #$#* 198900330811747 properties: initial_email_address
+S->C: #$#* 198900330811747 properties: okd_by
+S->C: #$#* 198900330811747 properties: want_page_echo
+S->C: #$#* 198900330811747 properties: gag_globals
+S->C: #$#* 198900330811747 properties: redflag
+S->C: #$#* 198900330811747 properties: watch_area_monitor
+S->C: #$#* 198900330811747 properties: envelope
+S->C: #$#* 198900330811747 properties: watch_beat
+S->C: #$#* 198900330811747 properties: want_party
+S->C: #$#* 198900330811747 properties: dont_reap_me
+S->C: #$#* 198900330811747 properties: reapwarn
+S->C: #$#* 198900330811747 properties: desclimit
+S->C: #$#* 198900330811747 properties: save_tcks
+S->C: #$#* 198900330811747 properties: out_of_band_session
+S->C: #$#* 198900330811747 properties: monitor_titles
+S->C: #$#* 198900330811747 properties: icon
+S->C: #$#* 198900330811747 properties: socketing
+S->C: #$#* 198900330811747 properties: client_type
+S->C: #$#* 198900330811747 properties: chan_potter
+S->C: #$#* 198900330811747 properties: socket_connection_name
+S->C: #$#* 198900330811747 properties: want_old_rooms
+S->C: #$#* 198900330811747 verbs: init_for_core
+S->C: #$#* 198900330811747 verbs: confunc
+S->C: #$#* 198900330811747 verbs: disfunc
+S->C: #$#* 198900330811747 verbs: initialize
+S->C: #$#* 198900330811747 verbs: recycle
+S->C: #$#* 198900330811747 verbs: accept
+S->C: #$#* 198900330811747 verbs: my_huh
+S->C: #$#* 198900330811747 verbs: last_huh
+S->C: #$#* 198900330811747 verbs: my_match_object
+S->C: #$#* 198900330811747 verbs: tell_contents
+S->C: #$#* 198900330811747 verbs: titlec
+S->C: #$#* 198900330811747 verbs: notify
+S->C: #$#* 198900330811747 verbs: notify_lines
+S->C: #$#* 198900330811747 verbs: linesplit
+S->C: #$#* 198900330811747 verbs: linelen
+S->C: #$#* 198900330811747 verbs: @more
+S->C: #$#* 198900330811747 verbs: @wrap
+S->C: #$#* 198900330811747 verbs: @linelen*gth
+S->C: #$#* 198900330811747 verbs: @pagelen*gth
+S->C: #$#* 198900330811747 verbs: tell
+S->C: #$#* 198900330811747 verbs: gag_p
+S->C: #$#* 198900330811747 verbs: set_gaglist
+S->C: #$#* 198900330811747 verbs: @gag
+S->C: #$#* 198900330811747 verbs: @listgag @gaglist
+S->C: #$#* 198900330811747 verbs: @ungag
+S->C: #$#* 198900330811747 verbs: whodunnit
+S->C: #$#* 198900330811747 verbs: @ch*eck
+S->C: #$#* 198900330811747 verbs: @paranoid
+S->C: #$#* 198900330811747 verbs: @sw*eep
+S->C: #$#* 198900330811747 verbs: wh*isper
+S->C: #$#* 198900330811747 verbs: receive_page
+S->C: #$#* 198900330811747 verbs: page_origin_msg page_echo_msg page_absent_msg
+S->C: #$#* 198900330811747 verbs: i inv*entory
+S->C: #$#* 198900330811747 verbs: look_self
+S->C: #$#* 198900330811747 verbs: home
+S->C: #$#* 198900330811747 verbs: @sethome
+S->C: #$#* 198900330811747 verbs: g*et take
+S->C: #$#* 198900330811747 verbs: @move
+S->C: #$#* 198900330811747 verbs: @eject
+S->C: #$#* 198900330811747 verbs: where*is @where*is
+S->C: #$#* 198900330811747 verbs: ?* help info*rmation man
+S->C: #$#* 198900330811747 verbs: mail_forward mail_notify
+S->C: #$#* 198900330811747 verbs: receive_message
+S->C: #$#* 198900330811747 verbs: display_message
+S->C: #$#* 198900330811747 verbs: parse_message_seq from_msg_seq %from_msg_seq to_msg_seq %to_msg_seq subject_msg_seq body_msg_seq display_seq_headers display_seq_full messages_in_seq list_rmm new_message_num length_num_le length_date_le length_date_gt length_all_msgs exists_num_eq undo_rmm expunge_rmm renumber rm_message_seq
+S->C: #$#* 198900330811747 verbs: msg_summary_line
+S->C: #$#* 198900330811747 verbs: msg_text
+S->C: #$#* 198900330811747 verbs: notify_mail
+S->C: #$#* 198900330811747 verbs: __fix
+S->C: #$#* 198900330811747 verbs: current_message
+S->C: #$#* 198900330811747 verbs: get_current_message
+S->C: #$#* 198900330811747 verbs: set_current_message
+S->C: #$#* 198900330811747 verbs: make_current_message
+S->C: #$#* 198900330811747 verbs: kill_current_message
+S->C: #$#* 198900330811747 verbs: current_folder
+S->C: #$#* 198900330811747 verbs: set_current_folder
+S->C: #$#* 198900330811747 verbs: parse_folder_spec
+S->C: #$#* 198900330811747 verbs: parse_mailread_cmd
+S->C: #$#* 198900330811747 verbs: @rmm*ail
+S->C: #$#* 198900330811747 verbs: @renumber
+S->C: #$#* 198900330811747 verbs: @unrmm*ail
+S->C: #$#* 198900330811747 verbs: @send
+S->C: #$#* 198900330811747 verbs: @answer @repl*y
+S->C: #$#* 198900330811747 verbs: @forward
+S->C: #$#* 198900330811747 verbs: @skip @unsub*scribe @forget
+S->C: #$#* 198900330811747 verbs: @subscribe @unsubscribed
+S->C: #$#* 198900330811747 verbs: old_mail_catch_up
+S->C: #$#* 198900330811747 verbs: @rn check_mail_lists @subscribed @subd
+S->C: #$#* 198900330811747 verbs: mail_option
+S->C: #$#* 198900330811747 verbs: display_option
+S->C: #$#* 198900330811747 verbs: edit_option
+S->C: #$#* 198900330811747 verbs: list_option
+S->C: #$#* 198900330811747 verbs: set_mail_option set_edit_option set_list_option set_display_option
+S->C: #$#* 198900330811747 verbs: @mailo*ptions @mail-o*ptions @edito*ptions @edit-o*ptions @displayo*ptions @display-o*ptions @listo*ptions @list-o*ptions
+S->C: #$#* 198900330811747 verbs: set_name
+S->C: #$#* 198900330811747 verbs: set_aliases
+S->C: #$#* 198900330811747 verbs: @rename
+S->C: #$#* 198900330811747 verbs: @addalias
+S->C: #$#* 198900330811747 verbs: @rmalias
+S->C: #$#* 198900330811747 verbs: @desc*ribe
+S->C: #$#* 198900330811747 verbs: @mess*ages
+S->C: #$#* 198900330811747 verbs: @notedit @edit
+S->C: #$#* 198900330811747 verbs: @password
+S->C: #$#* 198900330811747 verbs: @last-c*onnection
+S->C: #$#* 198900330811747 verbs: set_gender
+S->C: #$#* 198900330811747 verbs: @gender
+S->C: #$#* 198900330811747 verbs: set_brief
+S->C: #$#* 198900330811747 verbs: @mode
+S->C: #$#* 198900330811747 verbs: @exam*ine
+S->C: #$#* 198900330811747 verbs: exam*ine
+S->C: #$#* 198900330811747 verbs: add_feature
+S->C: #$#* 198900330811747 verbs: remove_feature
+S->C: #$#* 198900330811747 verbs: @add-feature @addfeature
+S->C: #$#* 198900330811747 verbs: @remove-feature @rmfeature @remfeature @delfeature @delete-feature
+S->C: #$#* 198900330811747 verbs: @features
+S->C: #$#* 198900330811747 verbs: @features
+S->C: #$#* 198900330811747 verbs: @quit bye
+S->C: #$#* 198900330811747 verbs: examine_commands_ok
+S->C: #$#* 198900330811747 verbs: is_listening
+S->C: #$#* 198900330811747 verbs: moveto
+S->C: #$#* 198900330811747 verbs: announce*_all_but
+S->C: #$#* 198900330811747 verbs: linewrap
+S->C: #$#* 198900330811747 verbs: @set-note-string @set-note-text
+S->C: #$#* 198900330811747 verbs: verb_sub
+S->C: #$#* 198900330811747 verbs: ownership_quota
+S->C: #$#* 198900330811747 verbs: tell_lines
+S->C: #$#* 198900330811747 verbs: @lastlog
+S->C: #$#* 198900330811747 verbs: set_linelength
+S->C: #$#* 198900330811747 verbs: set_pagelength
+S->C: #$#* 198900330811747 verbs: set_home
+S->C: #$#* 198900330811747 verbs: old@check
+S->C: #$#* 198900330811747 verbs: ctime
+S->C: #$#* 198900330811747 verbs: @resize
+S->C: #$#* 198900330811747 verbs: do_look
+S->C: #$#* 198900330811747 verbs: send_self_netmail
+S->C: #$#* 198900330811747 verbs: receive_message_bak
+S->C: #$#* 198900330811747 verbs: @netforward-old
+S->C: #$#* 198900330811747 verbs: old_moveto
+S->C: #$#* 198900330811747 verbs: @puppet @puppet-on @puppet-off
+S->C: #$#* 198900330811747 verbs: mail_catch_up
+S->C: #$#* 198900330811747 verbs: old_notify
+S->C: #$#* 198900330811747 verbs: <doc>*
+S->C: #$#* 198900330811747 verbs: notify_mail2
+S->C: #$#* 198900330811747 verbs: moveto_unlock
+S->C: #$#* 198900330811747 parents: #1
+S->C: #$#: 198900330811747
+Decoding string: '#6', len=2
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Look up object #6
+Found it
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "Generic Skills Parent" objnum: #125 properties*: "" verbs*: "" parents*: "" _data-tag: 110150192711748
+S->C: #$#* 110150192711748 properties: fs_sack_toss
+S->C: #$#* 110150192711748 properties: fs_sack_catch
+S->C: #$#* 110150192711748 properties: fs_sack_catch_succ
+S->C: #$#* 110150192711748 properties: fs_sack_toss_succ
+S->C: #$#* 110150192711748 properties: thread_scored
+S->C: #$#* 110150192711748 parents: #6
+S->C: #$#* 110150192711748 parents: #1
+S->C: #$#: 110150192711748
+Decoding string: '#125', len=4
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Decoding string: '#6', len=2
+Does object #6 exist?
+Yes
+Parent: #6 exists
+Look up object #6
+Found it
+Look up object #125
+Found it
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "Generic Player II" objnum: #101 properties*: "" verbs*: "" parents*: "" _data-tag: 30528600311749
+S->C: #$#* 30528600311749 properties: olook_msg
+S->C: #$#* 30528600311749 properties: hatchsecs
+S->C: #$#* 30528600311749 properties: opaque
+S->C: #$#* 30528600311749 properties: channel
+S->C: #$#* 30528600311749 properties: channel_aliases
+S->C: #$#* 30528600311749 properties: fl_list
+S->C: #$#* 30528600311749 properties: ltitle
+S->C: #$#* 30528600311749 properties: idle_msg
+S->C: #$#* 30528600311749 properties: dragon
+S->C: #$#* 30528600311749 properties: title_ok
+S->C: #$#* 30528600311749 properties: fl_remembered_places
+S->C: #$#* 30528600311749 properties: hidden
+S->C: #$#* 30528600311749 properties: wearing_msg
+S->C: #$#* 30528600311749 properties: timezone
+S->C: #$#* 30528600311749 properties: pdragon
+S->C: #$#* 30528600311749 properties: doing_msg
+S->C: #$#* 30528600311749 properties: vote
+S->C: #$#* 30528600311749 properties: pow_chown
+S->C: #$#* 30528600311749 properties: descs
+S->C: #$#* 30528600311749 properties: descnames
+S->C: #$#* 30528600311749 properties: returnto
+S->C: #$#* 30528600311749 properties: email_vis
+S->C: #$#* 30528600311749 properties: terse_globals
+S->C: #$#* 30528600311749 properties: carry_ok
+S->C: #$#* 30528600311749 properties: lastpaged
+S->C: #$#* 30528600311749 properties: lastpaid
+S->C: #$#* 30528600311749 properties: max_allowance
+S->C: #$#* 30528600311749 properties: pagelocks
+S->C: #$#* 30528600311749 properties: previous_bigticks
+S->C: #$#* 30528600311749 properties: active_bigticks
+S->C: #$#* 30528600311749 properties: obap_msg
+S->C: #$#* 30528600311749 properties: backup_channel
+S->C: #$#* 30528600311749 properties: lasttitled
+S->C: #$#* 30528600311749 properties: show_urls
+S->C: #$#* 30528600311749 properties: on_duty
+S->C: #$#* 30528600311749 properties: plan
+S->C: #$#* 30528600311749 properties: tutorial_orig
+S->C: #$#* 30528600311749 properties: owave_msg
+S->C: #$#* 30528600311749 properties: join
+S->C: #$#* 30528600311749 properties: initial_name
+S->C: #$#* 30528600311749 properties: create_time
+S->C: #$#* 30528600311749 properties: vacation_msg
+S->C: #$#* 30528600311749 properties: char_history
+S->C: #$#* 30528600311749 properties: page_refuse
+S->C: #$#* 30528600311749 properties: page_refuse_msg
+S->C: #$#* 30528600311749 properties: ghost_fls
+S->C: #$#* 30528600311749 properties: active_bigticks_outside
+S->C: #$#* 30528600311749 properties: previous_bigticks_outside
+S->C: #$#* 30528600311749 properties: root_player
+S->C: #$#* 30528600311749 properties: onoogie_msg
+S->C: #$#* 30528600311749 properties: vacation
+S->C: #$#* 30528600311749 properties: last_pp
+S->C: #$#* 30528600311749 properties: npc
+S->C: #$#* 30528600311749 properties: tell_lotto
+S->C: #$#* 30528600311749 properties: partnered_dolphin
+S->C: #$#* 30528600311749 properties: nfo_showfields
+S->C: #$#* 30528600311749 properties: no_new_mail_msg
+S->C: #$#* 30528600311749 properties: new_hatchsecs
+S->C: #$#* 30528600311749 properties: former_hatchsecs
+S->C: #$#* 30528600311749 properties: oclook_msg
+S->C: #$#* 30528600311749 properties: ooc_escape_msg
+S->C: #$#* 30528600311749 properties: shortdescs
+S->C: #$#* 30528600311749 properties: short_worn_msg
+S->C: #$#* 30528600311749 properties: is_idle
+S->C: #$#* 30528600311749 properties: all_bigticks
+S->C: #$#* 30528600311749 properties: previous_all_bigticks
+S->C: #$#* 30528600311749 properties: def_channel
+S->C: #$#* 30528600311749 properties: want_ooc
+S->C: #$#* 30528600311749 properties: vanitytitle
+S->C: #$#* 30528600311749 properties: who_love
+S->C: #$#* 30528600311749 properties: thread_injury
+S->C: #$#* 30528600311749 verbs: look_self
+S->C: #$#* 30528600311749 verbs: my_huh
+S->C: #$#* 30528600311749 verbs: send_com
+S->C: #$#* 30528600311749 verbs: do_channel
+S->C: #$#* 30528600311749 verbs: +ch*annel
+S->C: #$#* 30528600311749 verbs: +com
+S->C: #$#* 30528600311749 verbs: addcom
+S->C: #$#* 30528600311749 verbs: delcom
+S->C: #$#* 30528600311749 verbs: w*hisper
+S->C: #$#* 30528600311749 verbs: cd*
+S->C: #$#* 30528600311749 verbs: @addfl
+S->C: #$#* 30528600311749 verbs: @remfl @delfl delfl remfl rmfl @rmfl
+S->C: #$#* 30528600311749 verbs: =*
+S->C: #$#* 30528600311749 verbs: i inv*entory
+S->C: #$#* 30528600311749 verbs: @hide
+S->C: #$#* 30528600311749 verbs: @unhide
+S->C: #$#* 30528600311749 verbs: confunc
+S->C: #$#* 30528600311749 verbs: disfunc
+S->C: #$#* 30528600311749 verbs: @chown
+S->C: #$#* 30528600311749 verbs: @globals
+S->C: #$#* 30528600311749 verbs: @party
+S->C: #$#* 30528600311749 verbs: plan
+S->C: #$#* 30528600311749 verbs: mutter
+S->C: #$#* 30528600311749 verbs: +motd motd @motd @listmotd
+S->C: #$#* 30528600311749 verbs: hell
+S->C: #$#* 30528600311749 verbs: messages
+S->C: #$#* 30528600311749 verbs: monitor
+S->C: #$#* 30528600311749 verbs: change
+S->C: #$#* 30528600311749 verbs: add*desc addesc rem*desc rmd*esc
+S->C: #$#* 30528600311749 verbs: +email
+S->C: #$#* 30528600311749 verbs: @chan*nels
+S->C: #$#* 30528600311749 verbs: doing_msg
+S->C: #$#* 30528600311749 verbs: snug pummel hug patpat tickle hi5 poke thwap foof kiss bap wave bug noogie
+S->C: #$#* 30528600311749 verbs: snug_msg pummel_msg hug_msg patpat_msg bonk_msg tickle_msg hi5_msg poke_msg thwap_msg foof_msg kiss_msg bap_msg wave_msg bug_msg noogie_msg
+S->C: #$#* 30528600311749 verbs: wearing_msg
+S->C: #$#* 30528600311749 verbs: lead carry push
+S->C: #$#* 30528600311749 verbs: @verbs
+S->C: #$#* 30528600311749 verbs: @props @properties
+S->C: #$#* 30528600311749 verbs: @allverbs
+S->C: #$#* 30528600311749 verbs: @allprops @allproperties
+S->C: #$#* 30528600311749 verbs: @sweep
+S->C: #$#* 30528600311749 verbs: ooc
+S->C: #$#* 30528600311749 verbs: @emit @echo
+S->C: #$#* 30528600311749 verbs: idle_msg
+S->C: #$#* 30528600311749 verbs: channels
+S->C: #$#* 30528600311749 verbs: receive_page
+S->C: #$#* 30528600311749 verbs: send_com_old
+S->C: #$#* 30528600311749 verbs: @nuke
+S->C: #$#* 30528600311749 verbs: ICnews
+S->C: #$#* 30528600311749 verbs: old_my_match_object
+S->C: #$#* 30528600311749 verbs: url
+S->C: #$#* 30528600311749 verbs: want
+S->C: #$#* 30528600311749 verbs: @recycle/rightnow
+S->C: #$#* 30528600311749 verbs: @tutorial tutorial
+S->C: #$#* 30528600311749 verbs: @email
+S->C: #$#* 30528600311749 verbs: resize @resize
+S->C: #$#* 30528600311749 verbs: @unnuke @denuke
+S->C: #$#* 30528600311749 verbs: html*ize
+S->C: #$#* 30528600311749 verbs: exitfunc
+S->C: #$#* 30528600311749 verbs: @desc*ribe
+S->C: #$#* 30528600311749 verbs: vacation @vacation
+S->C: #$#* 30528600311749 verbs: @events events
+S->C: #$#* 30528600311749 verbs: @add-event
+S->C: #$#* 30528600311749 verbs: @history
+S->C: #$#* 30528600311749 verbs: do_look
+S->C: #$#* 30528600311749 verbs: email_address
+S->C: #$#* 30528600311749 verbs: display_message
+S->C: #$#* 30528600311749 verbs: mc spamc*hannels multic*hannel
+S->C: #$#* 30528600311749 verbs: @pern-info pern-info @perninfo perninfo
+S->C: #$#* 30528600311749 verbs: @go hub
+S->C: #$#* 30528600311749 verbs: @set-v*acation
+S->C: #$#* 30528600311749 verbs: @set_party @set-party
+S->C: #$#* 30528600311749 verbs: want_globals
+S->C: #$#* 30528600311749 verbs: @noglob*al @okglob*al
+S->C: #$#* 30528600311749 verbs: report_globals_status
+S->C: #$#* 30528600311749 verbs: @despam
+S->C: #$#* 30528600311749 verbs: send_com2
+S->C: #$#* 30528600311749 verbs: wearing
+S->C: #$#* 30528600311749 verbs: ooc_escape_msg
+S->C: #$#* 30528600311749 verbs: old_send_com
+S->C: #$#* 30528600311749 verbs: @rem-event
+S->C: #$#* 30528600311749 verbs: idle*/d
+S->C: #$#* 30528600311749 verbs: _is_idle
+S->C: #$#* 30528600311749 verbs: @monitor @mwho
+S->C: #$#* 30528600311749 verbs: @area area
+S->C: #$#* 30528600311749 verbs: @defchan
+S->C: #$#* 30528600311749 verbs: @respawn
+S->C: #$#* 30528600311749 verbs: icon_who
+S->C: #$#* 30528600311749 verbs: hatchsecs
+S->C: #$#* 30528600311749 verbs: is_terminally_idle
+S->C: #$#* 30528600311749 verbs: huglist
+S->C: #$#* 30528600311749 verbs: @alldoing
+S->C: #$#* 30528600311749 verbs: @myclient
+S->C: #$#* 30528600311749 parents: #125
+S->C: #$#* 30528600311749 parents: #6
+S->C: #$#* 30528600311749 parents: #1
+S->C: #$#: 30528600311749
+Decoding string: '#101', len=4
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Decoding string: '#6', len=2
+Does object #6 exist?
+Yes
+Parent: #6 exists
+Look up object #6
+Found it
+Decoding string: '#125', len=4
+Does object #125 exist?
+Yes
+Parent: #125 exists
+Look up object #125
+Found it
+Look up object #101
+Found it
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "generic builder" objnum: #4 properties*: "" verbs*: "" parents*: "" _data-tag: 192959885311750
+S->C: #$#* 192959885311750 properties: recreate_enabled
+S->C: #$#* 192959885311750 verbs: @quota
+S->C: #$#* 192959885311750 verbs: @create
+S->C: #$#* 192959885311750 verbs: @recycle
+S->C: #$#* 192959885311750 verbs: @recreate
+S->C: #$#* 192959885311750 verbs: @dig
+S->C: #$#* 192959885311750 verbs: @audit
+S->C: #$#* 192959885311750 verbs: @auditDB
+S->C: #$#* 192959885311750 verbs: @count
+S->C: #$#* 192959885311750 verbs: @countDB
+S->C: #$#* 192959885311750 verbs: @sort-owned*-objects
+S->C: #$#* 192959885311750 verbs: @add-owned
+S->C: #$#* 192959885311750 verbs: @verify-owned
+S->C: #$#* 192959885311750 verbs: @unlock
+S->C: #$#* 192959885311750 verbs: @lock
+S->C: #$#* 192959885311750 verbs: @newmess*age
+S->C: #$#* 192959885311750 verbs: @unmess*age
+S->C: #$#* 192959885311750 verbs: _messagify
+S->C: #$#* 192959885311750 verbs: @kids
+S->C: #$#* 192959885311750 verbs: @contents conlist @conlist
+S->C: #$#* 192959885311750 verbs: @par*ents
+S->C: #$#* 192959885311750 verbs: @realm
+S->C: #$#* 192959885311750 verbs: realm2
+S->C: #$#* 192959885311750 verbs: @cl*asses
+S->C: #$#* 192959885311750 verbs: classes_2
+S->C: #$#* 192959885311750 verbs: _create
+S->C: #$#* 192959885311750 verbs: _recycle
+S->C: #$#* 192959885311750 verbs: @chparent
+S->C: #$#* 192959885311750 verbs: @check-chp*arent
+S->C: #$#* 192959885311750 verbs: @set*prop
+S->C: #$#* 192959885311750 verbs: object_audit_string
+S->C: #$#* 192959885311750 verbs: @recycle/now
+S->C: #$#* 192959885311750 verbs: @measure
+S->C: #$#* 192959885311750 verbs: @s*how
+S->C: #$#* 192959885311750 verbs: _recycle_pre_fup
+S->C: #$#* 192959885311750 verbs: @recycle/duh
+S->C: #$#* 192959885311750 verbs: @ccheck
+S->C: #$#* 192959885311750 verbs: @exitcheck
+S->C: #$#* 192959885311750 parents: #101
+S->C: #$#* 192959885311750 parents: #125
+S->C: #$#* 192959885311750 parents: #6
+S->C: #$#* 192959885311750 parents: #1
+S->C: #$#: 192959885311750
+Decoding string: '#4', len=2
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Decoding string: '#6', len=2
+Does object #6 exist?
+Yes
+Parent: #6 exists
+Look up object #6
+Found it
+Decoding string: '#125', len=4
+Does object #125 exist?
+Yes
+Parent: #125 exists
+Look up object #125
+Found it
+Decoding string: '#101', len=4
+Does object #101 exist?
+Yes
+Parent: #101 exists
+Look up object #101
+Found it
+Look up object #4
+Found it
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "generic programmer" objnum: #59 properties*: "" verbs*: "" parents*: "" _data-tag: 103554524411751
+S->C: #$#* 103554524411751 properties: eval_subs
+S->C: #$#* 103554524411751 properties: eval_time
+S->C: #$#* 103554524411751 properties: eval_ticks
+S->C: #$#* 103554524411751 properties: eval_env
+S->C: #$#* 103554524411751 properties: suspicious
+S->C: #$#* 103554524411751 properties: noparty
+S->C: #$#* 103554524411751 verbs: @prop*erty
+S->C: #$#* 103554524411751 verbs: @chmod
+S->C: #$#* 103554524411751 verbs: @args
+S->C: #$#* 103554524411751 verbs: eval
+S->C: #$#* 103554524411751 verbs: @rmprop*erty
+S->C: #$#* 103554524411751 verbs: @verb
+S->C: #$#* 103554524411751 verbs: @rmverb
+S->C: #$#* 103554524411751 verbs: @list_old
+S->C: #$#* 103554524411751 verbs: @forked
+S->C: #$#* 103554524411751 verbs: @kill
+S->C: #$#* 103554524411751 verbs: @edit @emacs
+S->C: #$#* 103554524411751 verbs: @copy @copy-x @copy-move
+S->C: #$#* 103554524411751 verbs: _kill_task_message
+S->C: #$#* 103554524411751 verbs: @prog*ram
+S->C: #$#* 103554524411751 verbs: @setenv
+S->C: #$#* 103554524411751 verbs: @pros*pectus pros*pectus
+S->C: #$#* 103554524411751 verbs: @d*isplay
+S->C: #$#* 103554524411751 verbs: @db*size
+S->C: #$#* 103554524411751 verbs: @gethelp
+S->C: #$#* 103554524411751 verbs: @prospectusDB
+S->C: #$#* 103554524411751 verbs: @grep @egrep @grep-all
+S->C: #$#* 103554524411751 verbs: old-@show
+S->C: #$#* 103554524411751 verbs: @check-p*roperty
+S->C: #$#* 103554524411751 verbs: set_eval_env
+S->C: #$#* 103554524411751 verbs: @clearp*roperty @clprop*erty
+S->C: #$#* 103554524411751 verbs: @disown @disinherit
+S->C: #$#* 103554524411751 verbs: eval_cmd_string
+S->C: #$#* 103554524411751 verbs: @dump
+S->C: #$#* 103554524411751 verbs: eval_value_to_string
+S->C: #$#* 103554524411751 verbs: @list @lsit
+S->C: #$#* 103554524411751 verbs: @set_party @set-party
+S->C: #$#* 103554524411751 verbs: @rmprop_pre_fup
+S->C: #$#* 103554524411751 verbs: @lverbs @lprops
+S->C: #$#* 103554524411751 verbs: @find
+S->C: #$#* 103554524411751 verbs: find_verbs_on
+S->C: #$#* 103554524411751 verbs: find_verb
+S->C: #$#* 103554524411751 verbs: @cron*tab
+S->C: #$#* 103554524411751 verbs: @builders
+S->C: #$#* 103554524411751 parents: #4
+S->C: #$#* 103554524411751 parents: #101
+S->C: #$#* 103554524411751 parents: #125
+S->C: #$#* 103554524411751 parents: #6
+S->C: #$#* 103554524411751 parents: #1
+S->C: #$#: 103554524411751
+Decoding string: '#59', len=3
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Decoding string: '#6', len=2
+Does object #6 exist?
+Yes
+Parent: #6 exists
+Look up object #6
+Found it
+Decoding string: '#125', len=4
+Does object #125 exist?
+Yes
+Parent: #125 exists
+Look up object #125
+Found it
+Decoding string: '#101', len=4
+Does object #101 exist?
+Yes
+Parent: #101 exists
+Look up object #101
+Found it
+Decoding string: '#4', len=2
+Does object #4 exist?
+Yes
+Parent: #4 exists
+Look up object #4
+Found it
+Look up object #59
+Found it
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "New Generic Parent Obj" objnum: #13153 properties*: "" verbs*: "" parents*: "" _data-tag: 91505481411752
+S->C: #$#* 91505481411752 properties: ranks
+S->C: #$#* 91505481411752 properties: crafts
+S->C: #$#* 91505481411752 properties: specialtys
+S->C: #$#* 91505481411752 properties: staff_bits
+S->C: #$#* 91505481411752 properties: posts
+S->C: #$#* 91505481411752 properties: tracks
+S->C: #$#* 91505481411752 properties: skills
+S->C: #$#* 91505481411752 properties: ch_connect_msg
+S->C: #$#* 91505481411752 properties: listen_drums
+S->C: #$#* 91505481411752 properties: mentors
+S->C: #$#* 91505481411752 properties: knot_msg
+S->C: #$#* 91505481411752 properties: dolphin
+S->C: #$#* 91505481411752 properties: defcraft
+S->C: #$#* 91505481411752 properties: ch_disconnect_msg
+S->C: #$#* 91505481411752 properties: knot
+S->C: #$#* 91505481411752 properties: don_msg
+S->C: #$#* 91505481411752 properties: doff_msg
+S->C: #$#* 91505481411752 properties: nfo_notify
+S->C: #$#* 91505481411752 properties: dive_msg
+S->C: #$#* 91505481411752 properties: odive_msg
+S->C: #$#* 91505481411752 properties: quiet
+S->C: #$#* 91505481411752 properties: pronounce_msg
+S->C: #$#* 91505481411752 properties: idle_stamp
+S->C: #$#* 91505481411752 properties: alltalk
+S->C: #$#* 91505481411752 properties: seen_cevents
+S->C: #$#* 91505481411752 properties: flags
+S->C: #$#* 91505481411752 properties: rotating_doing_list
+S->C: #$#* 91505481411752 properties: primary_craft
+S->C: #$#* 91505481411752 properties: associations
+S->C: #$#* 91505481411752 properties: x1_bits
+S->C: #$#* 91505481411752 properties: x2_bits
+S->C: #$#* 91505481411752 properties: charms
+S->C: #$#* 91505481411752 properties: height
+S->C: #$#* 91505481411752 properties: build
+S->C: #$#* 91505481411752 properties: hair
+S->C: #$#* 91505481411752 properties: eyes
+S->C: #$#* 91505481411752 properties: bigtick_requirement
+S->C: #$#* 91505481411752 verbs: rank craft specialty post track mentor
+S->C: #$#* 91505481411752 verbs: get_craft
+S->C: #$#* 91505481411752 verbs: wearing
+S->C: #$#* 91505481411752 verbs: knot
+S->C: #$#* 91505481411752 verbs: confunc
+S->C: #$#* 91505481411752 verbs: skill_old
+S->C: #$#* 91505481411752 verbs: skill
+S->C: #$#* 91505481411752 verbs: @mmlist
+S->C: #$#* 91505481411752 verbs: plan
+S->C: #$#* 91505481411752 verbs: shhh*hhh unshhh*hhh
+S->C: #$#* 91505481411752 verbs: @idlestamp
+S->C: #$#* 91505481411752 verbs: @ungag
+S->C: #$#* 91505481411752 verbs: old_desclenth
+S->C: #$#* 91505481411752 verbs: doing_msg
+S->C: #$#* 91505481411752 verbs: @findskill*s
+S->C: #$#* 91505481411752 verbs: flag
+S->C: #$#* 91505481411752 verbs: @flag
+S->C: #$#* 91505481411752 verbs: @areaupdate
+S->C: #$#* 91505481411752 verbs: disfunc
+S->C: #$#* 91505481411752 verbs: @paste
+S->C: #$#* 91505481411752 verbs: wf
+S->C: #$#* 91505481411752 parents: #59
+S->C: #$#* 91505481411752 parents: #4
+S->C: #$#* 91505481411752 parents: #101
+S->C: #$#* 91505481411752 parents: #125
+S->C: #$#* 91505481411752 parents: #6
+S->C: #$#* 91505481411752 parents: #1
+S->C: #$#: 91505481411752
+Decoding string: '#13153', len=6
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Decoding string: '#6', len=2
+Does object #6 exist?
+Yes
+Parent: #6 exists
+Look up object #6
+Found it
+Decoding string: '#125', len=4
+Does object #125 exist?
+Yes
+Parent: #125 exists
+Look up object #125
+Found it
+Decoding string: '#101', len=4
+Does object #101 exist?
+Yes
+Parent: #101 exists
+Look up object #101
+Found it
+Decoding string: '#4', len=2
+Does object #4 exist?
+Yes
+Parent: #4 exists
+Look up object #4
+Found it
+Decoding string: '#59', len=3
+Does object #59 exist?
+Yes
+Parent: #59 exists
+Look up object #59
+Found it
+Look up object #13153
+Found it
+exec Shift-???
+Key Shift-??? not mapped
+exec Shift-???
+Key Shift-??? not mapped
+exec Shift-???
+Key Shift-??? not mapped
+Pressed ENTER
+C->S: @edit #7243:handle_getinfo
+S->C: #$#dns-org-mud-moo-simpleedit-content ic04 reference: "#7243:1" name: "Verb: dns-uk-org-wookey-core:handle_getinfo" type: moo-code content*: "" _data-tag: 173218188011753
+S->C: #$#* 173218188011753 content: "Last modified on Wed Jun 18 01:55:18 2014 PDT by Delron (#26374)";
+S->C: #$#* 173218188011753 content: {session} = args;
+S->C: #$#* 173218188011753 content: this:send_info(session, max_object(), player);
+S->C: #$#: 173218188011753
+Content command.
+KEY IS ic04
+Tell WookeyCore about object #7243
+Decoding string: '#7243', len=5
+Look up object #7243
+No object - creating one
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
+Ref='#7243:1'
+Name='Verb: dns-uk-org-wookey-core:handle_getinfo'
+Type='moo-code'
+Content='"Last modified on Wed Jun 18 01:55:18 2014 PDT by Delron (#26374)";
+{session} = args;
+this:send_info(session, max_object(), player);
+'
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 7243
+Sanitised name: 'dns-uk-org-wookey-core-handle_getinfo'
+Check Menu 'File'
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: dns-uk-org-wookey-core objnum: #7243 properties*: "" verbs*: "" parents*: "" _data-tag: 71421079511754
+S->C: #$#* 71421079511754 verbs: send_to*
+S->C: #$#* 71421079511754 verbs: handle_getinfo
+S->C: #$#* 71421079511754 verbs: handle_getobj
+S->C: #$#* 71421079511754 parents: #9115
+S->C: #$#* 71421079511754 parents: #25461
+S->C: #$#* 71421079511754 parents: #1
+S->C: #$#: 71421079511754
+Decoding string: '#7243', len=5
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Decoding string: '#25461', len=6
+Does object #25461 exist?
+No
+Parent: #25461 doesn't exist
+Look up object #25461
+No object - creating one
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
+Decoding string: '#9115', len=5
+Does object #9115 exist?
+No
+Parent: #9115 doesn't exist
+Look up object #9115
+No object - creating one
+tree node
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 2
+Look up object #7243
+Found it
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 1
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 25461
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
+C->S: #$#dns-uk-org-wookey-core-getobj ic04 objnum: 9115
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "generic message dispatch object" objnum: #25461 properties*: "" verbs*: "" parents*: "" _data-tag: 213036604511755
+S->C: #$#* 213036604511755 properties: messages_out
+S->C: #$#* 213036604511755 properties: unique
+S->C: #$#* 213036604511755 properties: messages_in
+S->C: #$#* 213036604511755 verbs: parse_send_args
+S->C: #$#* 213036604511755 verbs: parse_receive_args
+S->C: #$#* 213036604511755 verbs: set_messages_in set_messages_out
+S->C: #$#* 213036604511755 parents: #1
+S->C: #$#: 213036604511755
+Decoding string: '#25461', len=6
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Look up object #25461
+Found it
+S->C: #$#dns-uk-org-wookey-core-obj ic04 name: "generic MCP package" objnum: #9115 properties*: "" verbs*: "" parents*: "" _data-tag: 60296995611756
+S->C: #$#* 60296995611756 properties: version_range
+S->C: #$#* 60296995611756 properties: cord_types
+S->C: #$#* 60296995611756 verbs: set_version_range
+S->C: #$#* 60296995611756 verbs: dispatch
+S->C: #$#* 60296995611756 verbs: match_request
+S->C: #$#* 60296995611756 verbs: initialize_connection
+S->C: #$#* 60296995611756 verbs: message_name_to_verbname
+S->C: #$#* 60296995611756 verbs: finalize_connection
+S->C: #$#* 60296995611756 verbs: add_cord_type
+S->C: #$#* 60296995611756 verbs: remove_cord_type
+S->C: #$#* 60296995611756 verbs: send_*
+S->C: #$#* 60296995611756 parents: #25461
+S->C: #$#* 60296995611756 parents: #1
+S->C: #$#: 60296995611756
+Decoding string: '#9115', len=5
+Decoding string: '#1', len=2
+Does object #1 exist?
+Yes
+Parent: #1 exists
+Look up object #1
+Found it
+Decoding string: '#25461', len=6
+Does object #25461 exist?
+Yes
+Parent: #25461 exists
+Look up object #25461
+Found it
+Look up object #9115
+Found it
+S->C: [#Monitor] Sadaiya has connected on Thu Jun 19 16:32:21 2014 PDT.
