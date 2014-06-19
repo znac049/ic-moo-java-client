@@ -93,7 +93,7 @@ public class Logger {
 		logMsg(msg, _labAttribs, attribs);
 	}
 	
-	public void printBacktrace(String msg, Exception e, SimpleAttributeSet attribs) {
+	public synchronized void printBacktrace(String msg, Exception e, SimpleAttributeSet attribs) {
 		StackTraceElement[] trace = e.getStackTrace();
 
 		logMsg(msg, attribs);
@@ -102,11 +102,11 @@ public class Logger {
 		}
 	}
 	
-	public void printBacktrace(Exception e) {
+	public synchronized void printBacktrace(Exception e) {
 		printBacktrace("Caught an exception:", e, _errAttribs);
 	}
 	
-	protected synchronized void append(String msg, SimpleAttributeSet attributes) {
+	protected void append(String msg, SimpleAttributeSet attributes) {
 		Document doc = _log.getDocument();
 		
 		try {
@@ -117,27 +117,27 @@ public class Logger {
 		}		
 	}
 	
-	public void logMsg(String msg) {
+	public synchronized void logMsg(String msg) {
 		logMsg(msg, _labAttribs, _msgAttribs);
 	}
 	
-	public void logInfo(String msg) {
+	public synchronized void logInfo(String msg) {
 		logMsg(msg);
 	}
 	
-	public void logSuccess(String msg) {
+	public synchronized void logSuccess(String msg) {
 		logMsg(msg, _okAttribs);
 	}
 	
-	public void logWarn(String msg) {
+	public synchronized void logWarn(String msg) {
 		logMsg(msg, _warnAttribs);
 	}
 	
-	public void logError(String msg) {
+	public synchronized void logError(String msg) {
 		logMsg(msg, _errAttribs);
 	}
 	
-	public void logError(String msg, Exception e) {
+	public synchronized void logError(String msg, Exception e) {
 		printBacktrace(msg, e, _errAttribs);
 	}
 }
