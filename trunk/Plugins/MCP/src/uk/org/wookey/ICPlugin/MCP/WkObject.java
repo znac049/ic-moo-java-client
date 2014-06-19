@@ -1,7 +1,5 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import javax.swing.tree.TreeNode;
-
 import uk.org.wookey.IC.Utils.Logger;
 
 public class WkObject {
@@ -10,6 +8,9 @@ public class WkObject {
 	private String objName;
 	private boolean retrieved;
 	private CodeNode treeNode;
+	private CodeNode propsNode;
+	private CodeNode verbsNode;
+	private CodeNode kidsNode;
 	private int parentObjNum;
 	private String verbs;
 	private String properties;
@@ -26,29 +27,38 @@ public class WkObject {
 		treeNode = new CodeNode("#" + objNum);
 		treeNode.setUserObject(this);
 		
+		propsNode = new CodeNode("Props");
+		treeNode.add(propsNode);
+		
+		verbsNode = new CodeNode("Verbs");
+		treeNode.add(verbsNode);
+		
+		kidsNode = new CodeNode("Kids");
+		treeNode.add(kidsNode);
+		
 		retrieved = false;
 	}
 	
 	public String tostring() {
 		if (objName != null) {
-			return objName + "(#" + objNum + ")";
+			return objName + " (#" + objNum + ")";
 		}
 		
 		return "#" + objNum;
 	}
 	
 	public void addProperty(String name) {
-		addLeafNode("." + name);
+		addLeafNode("." + name, propsNode);
 	}
 	
 	public void addVerb(String name) {
-		addLeafNode(":" + name);
+		addLeafNode(":" + name, verbsNode);
 	}
 	
-	private void addLeafNode(String name) {
+	private void addLeafNode(String name, CodeNode parent) {
 		// If a node already exists, do nothing...
-		for (int i=0; i<treeNode.getChildCount(); i++) {
-			if (treeNode.getUserObject().toString().equals(name)) {
+		for (int i=0; i<parent.getChildCount(); i++) {
+			if (parent.getUserObject().toString().equals(name)) {
 				// node already exists
 				return;
 			}
@@ -57,9 +67,17 @@ public class WkObject {
 		// ok to add it..
 		CodeNode leaf = new CodeNode(name);
 		leaf.setUserObject(name);
-		treeNode.add(leaf);
+		parent.add(leaf);
 	}
 
+	public void setName(String objName) {
+		this.objName = objName;
+	}
+	
+	public String getName() {
+		return objName;
+	}
+	
 	public int getObjNum() {
 		return objNum;
 	}
@@ -70,6 +88,18 @@ public class WkObject {
 
 	public CodeNode getTreeNode() {
 		return treeNode;
+	}
+
+	public CodeNode getPropertiesNode() {
+		return propsNode;
+	}
+
+	public CodeNode getVerbsNode() {
+		return verbsNode;
+	}
+
+	public CodeNode getKidsNode() {
+		return kidsNode;
 	}
 
 	public String getProperties() {

@@ -13,7 +13,7 @@ import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPVisual extends MCPHandler implements Runnable {
-	private final long POLL_INTERVAL = 60L; // seconds
+	private final long POLL_INTERVAL = 600L; // seconds
 	
 	private Logger _logger = new Logger("MCP Visual");
 	private ArrayList<Player> players;

@@ -125,6 +125,16 @@ public class MCP extends IOPlugin {
 			}
 		}
 	}
+	
+	public boolean packageActive(String packageName) {
+		for (MCPHandler hand: _handlers) {			
+			if (hand.getName().equalsIgnoreCase(packageName)) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
 
 	public void registerMultiline(MCPCommand command) {
 		_multilineSessions.add(command);
@@ -148,7 +158,7 @@ public class MCP extends IOPlugin {
 		*/
 		String cmdName = cmd.getName();
 		
-		_logger.logError("executing command '" + cmdName + "'");
+		//_logger.logError("executing command '" + cmdName + "'");
 		
 		if (cmdName.equalsIgnoreCase("mcp")) {
 			return handleInitialMcpCommand(cmd);
@@ -254,7 +264,6 @@ public class MCP extends IOPlugin {
 			// Tell the other end that we do MCP too!
 			MCPCommand cmd = new MCPCommand();
 			cmd.setName("mcp");
-			//cmd.setAuthKey(authKey);
 			cmd.addParam("authentication-key", authKey);
 			cmd.addParam("version", _minVer);
 			cmd.addParam("to", _maxVer);
@@ -295,7 +304,7 @@ public class MCP extends IOPlugin {
 		return true;		
 	}
 	
-	private MCPHandler findHandler(String command) {
+	public MCPHandler findHandler(String command) {
 		for (MCPHandler h: _handlers) {
 			if (h.handlesCommand(command)) {
 				return h;
