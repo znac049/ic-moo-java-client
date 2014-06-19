@@ -1,6 +1,7 @@
 package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.IOPluginInterface;
@@ -22,6 +23,8 @@ public class MCPRoot extends IOPlugin {
 	public String authKey;
     private ArrayList<MCPCommand> _pendingSessions;
     private ArrayList<MCPCommand> _multilineSessions;
+    private volatile LinkedList<MCPCommand> _outgoingCommandQueue;
+    private Thread commandRunner;
 
 	public MCPRoot(ServerConnection svr, WorldTab tab) throws ParserException {
 		_minVer = new MCPVersion("2.1");
@@ -31,9 +34,9 @@ public class MCPRoot extends IOPlugin {
 		
 		_pendingSessions = new ArrayList<MCPCommand>();
 		_multilineSessions = new ArrayList<MCPCommand>();
+		_outgoingCommandQueue = new LinkedList<MCPCommand>();
 
-		//authKey = "Woozle42";
-		authKey = "ic0" + System.currentTimeMillis();
+		authKey = "ic0" + System.currentTimeMillis() % 10;
 		
 		try {
 			attach(svr, tab);
@@ -42,7 +45,7 @@ public class MCPRoot extends IOPlugin {
 			_handlers.add(_core);
 			_handlers.add(new MCPNegotiate(svr, this));
 			_handlers.add(new MCPSimpleEdit(svr, this));
-			_handlers.add(new MCPVisual(svr, this));
+			//_handlers.add(new MCPVisual(svr, this));
 			_handlers.add(new MCPServerInfo(svr, this));
 			_handlers.add(new MCPTimezone(svr, this));
 		} catch (ParserException e) {
@@ -50,6 +53,10 @@ public class MCPRoot extends IOPlugin {
 			_logger.logMsg("Caught MCP Exception");
 			_logger.printBacktrace(e);
 		}
+		
+		// Start a thread for coordinating messages to the server
+		commandRunner = new Thread(new CommandRunner());
+		commandRunner.start();
 	}
 
 	@Override
@@ -273,6 +280,32 @@ public class MCPRoot extends IOPlugin {
         }
        
         return null;
-}
+	}
+
+	public class CommandRunner implements Runnable {
+		private Logger _logger = new Logger("CommandRunner");
+		
+		public void run() {
+			_logger.logInfo("CommandRunner thread started");
+			try {
+				while (true) {
+					if (_outgoingCommandQueue.size() > 0) {
+						MCPCommand cmd = _outgoingCommandQueue.removeFirst();
+						
+						_logger.logInfo("Sending queued command");
+						cmd.sendToServer(server);
+					}
+					
+					// Don't be too aggressive - also gives us a chance to pick
+					// up any pending interrupts
+					Thread.sleep(10);
+				}
+			} catch (InterruptedException e) {
+				_logger.logError("CommandRunner thread interrupted", e);
+				
+				return;
+			}
+		}
+	}
 
 }
