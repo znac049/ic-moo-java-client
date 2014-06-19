@@ -9,7 +9,7 @@ import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.IOPlugin;
 import uk.org.wookey.IC.Utils.ServerConnection;
 
-public class MCP extends IOPlugin {
+public class OldMCP extends IOPlugin {
 	public final Logger _logger = new Logger("MCP");
 	private String outOfBandToken = "#$#";
 	private MCPRoot mcp = null;
@@ -18,6 +18,10 @@ public class MCP extends IOPlugin {
 		setName("MCP");
 		
 		return true;
+	}
+	
+	public void deactivate() {
+		_logger.logError("MCP.deactivate needs to be coded, Bob");
 	}
 	
 	public boolean attach(ServerConnection svr, WorldTab tab) {		
