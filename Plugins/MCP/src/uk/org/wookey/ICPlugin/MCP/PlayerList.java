@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -24,6 +25,8 @@ public class PlayerList extends JPanel {
 		setLayout(new BorderLayout());
 		setBorder(new LineBorder(Color.black)); 
 		
+		setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+		
 		JLabel title = new JLabel("Connected Players", JLabel.CENTER);
 		add(title, BorderLayout.NORTH);
 		
@@ -31,6 +34,7 @@ public class PlayerList extends JPanel {
 		connectedPlayers = new JPanel();
 		
 		connectedPlayers.setLayout(new SpringLayout());
+		connectedPlayers.setBackground(Color.white);
 		
 		add(connectedPlayers, BorderLayout.CENTER);
 	}
@@ -55,6 +59,9 @@ public class PlayerList extends JPanel {
 		for (Player p: players) {
 			JLabel pName = new JLabel(p.getName());
 			JLabel pIdle = new JLabel(TimeUtils.approxString(p.getIdle()));
+			
+			pName.setOpaque(false);
+			pIdle.setOpaque(false);
 			
 			connectedPlayers.add(pName);
 			connectedPlayers.add(pIdle);

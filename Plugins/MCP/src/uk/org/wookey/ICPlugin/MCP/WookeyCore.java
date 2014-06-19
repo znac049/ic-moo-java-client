@@ -11,7 +11,7 @@ import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class WookeyCore  extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCPWookeyCore");
-	private WkCorePanel corePanel;
+	private WkCoreTreePanel corePanel;
 	public final static String packageName = "dns-uk-org-wookey-core";
 	
 	public WookeyCore(ServerConnection svr, MCP mcp) throws ParserException {
@@ -44,7 +44,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 			
 		}
 
-		_logger.logMsg("Info command. Player is " + playerObj + ", maxObject is " + maxObj);
+		//_logger.logMsg("Info command. Player is " + playerObj + ", maxObject is " + maxObj);
 		
 		// Ask for info about the player object
 		MCPCommand cmd = new MCPCommand();
@@ -56,20 +56,37 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	}
 	
 	private void handleObjCommand(MCPCommand command, String key) {
+		String obName = command.getParam("name");
 		String obNum = command.getParam("objnum");
 		String properties = command.getParam("properties");			
 		String verbs = command.getParam("verbs");			
 		String parents = command.getParam("parents");			
 
-		_logger.logInfo("Obj command, objnum " + obNum);
-		_logger.logInfo("  props: '" + properties + "'");
-		_logger.logInfo("  verbs: '" + verbs + "'");
-		_logger.logInfo("  parents: '" + parents + "'");
+		//_logger.logInfo("Obj command, objnum " + obNum);
+		//_logger.logInfo("  props: '" + properties + "'");
+		//_logger.logInfo("  verbs: '" + verbs + "'");
+		//_logger.logInfo("  parents: '" + parents + "'");
 		
-		corePanel.registerObject(mcp, WkObjectDB.decodeObjectNumNoEx(obNum), properties, verbs, parents);
+		corePanel.registerObject(mcp, WkObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
 		
 		corePanel.revalidate();
 		corePanel.repaint();
+	}
+	
+	public void loadObject(int objNum) {
+		if (objNum != -1) {
+			try {
+				WkObject ob = WkObjectDB.getObject(objNum);
+				
+				MCPCommand cmd = new MCPCommand();
+				cmd.setAuthKey(mcp.authKey);
+				cmd.setName(packageName, "getobj");
+				cmd.addParam("objnum", ""+objNum);
+				mcp.queueOutgoingCommand(cmd);
+			} catch (MCPException e) {
+				_logger.logError("Failed to send object info to WookeyCore", e);
+			}
+		}
 	}
 	
 	public void born() {
@@ -79,10 +96,16 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	}
 
 	private void addGUI() {
-		JPanel rhs = mcp.getWorldTab().getPanel(WorldTab.LEFT_SIDEBAR);
+		JPanel lhs = mcp.getWorldTab().getPanel(WorldTab.LEFT_SIDEBAR);
 		GridBagConstraints gbc = new GridBagConstraints();
 		
-		_logger.logInfo("Adding to rhs side panel...");
+		WkCorePanel parentPanel = new WkCorePanel();
+
+		corePanel = new WkCoreTreePanel(getMCP(), server);
+		parentPanel.setTopComponent(corePanel);
+		parentPanel.setBottomComponent(new WkCorePropsPanel());
+		
+		_logger.logInfo("Adding to lhs side panel...");
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -92,11 +115,10 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.BOTH;
 		
-		corePanel = new WkCorePanel(getMCP(), server);
-		rhs.add(corePanel, gbc);
+		lhs.add(parentPanel, gbc);
 		
-		rhs.revalidate();
-		rhs.repaint();
+		lhs.revalidate();
+		lhs.repaint();
 
 	}
 	public void run() {
