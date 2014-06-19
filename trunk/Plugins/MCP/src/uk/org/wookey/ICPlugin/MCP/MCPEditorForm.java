@@ -15,12 +15,17 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 	private final Logger _logger = new Logger("MCPEditorForm");
 	private String _key;
 	private String _ref;
+	
+	private MCP _mcp;
 	private ServerConnection _server;
-	public MCPEditorForm(String name, String ref, String type, String content, ServerConnection svr, String key) {
+	
+	public MCPEditorForm(String name, String ref, String type, String content, MCP mcp, ServerConnection svr, String key) {
 		super(name, type, content);
 		
 		_ref = ref;
 		_key = key;
+		
+		_mcp = mcp;
 		_server = svr;
 		
 		JMenuItem uploadItem = new JMenuItem("Upload");
@@ -56,7 +61,8 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			command.addParam("type", _type);
 			command.addParam("content*", _editor.getText());
 			
-			command.sendToServer(_server);
+			_mcp.queueOutgoingCommand(command);
+			//command.sendToServer(_server);
 		}
 		else if (cmd.equalsIgnoreCase("Save")) {
 			saveLocalCopy();
@@ -68,7 +74,9 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			command.addParam("type", _type);
 			command.addParam("content*", _editor.getText());
 			
-			command.sendToServer(_server);
+			_mcp.queueOutgoingCommand(command);
+			//command.sendToServer(_server);
+			
 			setVisible(false);
 			dispose();
 		}

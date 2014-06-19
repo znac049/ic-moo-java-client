@@ -10,7 +10,7 @@ public class MCPNegotiate extends MCPHandler {
 	private boolean _negotiating = true;
 	private ArrayList<MCPPackage> _canList;
 	
-	public MCPNegotiate(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPNegotiate(ServerConnection svr, MCP mcpRoot) throws ParserException {
 		super("mcp-negotiate", "1.0", "2.0", svr, mcpRoot);
 		
 		_canList = new ArrayList<MCPPackage>();
@@ -39,7 +39,7 @@ public class MCPNegotiate extends MCPHandler {
 			_canList.add(new MCPPackage(packageName, minVersion, maxVersion));
 			
 			// Do we support this package? If we do, then call then activate it at our end.
-			mcp.activate(packageName, minVersion, maxVersion);
+			mcp.activatePackage(packageName, minVersion, maxVersion);
 		}
 	}
 }

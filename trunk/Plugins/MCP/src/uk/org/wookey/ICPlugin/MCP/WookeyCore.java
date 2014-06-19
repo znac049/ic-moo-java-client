@@ -1,10 +1,7 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
-import java.util.TimeZone;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import uk.org.wookey.IC.GUI.WorldTab;
@@ -17,8 +14,8 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	private WkCorePanel corePanel;
 	public final static String packageName = "dns-uk-org-wookey-core";
 	
-	public WookeyCore(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
-		super(packageName, "1.0", "1.0", svr, mcpRoot);
+	public WookeyCore(ServerConnection svr, MCP mcp) throws ParserException {
+		super(packageName, "1.0", "1.0", svr, mcp);
 	}
 	
 	public void handle(MCPCommand command, String key) {
@@ -54,7 +51,8 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		cmd.setAuthKey(mcp.authKey);
 		cmd.setName(name, "getobj");
 		cmd.addParam("objnum", playerObj.substring(1));
-		cmd.sendToServer(server);
+		mcp.queueOutgoingCommand(cmd);
+		//cmd.sendToServer(server);
 	}
 	
 	private void handleObjCommand(MCPCommand command, String key) {
@@ -94,7 +92,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.BOTH;
 		
-		corePanel = new WkCorePanel(server);
+		corePanel = new WkCorePanel(getMCP(), server);
 		rhs.add(corePanel, gbc);
 		
 		rhs.revalidate();
@@ -105,7 +103,8 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		MCPCommand command = new MCPCommand();
 		command.setName(name, "getinfo");
 		command.setAuthKey(mcp.authKey);
-		command.sendToServer(server);
+		mcp.queueOutgoingCommand(command);
+		//command.sendToServer(server);
 		
 		while (true) {
 			try {

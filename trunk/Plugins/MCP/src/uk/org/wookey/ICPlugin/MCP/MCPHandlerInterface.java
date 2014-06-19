@@ -6,7 +6,6 @@ public interface MCPHandlerInterface {
 	String getMaxVersion();
 	boolean handlesCommand(String cmd);
 	void handle(MCPCommand cmd, String key);
-	void sendCommandToServer(String cmd);
-	void sendToServer(String cmd);
+	void sendToServer(MCPCommand cmd);
 	void born();
 }

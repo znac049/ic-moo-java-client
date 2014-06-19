@@ -4,50 +4,55 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.IOPluginInterface;
 import uk.org.wookey.IC.Utils.Line;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.IOPlugin;
 import uk.org.wookey.IC.Utils.ServerConnection;
+import uk.org.wookey.IC.Utils.IOPluginInterface.Status;
 
-public class MCPRoot extends IOPlugin {
-	private static int worldCounter = 0;
+public class MCP extends IOPlugin {
 	private Logger _logger = new Logger("MCP Root");
+
+	private final String outOfBandToken = "#$#";
+
 	private MCPVersion _minVer;
 	private MCPVersion _maxVer;
 	public MCPSession _mcpSession;
 	private WookeyCore _core;
 	private ArrayList<MCPHandler> _handlers;
-	private String outOfBandToken = "#$#";
 	public String authKey;
-    private ArrayList<MCPCommand> _pendingSessions;
+	
     private ArrayList<MCPCommand> _multilineSessions;
+
+    private LinkedList<MCPCommand> _incomingCommandQueue;
     private volatile LinkedList<MCPCommand> _outgoingCommandQueue;
+    
     private Thread commandRunner;
 
-	public MCPRoot(ServerConnection svr, WorldTab tab) throws ParserException {
+	public MCP() throws ParserException {
 		_minVer = new MCPVersion("2.1");
 		_maxVer = new MCPVersion("2.1");
 		_mcpSession = new MCPSession();
 		_handlers = new ArrayList<MCPHandler>();
 		
-		_pendingSessions = new ArrayList<MCPCommand>();
+		_incomingCommandQueue = new LinkedList<MCPCommand>();
 		_multilineSessions = new ArrayList<MCPCommand>();
+		
 		_outgoingCommandQueue = new LinkedList<MCPCommand>();
 
 		authKey = "ic0" + System.currentTimeMillis() % 10;
 		
 		try {
-			attach(svr, tab);
-
-			_core = new WookeyCore(svr, this);
+			_core = new WookeyCore(server, this);
 			_handlers.add(_core);
-			_handlers.add(new MCPNegotiate(svr, this));
-			_handlers.add(new MCPSimpleEdit(svr, this));
-			//_handlers.add(new MCPVisual(svr, this));
-			_handlers.add(new MCPServerInfo(svr, this));
-			_handlers.add(new MCPTimezone(svr, this));
+			_handlers.add(new MCPNegotiate(server, this));
+			_handlers.add(new MCPSimpleEdit(server, this));
+			_handlers.add(new MCPVisual(server, this));
+			_handlers.add(new MCPServerInfo(server, this));
+			_handlers.add(new MCPTimezone(server, this));
 		} catch (ParserException e) {
 			// Any handler that generates an exception just gets binned.
 			_logger.logMsg("Caught MCP Exception");
@@ -60,10 +65,27 @@ public class MCPRoot extends IOPlugin {
 	}
 
 	@Override
+	public boolean supports(CorePluginInterface.PluginType pluginType) {
+		switch (pluginType) {
+		case IOPLUGIN:
+			return true;
+		}
+		
+		return true;
+	}
+
+	@Override
 	public Status remoteLineIn(Line l) {
 		String line = l.get();
 		MCPCommand cmd = new MCPCommand();
 		
+		//_logger.logInfo("Does the MCP lugin care about '" + line + "'?");
+		if (!line.startsWith(outOfBandToken)) {
+			return IOPluginInterface.Status.IGNORED;
+		}
+		
+		line = line.substring(outOfBandToken.length());
+
 		try {
 			cmd.parseLine(line);
 		} catch (ParserException e) {
@@ -75,30 +97,39 @@ public class MCPRoot extends IOPlugin {
 		
 		// Before we go on, check that there aren't any pending commands
 		// to run as a consequence of this command.
-		MCPCommand pending = getPendingCommand();
-		while (pending != null) {
+		while (queuedInputCommandAvailable()) {
+			MCPCommand pending = getQueuedInputCommand();
 			//_logger.logInfo("execute pending command: '" + cmd.getName() + "'");
 			execute(pending);
-			pending = getPendingCommand();
 		}
 		
 		return IOPluginInterface.Status.CONSUMED;
 	}
 	
-	public void registerMultiline(MCPCommand command) {
-		_multilineSessions.add(command);
+	@Override
+	public boolean activate() {
+		setName("MCP");
+		
+		return true;
 	}
 	
-	public void activate(String name, String minVersion, String maxVersion) {
-		for (int i=0; i< _handlers.size(); i++) {
-			MCPHandler hand = _handlers.get(i);
-			
+	@Override
+	public void deactivate() {
+		_logger.logError("MCP.deactivate needs to be coded, Bob");
+	}
+	
+	public void activatePackage(String name, String minVersion, String maxVersion) {
+		for (MCPHandler hand: _handlers) {			
 			if (hand.getName().equalsIgnoreCase(name)) {
 				hand.born();
 			}
 		}
 	}
 
+	public void registerMultiline(MCPCommand command) {
+		_multilineSessions.add(command);
+	}
+	
 	private boolean execute(MCPCommand cmd) {
 		//Do we recognise the command?
 		
@@ -117,7 +148,7 @@ public class MCPRoot extends IOPlugin {
 		*/
 		String cmdName = cmd.getName();
 		
-		//_logger.logError("executing command '" + cmdName + "'");
+		_logger.logError("executing command '" + cmdName + "'");
 		
 		if (cmdName.equalsIgnoreCase("mcp")) {
 			return handleInitialMcpCommand(cmd);
@@ -169,7 +200,7 @@ public class MCPRoot extends IOPlugin {
             if (dataTag.equals(session.getParam("_data-tag"))) {
                     //_logger.logSuccess("Great - its a completion of command '" + session.getName() + "'");
                     session.clearMultiline();
-                    _pendingSessions.add(session);
+                    _incomingCommandQueue.addLast(session);
                     _multilineSessions.remove(i);
                     return true;
             }   
@@ -214,21 +245,45 @@ public class MCPRoot extends IOPlugin {
 		return false;
 	}
 	
-	private boolean handleInitialMcpCommand(MCPCommand cmd) {
+	private boolean handleInitialMcpCommand(MCPCommand mcpCmd) {
 		// The other end supports mcp - hurrah!
 		try {
-			_minVer = _minVer.min(cmd.getParam("version"));
-			_maxVer = _maxVer.min(cmd.getParam("to"));
+			_minVer = _minVer.min(mcpCmd.getParam("version"));
+			_maxVer = _maxVer.min(mcpCmd.getParam("to"));
 			
 			// Tell the other end that we do MCP too!
-			sendToServer("#$#mcp authentication-key: " + authKey + " version: " + _minVer + " to: " + _maxVer);
+			MCPCommand cmd = new MCPCommand();
+			cmd.setName("mcp");
+			//cmd.setAuthKey(authKey);
+			cmd.addParam("authentication-key", authKey);
+			cmd.addParam("version", _minVer);
+			cmd.addParam("to", _maxVer);
+			
+			queueOutgoingCommand(cmd);
+			//sendToServer("#$#mcp authentication-key: " + authKey + " version: " + _minVer + " to: " + _maxVer);
 
 			//Tell the other end what we can do...
 			for (int i=0; i<_handlers.size(); i++) {
-				MCPHandler h = _handlers.get(i);
-				sendToServer("#$#mcp-negotiate-can " + authKey + " package: " + h.getName() + " min-version: " + h.getMinVersion() + " max-version: " + h.getMaxVersion());
 			}
-			sendToServer("#$#mcp-negotiate-end " + authKey);
+			for (MCPHandler h: _handlers) {
+				cmd.clear();
+				
+				cmd.setName("mcp-negotiate", "can");
+				cmd.setAuthKey(authKey);
+				
+				cmd.addParam("package", h.getName());
+				cmd.addParam("min-version", h.getMinVersion());
+				cmd.addParam("max-version", h.getMaxVersion());
+
+				queueOutgoingCommand(cmd);
+				//sendToServer("#$#mcp-negotiate-can " + authKey + " package: " + h.getName() + " min-version: " + h.getMinVersion() + " max-version: " + h.getMaxVersion());
+			}
+			
+			cmd.clear();
+			cmd.setName("mcp-negotiate", "end");
+			cmd.setAuthKey(authKey);
+			queueOutgoingCommand(cmd);
+			//sendToServer("#$#mcp-negotiate-end " + authKey);
 		}
 		catch (ParserException e) {
 			// Do nothing
@@ -240,59 +295,51 @@ public class MCPRoot extends IOPlugin {
 		return true;		
 	}
 	
-	public void sendMCPCommand(String command) {
-		sendToServer(outOfBandToken + command);
-	}
-	
-	private void sendToServer(String line) {
-		_logger.logMsg("MCP C->S: " + line);
-		if (server != null) {
-			server.writeLine(line);
-		}
-		else {
-			_logger.logError("server is NULL in MCP.sendToServer");
-		}
-	}
-	
 	private MCPHandler findHandler(String command) {
-		for (int i=0; i<_handlers.size(); i++) {
-			MCPHandler h = _handlers.get(i);
-			
+		for (MCPHandler h: _handlers) {
 			if (h.handlesCommand(command)) {
 				return h;
 			}
 		}
+		
 		return null;
 	}
 	
 	public String getWorldName() {
-		worldCounter++;
-		
-		return "World #" + worldCounter;
+		return "World '" + worldTab.getName();
 	}
 	
-	public MCPCommand getPendingCommand() {
-        if (_pendingSessions.size() > 0) {
-                MCPCommand command = _pendingSessions.get(0);
-                _pendingSessions.remove(0);
-               
-                return command;
+	private boolean queuedInputCommandAvailable() {
+		return (_incomingCommandQueue.size() > 0)?true:false;
+	}
+	
+	private MCPCommand getQueuedInputCommand() {
+		if (_incomingCommandQueue.size() > 0) {
+			MCPCommand command = _incomingCommandQueue.removeFirst();
+	               
+			return command;
         }
        
         return null;
 	}
+	
+	public void queueOutgoingCommand(MCPCommand cmd) {
+		// not much to do, really
+		_outgoingCommandQueue.addLast(new MCPCommand(cmd));
+		_logger.logInfo("Added command " + cmd.getName() + " to queue. New length is " + _outgoingCommandQueue.size());
+	}
 
-	public class CommandRunner implements Runnable {
+	private class CommandRunner implements Runnable {
 		private Logger _logger = new Logger("CommandRunner");
 		
 		public void run() {
-			_logger.logInfo("CommandRunner thread started");
+			_logger.logError("CommandRunner thread started");
 			try {
 				while (true) {
 					if (_outgoingCommandQueue.size() > 0) {
 						MCPCommand cmd = _outgoingCommandQueue.removeFirst();
 						
-						_logger.logInfo("Sending queued command");
+						_logger.logError("Sending queued command " + cmd.getName() + ". New length is " + _outgoingCommandQueue.size());
 						cmd.sendToServer(server);
 					}
 					

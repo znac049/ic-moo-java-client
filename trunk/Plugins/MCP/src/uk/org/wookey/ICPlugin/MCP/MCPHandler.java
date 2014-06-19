@@ -12,9 +12,9 @@ public class MCPHandler implements MCPHandlerInterface {
 	private MCPVersion maxVersion;
 	protected ServerConnection server;
 	protected boolean negotiated;
-	protected MCPRoot mcp;
+	protected MCP mcp;
 	
-	public MCPHandler(String pkgName, String min, String max, ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPHandler(String pkgName, String min, String max, ServerConnection svr, MCP mcpRoot) throws ParserException {
 		name = pkgName;
 		minVersion = new MCPVersion(min);
 		maxVersion = new MCPVersion(max);
@@ -52,14 +52,23 @@ public class MCPHandler implements MCPHandlerInterface {
 		return false;
 	}
 	
-	public void sendCommandToServer(String command) {
+	public void ZZZZZsendCommandToServer(String command) {
 		MCPSession sess = new MCPSession();
 		String auth = sess.getSessionKey();
-		sendToServer(name + "-" + command + " " + auth);
+		ZZZZZsendToServer(name + "-" + command + " " + auth);
 	}
 	
-	public void sendToServer(String line) {
-		logger.logMsg("MCP C->S: " + line);
+	public void ZZZZZsendToServer(String line) {
+		logger.logMsg("C->S: " + line);
 		server.writeLine(line);
+	}
+	
+	public MCP getMCP() {
+		return mcp;
+	}
+
+	@Override
+	public void sendToServer(MCPCommand cmd) {
+		mcp.queueOutgoingCommand(cmd);
 	}
 }

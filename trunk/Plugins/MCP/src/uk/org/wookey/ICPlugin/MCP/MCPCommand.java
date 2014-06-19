@@ -14,10 +14,30 @@ public class MCPCommand {
 	private final Logger _logger = new Logger("MCPCommand");
 	
 	public MCPCommand() {
+		_params = new ArrayList<MCPParam>();
+		
+		clear();
+	}
+	
+	public MCPCommand(MCPCommand c) {
+		_params = new ArrayList<MCPParam>();
+		
+		clear();
+	
+		_line = c.getLine();
+		_name = c.getName();
+		_key = c.getAuthKey();
+		
+		for (MCPParam p: c.getParams()) {
+			addParam(p.getKey(), p.getValue());
+		}
+	}
+	
+	public void clear() {
 		_line = null;
 		_name = "mcp-nopackage";
 		_key = null;
-		_params = new ArrayList<MCPParam>();
+		_params.clear();
 	}
 	
 	public void parseLine(String line) throws ParserException {
@@ -163,8 +183,12 @@ public class MCPCommand {
 	}
 	
 	public void sendToServer(ServerConnection server) {
-		String line = "#$#" + getName() + " " + _key;
+		String line = "#$#" + getName();
 		boolean multiline = false;
+		
+		if (_key != null) {
+			line = line + " " + _key;
+		}
 		
 		for (MCPParam para: _params) {
 			if (para.requiresMultiline()) {
@@ -202,7 +226,15 @@ public class MCPCommand {
 			server.writeLine("#$#: " + sessionKey);
 		}
 	}
-
+	
+	public void addParam(String key, MCPVersion value) {
+		addParam(key, value.toString());
+	}
+	
+	public void addParam(String key, int value) {
+		addParam(key, String.valueOf(value));
+	}
+	
 	public void addParam(String key, String value) {
 		if (key.endsWith(":")) {
 			key = key.substring(0, key.length()-1);
