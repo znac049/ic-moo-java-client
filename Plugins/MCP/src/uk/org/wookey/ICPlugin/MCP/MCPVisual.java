@@ -13,11 +13,13 @@ import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPVisual extends MCPHandler implements Runnable {
+	private final long POLL_INTERVAL = 60L; // seconds
+	
 	private Logger _logger = new Logger("MCP Visual");
 	private ArrayList<Player> players;
 	private PlayerList playerList;
 	
-	public MCPVisual(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPVisual(ServerConnection svr, MCP mcpRoot) throws ParserException {
 		super("dns-com-awns-visual", "1.0", "1.0", svr, mcpRoot);
 		
 		players = new ArrayList<Player>();
@@ -117,16 +119,16 @@ public class MCPVisual extends MCPHandler implements Runnable {
 	}
 	
 	public void run() {
+		long sleepTime = POLL_INTERVAL * 1000;
 		while (true) {
 			MCPCommand command = new MCPCommand();
 			command.setName(name, "getusers");
-		
 			command.setAuthKey(mcp.authKey);
-		
-			command.sendToServer(server);
+			mcp.queueOutgoingCommand(command);
+			//command.sendToServer(server);
 
 			try {
-				Thread.sleep(30000);
+				Thread.sleep(sleepTime);
 			} catch (InterruptedException e) {
 				_logger.logError("Backend thread for " + getName() + " has been interrupted");
 				return;

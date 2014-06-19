@@ -9,7 +9,7 @@ import uk.org.wookey.IC.Utils.ServerConnection;
 public class MCPTimezone extends MCPHandler implements Runnable {
 	Logger _logger = new Logger("MCPTimezone");
 	
-	public MCPTimezone(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPTimezone(ServerConnection svr, MCP mcpRoot) throws ParserException {
 		super("dns-com-awns-timezone", "1.0", "1.0", svr, mcpRoot);
 	}
 	
@@ -31,6 +31,7 @@ public class MCPTimezone extends MCPHandler implements Runnable {
 		command.setAuthKey(mcp.authKey);
 		command.addParam("timezone", tz);
 		
-		command.sendToServer(server);
+		mcp.queueOutgoingCommand(command);
+		//command.sendToServer(server);
 	}
 }

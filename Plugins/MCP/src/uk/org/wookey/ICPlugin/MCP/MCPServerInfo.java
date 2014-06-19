@@ -7,7 +7,7 @@ import uk.org.wookey.IC.Utils.ServerConnection;
 public class MCPServerInfo extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCP ServerInfo");
 	
-	public MCPServerInfo(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPServerInfo(ServerConnection svr, MCP mcpRoot) throws ParserException {
 		super("dns-com-awns-serverinfo", "1.0", "1.0", svr, mcpRoot);
 	}
 	
@@ -31,7 +31,8 @@ public class MCPServerInfo extends MCPHandler implements Runnable {
 		command.setName(name);
 		
 		command.setAuthKey(mcp.authKey);
-		command.sendToServer(server);
+		mcp.queueOutgoingCommand(command);
+		//command.sendToServer(server);
 	}
 }
 

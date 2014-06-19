@@ -8,7 +8,7 @@ import uk.org.wookey.IC.Utils.ServerConnection;
 public class MCPSimpleEdit extends MCPHandler {
 	private Logger _logger = new Logger("MCP SimpleEdit");
 	
-	public MCPSimpleEdit(ServerConnection svr, MCPRoot mcpRoot) throws ParserException {
+	public MCPSimpleEdit(ServerConnection svr, MCP mcpRoot) throws ParserException {
 		super("dns-org-mud-moo-simpleedit", "1.0", "1.0", svr, mcpRoot);
 	}
 	
@@ -37,7 +37,7 @@ public class MCPSimpleEdit extends MCPHandler {
 			_logger.logMsg("Type='" + type + "'");
 			_logger.logMsg("Content='" + content + "'");
 			
-			new MCPEditorForm(itemName, ref, type, content, server, key);
+			new MCPEditorForm(itemName, ref, type, content, mcp, server, key);
 		}
 	}
 }
