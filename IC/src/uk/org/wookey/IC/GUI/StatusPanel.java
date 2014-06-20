@@ -15,7 +15,7 @@ public class StatusPanel extends JPanel {
 	public StatusPanel() {
 		super();
 		
-		this.setBackground(new Color(0x99, 0xff, 0x99));
+		this.setBackground(new Color(0xff, 0xff, 0x99));
 		
 		components = new ArrayList<Component>();
 	}

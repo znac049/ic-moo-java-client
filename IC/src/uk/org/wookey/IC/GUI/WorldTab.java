@@ -113,7 +113,7 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		add(keyboard, 1, 1, 1.0, 0.0);
 		
 		infoPanel = new StatusPanel();
-		add(infoPanel, 0, 2, 1.0, 0.0, GridBagConstraints.BOTH, 2, 1);
+		add(infoPanel, 0, 2, 1.0, 0.0, GridBagConstraints.BOTH, 3, 1);
 		
 		leftSide = new JPanel();
 		leftSide.setLayout(new GridBagLayout());
