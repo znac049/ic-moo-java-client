@@ -3,3 +3,8 @@
 = Welcome =
 
 This is the main wiki page.
+
+== News ==
+The MCP package for MOO programmers is coming along. Here's an early screendump:
+
+<img src="images/tree-screen1.png"></img>
