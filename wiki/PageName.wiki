@@ -1,0 +1,72 @@
+#summary features
+#sidebar TableOfContents
+
+<wiki:toc max_depth="1" />
+
+= Introduction =
+
+IC is supposed to be a tool for all seasons:
+
+{{{
+W - each saved world has its own settings
+G - global settings
+P - plugin specific settings
+}}}
+
+= Details =
+
+== Triggers ==
+IC monitors all incoming data a line at a time. After all active plugins have looked at the line and rejected it, IC checks it against it's trigger list. If a match is found, the associated trigger is run.
+
+Triggers can either be:
+
+ * A simple text match
+ * A regular expression (regex)
+
+A regex has a higher overhead in processing time, so simple text triggers should be used where possible.
+
+Actions that can be triggered are:
+
+ * Run a named Macro
+ * Insert text into the keyboard input stream
+ * Invoke one of IC's builtin functions
+ * Send a line of text to the remote world
+
+== Keyboard Shortcuts ==
+TBD
+
+== Timers ==
+Timers are activities that happen at specific intervals or times without the user's intervention. 
+
+There are two types of timer:
+
+ * One-shot. the trigger runs just once, after a predifed time interval has expired.
+ * Repeating. The timer repeats regularly at a pre-defined frequency.
+
+Actions that Timers can trigger are:
+
+ * Run a named Macro
+ * Insert text into the keyboard input stream
+ * Invoke one of IC's builtin functions
+ * Send a line of text to the remote world
+
+
+== Text Highlighting ==
+TBD
+
+== Configurable Editors ==
+TBD
+
+== Other features ==
+
+=== Special Text Formatting ===
+When defining text to be sent to a world or to be injected in the keyboard input stream, you can use special formatting to get IC to substitute certain information at run time.
+
+Special formatting is introduced by the percent symbol (*%*). A single character follows which tells IC what substitution to make.
+
+Currently supported substitutions are:
+|| *Formatting* || *Replace With* || *Context(s) ||
+|| %% || A single percent character || All ||
+|| %h || The host name of the world || Connected ||
+|| %p || The network port number of the world || Connected ||
+|| %w || The name of the world || Connected to a saved world ||
