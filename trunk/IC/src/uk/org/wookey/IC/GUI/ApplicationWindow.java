@@ -1,5 +1,6 @@
 package uk.org.wookey.IC.GUI;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -10,18 +11,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
@@ -34,12 +25,12 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static Logger _logger = new Logger("ApplicationWindow");
 	private JTabbedPane tabs;
+	private MainStatusBar statusBar;
 	
 	public ApplicationWindow() {
 		super("IC");
-		
+
 		GridBagConstraints gbc = new GridBagConstraints();
-		MainMenuBar menu;
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -75,7 +66,7 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		menu = new MainMenuBar();
+		MainMenuBar menu = new MainMenuBar();
 		menu.add(new QuickLaunch(this));
 		setJMenuBar(menu);
 		
@@ -92,12 +83,21 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 
 		tabs.add("Console", new DebugTab());
 		
-		gbc.gridy++;
+		gbc.gridy = 1;
 		gbc.weighty = 1.0;
 		add(tabs, gbc);
 		
-		gbc.gridy++;
+		statusBar = new MainStatusBar(); 
+		JPanel outer = new JPanel();
+		outer.setLayout(new BorderLayout());
+		outer.add(statusBar, BorderLayout.EAST);
+		outer.setBackground(new Color(0xd0, 0xd0, 0xd0));
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		gbc.weightx = 1.0;
 		gbc.weighty = 0.0;
+		//gbc.gridwidth = 3;
+		add(outer, gbc);
 		
 		setVisible(true);
 	}

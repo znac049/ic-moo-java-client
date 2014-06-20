@@ -8,17 +8,31 @@ import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.PluginManager;
 import uk.org.wookey.IC.Utils.Prefs;
+import uk.org.wookey.IC.Utils.TimedEvent;
+import uk.org.wookey.IC.Utils.TimerProcess;
 import uk.org.wookey.IC.Utils.Worlds;
 
 public class MainApplication {
-	private ApplicationWindow mainWindow;
+	private static ApplicationWindow mainWindow;
 	private final Logger _logger = new Logger("MainApplication");
 
+	public static ApplicationWindow getAppWindow() {
+		return mainWindow;
+	}
+	
 	public MainApplication() {
 		mainWindow = new ApplicationWindow();
 		
 		// Plugins
 		PluginManager.scanForPlugins();
+		
+		// Timers
+		(new Thread(TimerProcess.getTimerProcess())).start();
+		
+		TimedEvent ev = new TimedEvent();
+		ev.setRepeat(5000, 5);
+		
+		TimerProcess.queueTimerEvent(ev);
 		
 		// Check for worlds to autoconnect to
 		for (String world: Worlds.getListOfWorlds()) {
