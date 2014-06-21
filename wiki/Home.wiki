@@ -1,6 +1,11 @@
 #summary Wiki main page
 
 = Welcome =
+A feature rich client for MOO, including full MCP support and multiple worlds through a single instance.
+
+Who knows where it will end!
+
+Interested in contributing to the project? Please get in touch. 
 
 This is the main wiki page.
 
