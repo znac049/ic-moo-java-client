@@ -1,5 +1,7 @@
 #summary Navigation menu
 
-= Users =
+=== User Pages ===
 
-= Developers =
+=== Developer Pages ===
+
+There may be more over on [http://rantings.wookey.org.uk | my blog]
