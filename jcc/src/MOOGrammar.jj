@@ -1,0 +1,273 @@
+/**
+ * JavaCC template file created by SF JavaCC plugin 1.5.17+ wizard for JavaCC 1.5.0+
+ */options{  JDK_VERSION = "1.7";  static = false;
+  ignore_case = false;
+  lookahead = 1;
+  error_reporting = true;}PARSER_BEGIN(MOOParser)
+//package uk.org.wookey.IC.parser;
+
+public class MOOParser{  public static void main(String args []) throws ParseException  {
+    String filename = "sample.moo";    MOOParser parser;
+    long startTime = 0;
+    long stopTime = 0;
+    long initTime = 0;
+
+    System.out.println("MOO Parser:  Reading from file " + filename + " . . .");
+    try {
+      startTime = System.currentTimeMillis();
+      parser = new MOOParser(new java.io.FileInputStream(filename));
+      stopTime = System.currentTimeMillis();
+      initTime = stopTime - startTime;
+      parser.program();
+    } catch (java.io.FileNotFoundException e) {
+      System.out.println("MOO Parser:  File " + filename + " not found.");
+      return;
+    }
+    System.out.println("MOO code parsed OK");
+  }}PARSER_END(MOOParser)SKIP :
+{ " " | "\r" | "\t" | "\n" }
+
+TOKEN : /* Language keywords */
+{
+  < IF : "if" >
+| < ELSEIF : "elseif" >
+| < ELSE : "else" >
+| < ENDIF : "endif" >
+| < FOR : "for" >
+| < IN : "in" >
+| < ENDFOR : "endfor" >
+| < TO : ".." >
+| < WHILE : "while" >
+| < ENDWHILE : "endwhile" >
+| < FORK : "fork" >
+| < ENDFORK : "endfork" >
+| < BREAK : "break" >
+| < CONTINUE : "continue" >
+| < RETURN : "return" >
+| < PASS : "pass" >
+| < TRY : "try" >
+| < ENDTRY : "endtry" >
+| < EXCEPT : "except" >
+| < FINALLY : "finally" >
+| < ANY : "any" >}
+
+//TOKEN : { < CRUFT : ( " " | "\r" | "\t" | "\n" )+ > }
+
+TOKEN :
+{
+  < MINUS : "-" >| < OPERATOR : ( "+" | "-" | "*" | "/" | "%" | "^" | "<" | ">" | "<=" | ">=" | "==" | "!=" | "&&" | "||" | "in" ) >
+}  
+
+TOKEN:
+{  < LPAREN : "(" >
+| < RPAREN : ")" >
+| < LSQUARE : "[" >
+| < RSQUARE : "]" >
+| < LBRACE : "{" >| < RBRACE : "}" >| < COMMA : "," >
+| < SEMICOLON : ";" >
+| < BECOMES : "=" >
+| < AT : "@" >
+| < QUERY : "?" >
+| < PIPE : "|" >
+| < COLON : ":" >
+| < ARROW : "=>" >
+}
+
+TOKEN : /* Types */
+{
+  < NUM_TYPE : "NUM" >
+| < OBJ_TYPE : "OBJ" >
+| < LIST_TYPE : "LIST" >
+| < ERR_TYPE : "ERR" >
+| < STR_TYPE : "STR" >
+}
+
+TOKEN : /* Errors */
+{
+  < E_TYPE : "E_TYPE" >
+| < E_DIV : "E_DIV" >
+| < E_RANGE : "E_RANGE" >
+| < E_INVARG : "E_INVARG" >
+| < E_VERBNF : "E_VERBNF" >
+| < E_PROPNF : "E_PROPNF" >
+| < E_VARNF : "E_VARNF" >
+| < E_PERM : "E_PERM" >
+| < E_INVALID : "E_INVIND" >
+| < E_MAXREC : "E_MAXREC" >
+|  < E_ALL : "ALL" >
+}
+
+/*** Basic constants: numbers, idents and strings ***/
+TOKEN  :
+{
+  < #DIGIT : ["0"-"9"] >
+| < #HEXDIGIT : ["0"-"9","A"-"F"] >
+| < INTEGER : (<DIGIT>)+ >
+| < FLOAT : (<DIGIT>)+ "." (<DIGIT>)* >
+| < OBJREF : "#" < INTEGER > >
+
+| < #LETTER : ["A"-"Z","a"-"z"] >
+| < US : "_" >
+| < IDENT : ( < LETTER > | < US > ) ( < LETTER > | < US > | < DIGIT >)* >
+
+| < STRING : "\"" (~["\""])* "\"" >
+}
+
+/*
+ * Start of grammar
+ */
+
+void program() :
+{}
+{
+  (
+    Statement()
+  )*
+
+  < EOF >
+}
+
+void Statement() :
+{}
+{	(
+	  IfStatement()       |
+	  ForStatement()      |
+	  WhileStatement()    |
+	  ForkStatement()     |
+	  TryStatement()      |
+	  BreakStatement()    |
+	  ContinueStatement() |
+	  Expression()        |
+	  ";"
+    )
+
+}
+
+void IfStatement() :
+{}
+{
+  < IF > "(" Expression() ")"
+  		( Statement() )*
+  (
+    < ELSEIF > ( Statement() )*
+  )*
+  (
+      < ELSE > ( Statement() )*
+  )?
+
+  < ENDIF >
+}
+
+void ForStatement() :
+{}
+{
+  < FOR > < IDENT > < IN >
+  	(
+  	  "(" Expression() ")" |
+  	  "[" Expression() ".." Expression() "]"    )
+  		( Statement() )*
+  < ENDFOR >
+}
+
+void WhileStatement() :
+{}
+{
+  < WHILE > "(" Expression() ")"
+  		( Statement() )*
+  < ENDWHILE >
+}
+
+void ForkStatement() :
+{}
+{
+  < FORK > Expression()
+  		( Statement() )*
+  < ENDFORK >
+}
+
+void TryStatement() :
+{}
+{
+  < TRY >
+  		( Statement() )*
+  (    < FINALLY > ( Statement() )* |
+    ( < EXCEPT >  ( < IDENT > )? "(" Codes() ")" ( Statement() )* )*
+  )
+  < ENDTRY >
+}
+
+void BreakStatement() :
+{}
+{
+  < BREAK > ( LOOKAHEAD(2) < IDENT > )?
+}
+
+void ContinueStatement() :
+{}
+{
+  < CONTINUE > ( LOOKAHEAD(2) < IDENT > )?
+}
+
+void Expression() :
+{}
+{
+  (
+    SimpleExpression() (
+      ( < OPERATOR > SimpleExpression() | < BECOMES > Expression() )
+    )?
+  )
+}
+
+void SimpleExpression() :
+{}
+{
+  < INTEGER > |
+  < FLOAT >   | 
+  < STRING >  |
+
+  < IDENT > (
+    			"(" ( SimpleExpression() ( "," SimpleExpression() )* )?")" |
+    			":" < IDENT > "(" ( SimpleExpression() ( "," SimpleExpression() )* )? ")" |
+    			"." < IDENT >
+    		)? |
+    		
+  < OBJREF > (
+    			":" < IDENT > "(" ( SimpleExpression() ( "," SimpleExpression() )* )? ")" |
+    			"." < IDENT > 
+    		 )? |
+	  
+  "!" SimpleExpression()     |
+  "(" SimpleExpression() ")" |
+  "-" SimpleExpression()
+}
+
+void Codes() :{}
+{
+  (    < E_TYPE >    |
+    < E_DIV >     |
+    < E_RANGE >   |
+    < E_INVARG >  |
+    < E_VERBNF >  |
+    < E_PROPNF >  |
+    < E_VARNF >   |
+    < E_PERM >    |
+    < E_INVALID > |
+    < E_MAXREC >  |
+    < E_ALL >
+  ) 
+  (    ","
+    (
+      < E_TYPE >    |
+      < E_DIV >     |
+      < E_RANGE >   |
+      < E_INVARG >  |
+      < E_VERBNF >  |
+      < E_PROPNF >  |
+      < E_VARNF >   |
+      < E_PERM >    |
+      < E_INVALID > |
+      < E_MAXREC >  |
+      < E_ALL >
+    )
+  )* 
+}
