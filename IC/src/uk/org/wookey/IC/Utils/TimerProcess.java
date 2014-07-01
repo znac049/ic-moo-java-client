@@ -14,9 +14,12 @@ public class TimerProcess  implements Runnable {
 	public void run() {
 		_logger.logInfo("Starting up");
 		try {
+			MainStatusBar sb = MainStatusBar.getMainStatusBar();
+			
 			while (true) {
 				long now = System.currentTimeMillis();
-				
+			
+				sb.setTimerMessage(42);
 				for (int i=0; i<eventQueue.size(); i++) {
 					TimedEvent ev = eventQueue.get(i);
 					

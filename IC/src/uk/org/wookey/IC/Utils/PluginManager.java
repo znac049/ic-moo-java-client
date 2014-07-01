@@ -1,6 +1,9 @@
 package uk.org.wookey.IC.Utils;
 
 import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 
 public class PluginManager {
@@ -20,6 +23,10 @@ public class PluginManager {
 				for (File file : files) {
 					if (file.isDirectory()) {
 						loadPlugin(file);
+					}
+					else if ((file.isFile()) && (file.getName().endsWith(".jar"))) {
+						_logger.logInfo("Found a plugin in a JAR file!!!!");
+						loadPluginFromJAR(file);
 					}
 				}
 			}
@@ -67,23 +74,69 @@ public class PluginManager {
 	}
 	
 	private static void loadPlugin(File dir) {
-		PluginLoader loader = new PluginLoader();
-		
 		String packageName = dir.getName();
 
 		int dot = packageName.lastIndexOf('.');
-		String className = packageName.substring(dot+1);
+		String className = packageName;
 		
-		Class<?> c = null;
+		if (dot != -1) {
+			className = packageName.substring(dot+1);
+		}
 		
-		c = loader.findClass(packageName + '.' + className);
-		if (isPlugin(c)) {
-			_logger.logMsg(className + " is a plugin");
+		loadPluginFromURL("file:" + dir.getAbsolutePath() + "/", packageName + "." + className);
+	}
+		
+	private static void loadPluginFromJAR(File jar) {
+		String packageName = jar.getName();
+		
+		if (!packageName.endsWith(".jar")) {
+			_logger.logError("Trying to load a plugin from a jar file but the file extension id NOT '.jar'!");
+			return;
+		}
+
+		// remove the '.jar' extension
+		packageName = packageName.substring(0, packageName.length() -  4);
+		
+		String className = packageName;
+		
+		int dot = packageName.lastIndexOf('.');
+		if (dot != -1) {
+			className = packageName.substring(dot+1);
+		}
+
+		loadPluginFromURL("jar:file:" + jar.getAbsolutePath()+"!/", packageName + "." + className);	        
+	}
+	
+	private static void loadPluginFromURL(String url, String className) {		
+		try {
+			URL[] urls = { new URL(url) };
+			URLClassLoader ucl = URLClassLoader.newInstance(urls);
 			
-			plugins.add(c);
+			_logger.logInfo("Loading plugin '" + className + "' from URL " + URLString(ucl));
+			
+			Class<?> c = ucl.loadClass(className);
+    		if (isPlugin(c)) {
+    			_logger.logMsg(className + " is a plugin");
+    			
+    			plugins.add(c);
+    		}
+		} catch (ClassNotFoundException e) {
+			_logger.logError("Failed to load plugin using URLClassLoader!");
+		} catch (MalformedURLException e) {
+			_logger.logError("Problem with url '" + url + "' in loadPluginFromURL()");
 		}
 	}
 		
+	private static String URLString(URLClassLoader ucl) {
+		URL[] urls = ucl.getURLs();
+		
+		if (urls.length != 1) {
+			return "multiple URLS unexpected";
+		}
+		
+		return urls[0].toExternalForm();	
+	}
+
 	private static boolean isPlugin(Class<?> c) {
 		//Method[] methods = c.getDeclaredMethods();
 		

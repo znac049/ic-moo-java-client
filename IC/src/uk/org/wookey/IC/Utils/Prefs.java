@@ -1,5 +1,6 @@
 package uk.org.wookey.IC.Utils;
 
+import java.awt.Container;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
@@ -18,7 +19,12 @@ public class Prefs {
 	public static final String USERNAME = "Username";
 	public static final String PASSWORD = "Password";
 	public static final String LOCALECHO = "LocalEcho";
-
+	public static final String NEWPLUGINSENABLED = "NewPluginsEnabledByDefault";
+	public static final String PLUGINS = "Plugins";
+	public static final String LOGTOFILE = "LogToFile";
+	public static final String LOGFILE = "LogFile";
+	
+	
 	public static Preferences node(String name) {
 		return Preferences.userRoot().node(name);
 	}
@@ -59,50 +65,19 @@ public class Prefs {
 	}
 
 	public static boolean pluginEnabledForWorld(String worldName, String pluginName) {
-		Preferences prefs = node(WorldsRoot);
+		Preferences prefs = node(WorldsRoot + "/" + worldName);
 		String keyName = pluginName + "Enabled";
 		boolean keyExists = false;
 		boolean worldExists = false;
+		boolean enabled = pluginEnabledGlobally(pluginName);
+		boolean defaultEnable = prefs.getBoolean(NEWPLUGINSENABLED, enabled);
 		
-		_logger.logInfo("checking world pref: " + prefs.absolutePath() + "/" + worldName + "/" + keyName);
+		prefs = prefs.node(PLUGINS);
 		
-		// Does an entry for that world exist?
-		try {
-			for (String world: prefs.childrenNames()) {
-				if (world.equals(worldName)) {
-					worldExists = true;
-					break;
-				}
-			}
-		} catch (BackingStoreException e) {
-			_logger.logError("Caught exception while getting list of pref keys", e);
-			return pluginEnabledGlobally(pluginName);
-		}
+		_logger.logInfo("checking world pref: " + prefs.absolutePath() + ", key=" + keyName);
 		
-		if (!worldExists) {
-			return pluginEnabledGlobally(pluginName);
-		}
-		
-		// Does the key exist?
-		try {
-			for (String key: prefs.keys()) {
-				if (key.equals(keyName)) {
-					keyExists = true;
-					break;
-				}
-			}
-		} catch (BackingStoreException e) {
-			_logger.logError("Caught exception while getting list of pref keys", e);
-		}
-		
-		if (!keyExists) {
-			_logger.logInfo("no key - defaulting to disabled");
-			return pluginEnabledGlobally(pluginName);
-		}
-		
-		
-		boolean enabled = prefs.getBoolean(keyName, false);
-		_logger.logInfo(enabled?"Enabled":"Disabled");
+		enabled = prefs.getBoolean(keyName, defaultEnable);
+		worldExists = true;
 		
 		return enabled;
 	}

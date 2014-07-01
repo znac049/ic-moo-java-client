@@ -3,7 +3,7 @@ package uk.org.wookey.IC.Utils;
 import uk.org.wookey.IC.GUI.WorldTab;
 
 
-public interface IOPluginInterface {
+public interface IOPluginInterface extends CorePluginInterface {
 	public enum Status {
 		IGNORED,
 		CONSUMED
@@ -13,8 +13,6 @@ public interface IOPluginInterface {
 	
 	public WorldTab getWorldTab();
 	
-	public Status remoteCharIn(Char c);
 	public Status remoteLineIn(Line line);
-	
-	public Status transformRemoteInputLine();
+	public String remoteLinePeek(String lineSoFar);
 }
