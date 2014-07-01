@@ -3,6 +3,9 @@ package Application;
 import java.io.IOException;
 import java.util.prefs.Preferences;
 
+import org.fife.ui.rsyntaxtextarea.AbstractTokenMakerFactory;
+import org.fife.ui.rsyntaxtextarea.TokenMakerFactory;
+
 import uk.org.wookey.IC.GUI.ApplicationWindow;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
@@ -23,6 +26,9 @@ public class MainApplication {
 	public MainApplication() {
 		mainWindow = new ApplicationWindow();
 		
+		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory)TokenMakerFactory.getDefaultInstance();
+		atmf.putMapping("text/moo", "uk.org.wookey.IC.MOOLanguage.MOOTokenMaker");
+		
 		// Plugins
 		PluginManager.scanForPlugins();
 		
@@ -31,15 +37,15 @@ public class MainApplication {
 		
 		TimedEvent ev = new TimedEvent();
 		ev.setRepeat(5000, 5);
-		TimerProcess.queueTimerEvent(ev);
+		//TimerProcess.queueTimerEvent(ev);
 		
 		ev = new TimedEvent();
 		ev.setRepeat(3000);
-		TimerProcess.queueTimerEvent(ev);
+		//TimerProcess.queueTimerEvent(ev);
 
 		ev = new TimedEvent();
 		ev.setRepeat(17000);		
-		TimerProcess.queueTimerEvent(ev);
+		//TimerProcess.queueTimerEvent(ev);
 		
 		// Check for worlds to autoconnect to
 		for (String world: Worlds.getListOfWorlds()) {

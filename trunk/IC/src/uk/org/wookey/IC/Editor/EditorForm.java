@@ -7,6 +7,8 @@ import java.io.IOException;
 
 import javax.swing.*;
 
+import org.fife.ui.rtextarea.RTextScrollPane;
+
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
@@ -14,12 +16,15 @@ public class EditorForm extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 7555977762161202604L;
 	private final Logger _logger = new Logger("EditorForm");
 	protected String _type;
-	protected GenericEditor _editor;
+	protected NewGenericEditor _editor;
 	protected JMenuBar _menu;
 	protected String saveName;
+	protected String editorName;
 	
 	public EditorForm(String name, String type, String content) {
 		super();
+		
+		editorName = "Edit";
 		
 		_menu = new JMenuBar();
 		JMenu fileMenu = new JMenu("File");
@@ -45,29 +50,36 @@ public class EditorForm extends JFrame implements ActionListener {
 		setLayout(new BorderLayout());
 
 		_type = type;
-		if (type.equalsIgnoreCase("moo-code")) {
-			_editor = new MOOCodeEditor();
-			saveName = _editor.sanitizeMOOName(name) + ".moo";
-		}
-		else if (type.equalsIgnoreCase("Javascript") | type.equalsIgnoreCase("JS")) {
-			_editor = new JavascriptEditor();
-			saveName = _editor.sanitizeMOOName(name) + ".js";
-		}
-		else {
-			_editor = new GenericEditor();
-			saveName = _editor.sanitizeMOOName(name) + ".txt";
-		}
 		
-		_editor.colourize(content);
-		setTitle(_editor.editorName() + ": " + name);
+		_editor = new NewGenericEditor();
+		_editor.setText(content);
+		_editor.setName(name + ":" + type);
+		
+		setTitle(getEditorName() + ": " + name);
 
-		JScrollPane scroller = new JScrollPane(_editor);
+		RTextScrollPane scroller = new RTextScrollPane(_editor);
 		add(scroller, BorderLayout.CENTER);
 
 		setLocation(300, 300);
 		setSize(700, 500);
 
 		setVisible(true);
+	}
+	
+	public void setSaveName(String newName) {
+		saveName = newName;
+	}
+	
+	public String getEditorName() {
+		return editorName;
+	}
+	
+	public String getText() {
+		return _editor.getText();
+	}
+
+	public void setSyntax(String syntax) {
+		_editor.setSyntaxEditingStyle(syntax);
 	}
 
 	public void actionPerformed(ActionEvent e) {

@@ -17,17 +17,7 @@ public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	}
 
 	@Override
-	public Status remoteCharIn(Char c) {
-		return IOPluginInterface.Status.IGNORED;
-	}
-
-	@Override
 	public Status remoteLineIn(Line line) {
-		return IOPluginInterface.Status.IGNORED;
-	}
-
-	@Override
-	public Status transformRemoteInputLine() {
 		return IOPluginInterface.Status.IGNORED;
 	}
 
@@ -42,5 +32,10 @@ public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	@Override
 	public WorldTab getWorldTab() {
 		return worldTab;
+	}
+
+	@Override
+	public String remoteLinePeek(String lineSoFar) {
+		return lineSoFar;
 	}
 }

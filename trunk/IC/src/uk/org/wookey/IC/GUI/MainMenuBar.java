@@ -5,6 +5,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
+import Application.MainApplication;
 import uk.org.wookey.IC.Utils.KeyMap;
 import uk.org.wookey.IC.Utils.Logger;
 
@@ -79,6 +80,9 @@ public class MainMenuBar extends JMenuBar implements ActionListener {
 		}
 		else if (cmd.equalsIgnoreCase("Settings")) {
 			new SettingsForm();
+		}
+		else if (cmd.equalsIgnoreCase("Macros")) {
+			new MacroManagerForm();
 		}
 		else if (cmd.equalsIgnoreCase("Exit")) {
 			System.exit(0);

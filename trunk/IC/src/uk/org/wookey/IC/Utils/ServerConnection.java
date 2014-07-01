@@ -61,7 +61,7 @@ public class ServerConnection {
 		while (connected) {
 			String line = getStr();
 			
-			_logger.logSuccess("S->C: " + line);
+			//_logger.logSuccess("S->C: " + line);
 			
 			Line l = new Line(line);
 			boolean consumed = false;
@@ -88,7 +88,7 @@ public class ServerConnection {
 	private void loadIOPlugins() {
 		_logger.logInfo("The following IOPlugins were found:");
 		for (CorePluginInterface plugin: PluginManager.pluginsSupporting(CorePluginInterface.PluginType.IOPLUGIN)) {
-			IOPlugin p = (IOPlugin) plugin;
+			IOPluginInterface p = (IOPluginInterface) plugin;
 				
 			if (Prefs.pluginEnabledForWorld(worldTab.getName(), p.getName())) {
 				_logger.logInfo("  " + plugin.getName() + " enabled");
@@ -117,21 +117,29 @@ public class ServerConnection {
 			}
 			
 			line += ch;
+			
+			if (plugins != null) {
+				for (CorePluginInterface plugin: plugins) {
+					IOPlugin p = (IOPlugin) plugin;
+					
+					line = p.remoteLinePeek(line);
+				}
+			}
+
 			ch = getCh();
 		}
 	}
 	
 	private char getCh() {
-		int c; 
+		int c = '\0'; 
 
 		try {
 			if (Thread.interrupted()) {
 				_logger.logInfo("World backend thread interrupted while reading from socket");
 				disconnect();
 			}
-			
+
 			c = socket.getInputStream().read();
-			
 			return (char)c;
 		} catch (IOException e) {
 			_logger.logError("Caught IOException while reading from socket", e);
@@ -143,7 +151,7 @@ public class ServerConnection {
 	}
 	
 	public void writeLine(String line) {
-		_logger.logSuccess("C->S: " + line);
+		//_logger.logSuccess("C->S: " + line);
 		
 		putStr(line + '\n');
 	}

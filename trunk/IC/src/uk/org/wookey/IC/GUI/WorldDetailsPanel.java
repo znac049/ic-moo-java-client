@@ -1,12 +1,18 @@
 package uk.org.wookey.IC.GUI;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import uk.org.wookey.IC.Utils.CorePlugin;
+import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.IC.Utils.PluginManager;
 import uk.org.wookey.IC.Utils.Prefs;
 import webBoltOns.layoutManager.*;
 
@@ -21,6 +27,11 @@ public class WorldDetailsPanel extends JPanel {
 	private JCheckBox autoConnect;
 	private JCheckBox autoLogin;
 	private JCheckBox localEcho;
+	private JCheckBox logSession;
+	private JTextField logFile;
+	private JCheckBox newPluginsEnabledByDefault;
+	private ArrayList<PluginDetails> pluginDetails;
+	private JLabel logLabel;
 	
 	public WorldDetailsPanel() {
 		super();
@@ -57,11 +68,66 @@ public class WorldDetailsPanel extends JPanel {
 		addComp(mainPanel, "Player Name:", playerName);
 		
 		playerPassword = new JPasswordField(20);
-		playerPassword.setEchoChar('X');
+		playerPassword.setEchoChar('-');
 		addComp(mainPanel, "Player Password:", playerPassword);
 		
 		localEcho = new JCheckBox("Local echo");
 		mainPanel.add(localEcho, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		
+		logSession = new JCheckBox("Log session");
+		mainPanel.add(logSession, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		
+		logFile = new JTextField(15);
+
+		JPanel logFilePanel = new JPanel();
+		logLabel = new JLabel("Log file name:");
+		
+		logFilePanel.add(logLabel);
+		
+		lab.setLabelFor(logFile);
+		logFilePanel.add(logFile);
+		
+		mainPanel.add(logFilePanel, new GridFlowLayoutParameter(GridFlowLayoutParameter.CURRENT_ROW, 2));
+		
+		newPluginsEnabledByDefault = new JCheckBox("Enable new plugins by default");
+		mainPanel.add(newPluginsEnabledByDefault, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));
+		
+		logSession.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent changeEvent) {
+				AbstractButton abstractButton =
+						(AbstractButton)changeEvent.getSource();
+				ButtonModel buttonModel = abstractButton.getModel();
+				boolean selected = buttonModel.isSelected();
+				
+				if (selected) {
+					logLabel.setEnabled(true);
+					logFile.setEnabled(true);
+				}
+				else {
+					logLabel.setEnabled(false);
+					logFile.setEnabled(false);
+				}
+			}
+		});
+		
+		pluginDetails = new ArrayList<PluginDetails>();
+		ArrayList<CorePlugin> plugins = PluginManager.pluginsSupporting(CorePluginInterface.PluginType.IOPLUGIN);
+		if (plugins.size() > 0) {
+			BorderPanel selections = new BorderPanel("Plugins");
+			selections.setLayout(new BoxLayout(selections, BoxLayout.PAGE_AXIS));
+			
+			selections.add(Box.createRigidArea(new Dimension(0,3)));
+
+			for (CorePlugin p: plugins) {
+				JCheckBox cb = new JCheckBox(p.getName());
+				
+				pluginDetails.add(new PluginDetails(p.getName(), cb));
+				
+				selections.add(cb);
+			}
+			
+			mainPanel.add(selections, new GridFlowLayoutParameter(GridFlowLayoutParameter.NEXT_ROW, 1));			
+		}
 		
 		add(mainPanel, BorderLayout.NORTH);
 	}
@@ -102,6 +168,30 @@ public class WorldDetailsPanel extends JPanel {
 		playerName.setText(prefs.get(Prefs.USERNAME, ""));
 		playerPassword.setText(prefs.get(Prefs.PASSWORD, ""));
 		localEcho.setSelected(prefs.getBoolean(Prefs.LOCALECHO, true));
+		
+		boolean pluginDefault = prefs.getBoolean(Prefs.NEWPLUGINSENABLED, false);
+		newPluginsEnabledByDefault.setSelected(pluginDefault);
+		
+		boolean logToFile = prefs.getBoolean(Prefs.LOGTOFILE, false);
+		logSession.setSelected(logToFile);
+		if (logToFile) {
+			logFile.setText(prefs.get(Prefs.LOGFILE, "%w.txt"));
+		}
+		else {
+			logFile.setText("");
+		}
+		
+		// Move onto the prefs node for plugins
+		prefs = prefs.node(Prefs.PLUGINS);
+		
+		for (PluginDetails pd: pluginDetails) {
+			JCheckBox cb = (JCheckBox) pd.getUiItem();
+			String name = pd.getName();
+			
+			_logger.logInfo("Loading plugin enabled setting for '" + name + "'");
+			
+			cb.setSelected(prefs.getBoolean(name + "Enabled",  pluginDefault));
+		}
 	}
 
 	public void saveDetails() {
@@ -110,7 +200,11 @@ public class WorldDetailsPanel extends JPanel {
 				
 		_logger.logMsg("Save details for: " + worldName);
 
-		if (!worldName.equals("")) {
+		if (worldName.equals("") || worldName.startsWith("<")) {
+			_logger.logError("Invalid world name!");
+			JOptionPane.showMessageDialog(this, "You need to provide a world name", "Save World", JOptionPane.WARNING_MESSAGE);
+		}
+		else {
 			prefs.putBoolean(Prefs.AUTOCONNECT, autoConnect.isSelected());
 			
 			String port = serverPort.getText();
@@ -123,9 +217,26 @@ public class WorldDetailsPanel extends JPanel {
 			
 			prefs.putBoolean(Prefs.AUTOLOGIN, autoLogin.isSelected());
 			prefs.put(Prefs.USERNAME, playerName.getText());
-			prefs.put(Prefs.PASSWORD, playerPassword.getPassword().toString());
+			prefs.put(Prefs.PASSWORD, new String(playerPassword.getPassword()));
 
 			prefs.putBoolean(Prefs.LOCALECHO, localEcho.isSelected());
+
+			prefs.putBoolean(Prefs.NEWPLUGINSENABLED, newPluginsEnabledByDefault.isSelected());
+			
+			prefs.putBoolean(Prefs.LOGTOFILE, logSession.isSelected());
+			prefs.put(Prefs.LOGFILE, logFile.getText());
+
+			// Move onto the prefs node for plugins
+			prefs = prefs.node(Prefs.PLUGINS);
+			
+			for (PluginDetails pd: pluginDetails) {
+				JCheckBox cb = (JCheckBox) pd.getUiItem();
+				String name = pd.getName();
+				
+				_logger.logInfo("Saving plugin enabled setting for '" + name + "'");
+			
+				prefs.putBoolean(name + "Enabled", cb.isSelected());
+			}
 
 			clearDetails();
 		}
@@ -147,6 +258,24 @@ public class WorldDetailsPanel extends JPanel {
 			}
 			clearDetails();
 			_logger.logMsg("World '" + worldName + "' deleted.");
+		}
+	}
+		
+	class PluginDetails {
+		private String name;
+		private Container uiItem;
+		
+		public PluginDetails(String name, Container uiItem) {
+			this.name = name;
+			this.uiItem = uiItem;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
+		public Container getUiItem() {
+			return uiItem;
 		}
 	}
 }

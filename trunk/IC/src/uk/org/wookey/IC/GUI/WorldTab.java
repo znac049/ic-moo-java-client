@@ -18,7 +18,7 @@ import uk.org.wookey.IC.Utils.Prefs;
 import uk.org.wookey.IC.Utils.ServerConnection;
 import uk.org.wookey.IC.Utils.TabInterface;
 
-public class WorldTab extends JPanel implements ActionListener, TabInterface, Runnable, MouseListener {
+public class WorldTab extends TriPanel implements ActionListener, TabInterface, Runnable, MouseListener {
 	private static final long serialVersionUID = 1L;
 	public static final int LEFT_SIDEBAR = 1;
 	public static final int RIGHT_SIDEBAR = 2;
@@ -29,9 +29,6 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 	private StatusPanel infoPanel;
 	private ServerConnection server;
 	private LED statusLED;
-	
-	private JPanel leftSide;
-	private JPanel rightSide;
 	
 	private String worldName;
 	private String hostName;
@@ -90,15 +87,13 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		
 		statusLED = new LED(0, 0, 0);
 		
-		setLayout(new GridBagLayout());
-		
 		screen = new Screen();
 		screen.setFocusable(true);
 		screen.requestFocusInWindow();
 
 		JScrollPane scroller = new JScrollPane(screen);
 		scroller.setFocusable(false); 
-		add(scroller, 1, 0, 1.0, 1.0);
+		getMiddlePanel().add(scroller, BorderLayout.CENTER);
 				
 		keyboardHistory = new ArrayList<String>();
 		historyIndex = 0;
@@ -110,18 +105,15 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
 		keyboard.addActionListener(this);
 		keyboard.addKeyListener(kh);
-		add(keyboard, 1, 1, 1.0, 0.0);
+		getMiddlePanel().add(keyboard, BorderLayout.PAGE_END);
 		
 		infoPanel = new StatusPanel();
-		add(infoPanel, 0, 2, 1.0, 0.0, GridBagConstraints.BOTH, 3, 1);
+		//middle.add(infoPanel, 0, 2, 1.0, 0.0, GridBagConstraints.BOTH, 3, 1);
 		
-		leftSide = new JPanel();
-		leftSide.setLayout(new GridBagLayout());
-		add(leftSide, 0, 0, 0.0, 1.0, GridBagConstraints.BOTH, 1, 2);
+		getLeftPanel().setLayout(new GridBagLayout());
+		getRightPanel().setLayout(new GridBagLayout());
 		
-		rightSide = new JPanel();
-		rightSide.setLayout(new GridBagLayout());
-		add(rightSide, 2, 0, 0.0, 1.0,  GridBagConstraints.BOTH, 1, 2);
+		setResizeWeight(0.0, 1.0);
 	}
 	
 	public void tearDown() {
@@ -132,17 +124,6 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		
 		listenerThread.interrupt();
 		server.disconnect();
-	}
-	
-	public JPanel getPanel(int whichPanel) {
-		if (whichPanel == LEFT_SIDEBAR) {
-			return leftSide;
-		}
-		else if (whichPanel == RIGHT_SIDEBAR) {
-			return rightSide;
-		}
-		
-		return null;
 	}
 	
 	private void setupKeyMap() {
@@ -174,28 +155,6 @@ public class WorldTab extends JPanel implements ActionListener, TabInterface, Ru
 		screen.info("Connection closed");
 	}
 
-	private void add(Component c, int x, int y, double wx, double wy, int fill, int width, int height) {
-		GridBagConstraints constraints = new GridBagConstraints();
-		
-		constraints.gridx = x;
-		constraints.gridy = y;
-		constraints.weightx = wx;
-		constraints.weighty = wy;
-		constraints.fill = fill;
-		constraints.gridwidth = width;
-		constraints.gridheight = height;
-		
-		add(c, constraints);
-	}
-	
-	private void add(Component c, int x, int y, double wx, double wy, int fill) {
-		add(c, x, y, wx, wy, fill, 1, 1);
-	}
-
-	private void add(Component c, int x, int y, double wx, double wy) {
-		add(c, x, y, wx, wy, GridBagConstraints.BOTH);
-	}
-	
 	private void attemptToConnect() {
 		boolean autoConnect = false;
 		String userName = null;

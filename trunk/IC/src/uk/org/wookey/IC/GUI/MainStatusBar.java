@@ -2,11 +2,8 @@ package uk.org.wookey.IC.GUI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.image.BufferedImage;
 import java.io.File;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -25,11 +22,8 @@ public class MainStatusBar extends JPanel {
 		
 		timerLabel = new JLabel();
 		timerLabel.setMinimumSize(new Dimension(170, timerLabel.getMinimumSize().height));
-		add(timerLabel);
+		//add(timerLabel);
 		
-		
-		//addSpacer();
-
 		setTimerMessage(0);
 	}
 	
@@ -46,5 +40,4 @@ public class MainStatusBar extends JPanel {
 	public static MainStatusBar getMainStatusBar() {
 		return _sb;
 	}
-	
 }
