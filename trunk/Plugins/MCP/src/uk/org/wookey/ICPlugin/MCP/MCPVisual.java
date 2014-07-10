@@ -1,5 +1,6 @@
 package uk.org.wookey.ICPlugin.MCP;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.ScrollPane;
 import java.util.ArrayList;
@@ -97,7 +98,7 @@ public class MCPVisual extends MCPHandler implements Runnable {
 	}
 	
 	private void addGUI() {
-		JPanel lhs = mcp.getWorldTab().getPanel(WorldTab.RIGHT_SIDEBAR);
+		JPanel lhs = (JPanel) mcp.getWorldTab().getRightPanel();
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		_logger.logInfo("Adding to lhs side panel...");
@@ -112,7 +113,9 @@ public class MCPVisual extends MCPHandler implements Runnable {
 		
 		playerList = new PlayerList();
 		
+		mcp.getWorldTab().setRightResizeWeight(0.8);
 		lhs.add(playerList, gbc);
+		lhs.setMinimumSize(new Dimension(130, 100));
 		
 		lhs.revalidate();
 		lhs.repaint();

@@ -6,12 +6,12 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import uk.org.wookey.IC.Editor.EditorForm;
-import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.Editor.NewGenericEditor;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class MCPEditorForm extends EditorForm implements ActionListener {
-	private static final long serialVersionUID = 8974376117801769307L;
+	private static final long serialVersionUID = 1L;
 	private final Logger _logger = new Logger("MCPEditorForm");
 	private String _key;
 	private String _ref;
@@ -27,6 +27,8 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 		
 		_mcp = mcp;
 		_server = svr;
+		
+		setSyntax(NewGenericEditor.SYNTAX_STYLE_MOO);
 		
 		JMenuItem uploadItem = new JMenuItem("Upload");
 		uploadItem.setMnemonic(KeyEvent.VK_U);
@@ -59,7 +61,7 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			command.setAuthKey(_key);
 			command.addParam("reference", _ref);
 			command.addParam("type", _type);
-			command.addParam("content*", _editor.getText());
+			command.addParam("content*", getText());
 			
 			_mcp.queueOutgoingCommand(command);
 			//command.sendToServer(_server);
@@ -72,7 +74,7 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 			command.setAuthKey(_key);
 			command.addParam("reference", _ref);
 			command.addParam("type", _type);
-			command.addParam("content*", _editor.getText());
+			command.addParam("content*", getText());
 			
 			_mcp.queueOutgoingCommand(command);
 			//command.sendToServer(_server);

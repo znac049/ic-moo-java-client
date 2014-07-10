@@ -64,7 +64,7 @@ public class WkCoreTreePanel extends JPanel {
 				int parentObjNum = WkObjectDB.decodeObjectNumNoEx(parent);
 				
 				if (WkObjectDB.objectExists(parentObjNum)) {
-					_logger.logInfo("Parent: " + parent + " exists");
+					//_logger.logInfo("Parent: " + parent + " exists");
 					try {
 						ancestor = WkObjectDB.getObject(parentObjNum);
 						ancestorObjNum = parentObjNum;
@@ -74,7 +74,7 @@ public class WkCoreTreePanel extends JPanel {
 					}
 				}
 				else {
-					_logger.logInfo("Parent: " + parent + " doesn't exist");
+					//_logger.logInfo("Parent: " + parent + " doesn't exist");
 					WkObject ob;
 					try {
 						ob = WkObjectDB.getObject(parentObjNum);
@@ -87,13 +87,13 @@ public class WkCoreTreePanel extends JPanel {
 					
 					if (root) {
 						// Needs adding to the top of the tree
-						_logger.logInfo("Root node");
+						//_logger.logInfo("Root node");
 						root = false;
 						objectRoot.add(ob.getTreeNode());
 					}
 					else {
 						// needs adding to an existing object node
-						_logger.logMsg("tree node");
+						//_logger.logMsg("tree node");
 						ancestor.getKidsNode().add(ob.getTreeNode());
 					}
 					

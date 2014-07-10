@@ -2,14 +2,17 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.border.LineBorder;
 
+import Application.MainApplication;
 import uk.org.wookey.IC.Utils.SpringUtilities;
 import uk.org.wookey.IC.Utils.TimeUtils;
 
@@ -36,8 +39,12 @@ public class PlayerList extends JPanel {
 		connectedPlayers.setLayout(new SpringLayout());
 		connectedPlayers.setBackground(Color.white);
 		
-		add(connectedPlayers, BorderLayout.CENTER);
-	}
+		//add(connectedPlayers, BorderLayout.CENTER);
+	
+		JScrollPane scroller = new JScrollPane();
+        scroller.getViewport().add(connectedPlayers);
+        //scroller.setMinimumSize(new Dimension(250, scroller.getMaximumSize().height));
+		add(scroller, BorderLayout.CENTER);}
 	
 	public void add(Player p) {
 		players.add(p);

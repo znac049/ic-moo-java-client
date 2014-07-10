@@ -1,9 +1,11 @@
 package uk.org.wookey.ICPlugin.MCP;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 
 import javax.swing.JPanel;
 
+import Application.MainApplication;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
@@ -96,7 +98,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	}
 
 	private void addGUI() {
-		JPanel lhs = mcp.getWorldTab().getPanel(WorldTab.LEFT_SIDEBAR);
+		JPanel lhs = (JPanel) mcp.getWorldTab().getLeftPanel();
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		WkCorePanel parentPanel = new WkCorePanel();
@@ -116,10 +118,13 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		gbc.fill = GridBagConstraints.BOTH;
 		
 		lhs.add(parentPanel, gbc);
-		
+
+		lhs.setMinimumSize(new Dimension(300, 100));
+		lhs.setSize(lhs.getMinimumSize());
+		mcp.getWorldTab().revalidate();
+
 		lhs.revalidate();
 		lhs.repaint();
-
 	}
 	public void run() {
 		MCPCommand command = new MCPCommand();

@@ -14,16 +14,16 @@ public class WkObjectDB {
 			throw new MCPException("Object number out of range");
 		}
 		
-		_logger.logInfo("Look up object #" + objNum);
+		//_logger.logInfo("Look up object #" + objNum);
 		for (WkObject o: db) {
 			if (o.getObjNum() == objNum) {
-				_logger.logInfo("Found it");
+				//_logger.logInfo("Found it");
 				
 				return o;
 			}
 		}
 		
-		_logger.logInfo("No object - creating one");
+		//_logger.logInfo("No object - creating one");
 		
 		WkObject obj = new WkObject(objNum);
 		db.add(obj);
@@ -32,22 +32,22 @@ public class WkObjectDB {
 	}
 	
 	public static boolean objectExists(int objNum) {
-		_logger.logInfo("Does object #" + objNum + " exist?");
+		//_logger.logInfo("Does object #" + objNum + " exist?");
 		if ((objNum < 0) || (objNum > maxObjNum)) {
-			_logger.logInfo("No - out of range");
+			//_logger.logInfo("No - out of range");
 
 			return false;
 		}
 		
 		for (WkObject o: db) {
 			if (o.getObjNum() == objNum) {
-				_logger.logInfo("Yes");
+				//_logger.logInfo("Yes");
 				
 				return true;
 			}
 		}
 
-		_logger.logInfo("No");
+		//_logger.logInfo("No");
 
 		return false;
 	}
@@ -79,7 +79,7 @@ public class WkObjectDB {
 	public static int decodeObjectNumNoEx(String objStr)  {
 		String oid = objStr;
 		
-		_logger.logInfo("Decoding string: '" + objStr + "', len=" + objStr.length());
+		//_logger.logInfo("Decoding string: '" + objStr + "', len=" + objStr.length());
 		
 		if (objStr.equals("")) {
 			return -1;
