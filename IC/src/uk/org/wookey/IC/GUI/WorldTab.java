@@ -185,6 +185,7 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 				if (server.isConnected() & autoConnect & !userName.equals("")) {
 					_logger.logInfo("Autologin as '" + userName + "'");
 					server.writeLine("connect " + userName + " " + password);
+					server.addFormatTranslation("u", userName);
 				}
 			}
 		}

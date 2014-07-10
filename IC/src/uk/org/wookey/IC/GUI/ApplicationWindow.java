@@ -9,8 +9,6 @@ import java.awt.Insets;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
@@ -32,8 +30,6 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 	public ApplicationWindow() {
 		super("IC");
 		
-		addComponentListener(new ResizeHandler());
-
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		gbc.gridx = 0;
@@ -159,11 +155,5 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 	
 	public JTabbedPane getTabbedPane() {
 		return tabs;
-	}
-	
-	class ResizeHandler extends ComponentAdapter {
-		public void componentResized(ComponentEvent e) {
-			_logger.logInfo("Resize");
-		}
 	}
 }
