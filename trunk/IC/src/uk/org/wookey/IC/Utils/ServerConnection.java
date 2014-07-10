@@ -1,6 +1,9 @@
 package uk.org.wookey.IC.Utils;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -14,28 +17,39 @@ public class ServerConnection {
 	private String host;
 	private int port;
 	private boolean connected = false;
+	private boolean logging = false;
 	private ArrayList<CorePlugin> plugins;
-	
+	private PrintWriter logFile = null;
 	private Preferences prefs = null;
-	
 	private WorldTab worldTab = null;
+	private FileNameFormatter fileNameFormatter;
 	
 	public ServerConnection(String hostName, int hostPort, WorldTab tab) {
 		worldTab = tab;
 		host = hostName;
 		port = hostPort;
+		prefs = tab.getPrefs();
 		
 		connect(hostName, hostPort);
 	}
 
 	public ServerConnection(String hostName, int hostPort, WorldTab tab, Preferences root) {
-		prefs = root;
 		worldTab = tab;
+		host = hostName;
+		port = hostPort;
+		prefs = root;
 		
 		connect(hostName, hostPort);
 	}
 	
 	private void connect(String hostName, int hostPort) {
+		fileNameFormatter = new FileNameFormatter();
+		
+		fileNameFormatter.addMapping("h", hostName);
+		fileNameFormatter.addMapping("p", String.valueOf(hostPort));
+		fileNameFormatter.addMapping("w", worldTab.getName());
+		fileNameFormatter.addMapping("u", "none");
+
 		plugins = new ArrayList<CorePlugin>();
 		
 		try {
@@ -43,9 +57,6 @@ public class ServerConnection {
 				_logger.logMsg("Connecting to: " + hostName + " port " + hostPort);
 				socket = new Socket(hostName, hostPort);
 					
-				//remoteInput = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				//remoteOutput = new PrintWriter(socket.getOutputStream(), true);
-				
 				connected = true;
 				
 				_logger.logSuccess("Connected");
@@ -78,6 +89,8 @@ public class ServerConnection {
 			}
 			
 			if (!consumed) {
+				logInput(line);
+				
 				return line;
 			}
 		}
@@ -153,6 +166,8 @@ public class ServerConnection {
 	public void writeLine(String line) {
 		//_logger.logSuccess("C->S: " + line);
 		
+		logOutput(line);
+		
 		putStr(line + '\n');
 	}
 	
@@ -211,5 +226,44 @@ public class ServerConnection {
 		}
 		
 		return connected;
-	}	
+	}
+	
+	private void logInput(String line) {
+		if (logging) {
+			logFile.println(line);
+		}
+	}
+	
+	private void logOutput(String line) {
+		if (logging) {
+			logFile.println(line);
+		}
+	}
+	
+	public void setLogging(boolean enabled) {
+		if (enabled && !logging) {
+			// open/create log file
+			try {
+				String name = fileNameFormatter.makeSpecialFilename("%w-%u.txt");
+				_logger.logInfo("Logging session to file '" + name + "'");
+				
+				logFile = new PrintWriter("logs/" + name, "UTF-8");
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else if (logging) {
+			// close log file
+			if (logFile != null) {
+				logFile.close();
+			}
+		}
+		
+		logging = enabled;
+	}
+	
+	public void addFormatTranslation(String key, String val) {
+		fileNameFormatter.addMapping(key, val);
+	}
 }

@@ -1,5 +1,4 @@
-Resize
-Resize
+L&F: Metal
 Scanning for plugins
 Found a plugin in a JAR file!!!!
 Loading plugin 'uk.org.wookey.ICPlugin.Cisco.Cisco' from URL jar:file:C:\Users\bob\personal-workspace\IC\.\plugins\uk.org.wookey.ICPlugin.Cisco.jar!/
@@ -13,7 +12,6 @@ uk.org.wookey.ICPlugin.MCP.MCP is a plugin
 CommandRunner thread started
 Starting up
 Autoconnect to world 'ht'
-Resize
 Autoconnect to world 'norled'
 Connecting to: moo.harpers-tale.com port 7007
 Autoconnect to world 'uk-gw1'
@@ -24,109 +22,111 @@ Plugin Cisco instance activated
 Plugin LocalEditing instance activated
 Plugin MCP instance activated
 CommandRunner thread started
+Connected
 checking global pref: /uk/org/wookey/IC/plugins/CiscoEnabled
 no key - defaulting to disabled
-checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=CiscoEnabled
-Connected
-  - Plugin Cisco has been disabled
-checking global pref: /uk/org/wookey/IC/plugins/LocalEditingEnabled
 The following IOPlugins were found:
-Enabled
-checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=LocalEditingEnabled
-  - Plugin LocalEditing has been disabled
-checking global pref: /uk/org/wookey/IC/plugins/MCPEnabled
+checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=CiscoEnabled
 Plugin Cisco instance activated
+  - Plugin Cisco has been disabled
 Plugin LocalEditing instance activated
-Enabled
-checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=MCPEnabled
-  MCP enabled
+checking global pref: /uk/org/wookey/IC/plugins/LocalEditingEnabled
 Plugin MCP instance activated
 CommandRunner thread started
-Loading keymap from node /uk/org/wookey/IC/worlds/ht/KeyMap
-Mapping key Alt-O to macro 'fishify'
-Loading key Alt-O for fishify
-Mapping key Ctrl-H to macro 'help'
-Loading key Ctrl-H for help
-Mapping key Ctrl-L to macro 'lookaround'
-Loading key Ctrl-L for lookaround
-Autologin as 'Delron'
-Execute macro onConnect
+Enabled
+checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=LocalEditingEnabled
 checking global pref: /uk/org/wookey/IC/plugins/CiscoEnabled
-JS file is C:\Users\bob\personal-workspace\IC\.\macros\onConnect.js
+  - Plugin LocalEditing has been disabled
 no key - defaulting to disabled
-File exists and is readable
 checking world pref: /uk/org/wookey/IC/worlds/norled/Plugins, key=CiscoEnabled
   - Plugin Cisco has been disabled
 checking global pref: /uk/org/wookey/IC/plugins/LocalEditingEnabled
 Enabled
 checking world pref: /uk/org/wookey/IC/worlds/norled/Plugins, key=LocalEditingEnabled
+checking global pref: /uk/org/wookey/IC/plugins/MCPEnabled
   - Plugin LocalEditing has been disabled
+Enabled
 checking global pref: /uk/org/wookey/IC/plugins/MCPEnabled
 Enabled
 checking world pref: /uk/org/wookey/IC/worlds/norled/Plugins, key=MCPEnabled
   MCP enabled
+checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=MCPEnabled
+  MCP enabled
 Loading keymap from node /uk/org/wookey/IC/worlds/norled/KeyMap
+Loading keymap from node /uk/org/wookey/IC/worlds/ht/KeyMap
 Autologin as 'norled'
+Mapping key Alt-O to macro 'fishify'
+Execute macro onConnect
+Loading key Alt-O for fishify
+JS file is C:\Users\bob\personal-workspace\IC\.\macros\onConnect.js
+Mapping key Ctrl-H to macro 'help'
+File exists and is readable
+Loading key Ctrl-H for help
+Mapping key Ctrl-L to macro 'lookaround'
+Loading key Ctrl-L for lookaround
+Autologin as 'Delron'
 Execute macro onConnect
 JS file is C:\Users\bob\personal-workspace\IC\.\macros\onConnect.js
 File exists and is readable
+No handler for MCP command 'Client'
+Added command mcp to queue. New length is 1
+Added command mcp-negotiate-can to queue. New length is 2
+Added command mcp-negotiate-can to queue. New length is 3
+Added command mcp-negotiate-can to queue. New length is 4
+Added command mcp-negotiate-can to queue. New length is 5
+Added command mcp-negotiate-can to queue. New length is 6
+Added command mcp-negotiate-can to queue. New length is 7
+Added command mcp-negotiate-end to queue. New length is 8
+Sending queued command mcp. New length is 7
+No handler for MCP command 'Client'
 Added command mcp to queue. New length is 1
 Added command mcp-negotiate-can to queue. New length is 2
 Sending queued command mcp. New length is 1
+Sending queued command mcp-negotiate-can. New length is 6
 Added command mcp-negotiate-can to queue. New length is 2
 Added command mcp-negotiate-can to queue. New length is 3
 Added command mcp-negotiate-can to queue. New length is 4
 Added command mcp-negotiate-can to queue. New length is 5
 Added command mcp-negotiate-can to queue. New length is 6
 Added command mcp-negotiate-end to queue. New length is 7
+Sending queued command mcp-negotiate-can. New length is 5
 Sending queued command mcp-negotiate-can. New length is 6
 Sending queued command mcp-negotiate-can. New length is 5
 Sending queued command mcp-negotiate-can. New length is 4
-Sending queued command mcp-negotiate-can. New length is 3
-Sending queued command mcp-negotiate-can. New length is 2
-Sending queued command mcp-negotiate-can. New length is 1
-Sending queued command mcp-negotiate-end. New length is 0
-Added command mcp to queue. New length is 1
-Sending queued command mcp. New length is 0
-Added command mcp-negotiate-can to queue. New length is 1
-Added command mcp-negotiate-can to queue. New length is 2
-Added command mcp-negotiate-can to queue. New length is 3
-Added command mcp-negotiate-can to queue. New length is 4
-Sending queued command mcp-negotiate-can. New length is 3
-Added command mcp-negotiate-can to queue. New length is 4
-Added command mcp-negotiate-can to queue. New length is 5
-Added command mcp-negotiate-end to queue. New length is 6
-Birth of 'dns-org-mud-moo-simpleedit'
-Sending queued command mcp-negotiate-can. New length is 5
 Sending queued command mcp-negotiate-can. New length is 4
 Sending queued command mcp-negotiate-can. New length is 3
+Sending queued command mcp-negotiate-can. New length is 3
+Sending queued command mcp-negotiate-can. New length is 2
 Sending queued command mcp-negotiate-can. New length is 2
 Sending queued command mcp-negotiate-can. New length is 1
+Sending queued command mcp-negotiate-can. New length is 1
+Sending queued command mcp-negotiate-end. New length is 0
 Sending queued command mcp-negotiate-end. New length is 0
 Birth of 'dns-org-mud-moo-simpleedit'
+Birth of 'dns-org-mud-moo-simpleedit'
 Birth of 'mcp-negotiate'
-Adding to lhs side panel...
-TZ=Europe/London
 Added command dns-com-awns-serverinfo to queue. New length is 1
-Sending queued command dns-com-awns-serverinfo. New length is 1
-Added command dns-com-awns-timezone to queue. New length is 2
-Sending queued command dns-com-awns-timezone. New length is 0
-Added command dns-com-awns-visual-getusers to queue. New length is 1
-Sending queued command dns-com-awns-visual-getusers. New length is 0
-Birth of 'mcp-negotiate'
 Adding to lhs side panel...
-Added command dns-com-awns-serverinfo to queue. New length is 1
 Sending queued command dns-com-awns-serverinfo. New length is 0
-Added command dns-com-awns-visual-getusers to queue. New length is 1
-Sending queued command dns-com-awns-visual-getusers. New length is 0
 TZ=Europe/London
 Added command dns-com-awns-timezone to queue. New length is 1
-Sending queued command dns-com-awns-timezone. New length is 0
+Added command dns-com-awns-visual-getusers to queue. New length is 2
+Sending queued command dns-com-awns-timezone. New length is 1
+Birth of 'mcp-negotiate'
+Sending queued command dns-com-awns-visual-getusers. New length is 0
+Added command dns-com-awns-serverinfo to queue. New length is 1
+Adding to lhs side panel...
+TZ=Europe/London
+Added command dns-com-awns-timezone to queue. New length is 2
+Sending queued command dns-com-awns-serverinfo. New length is 1
+Added command dns-com-awns-visual-getusers to queue. New length is 2
+Adding to lhs side panel...
+Sending queued command dns-com-awns-timezone. New length is 1
 Adding to lhs side panel...
 Added command dns-uk-org-wookey-core-getinfo to queue. New length is 1
+Added command dns-uk-org-wookey-core-getinfo to queue. New length is 2
 Sending queued command dns-uk-org-wookey-core-getinfo. New length is 0
-Adding to lhs side panel...
-Added command dns-uk-org-wookey-core-getinfo to queue. New length is 1
+Sending queued command dns-com-awns-visual-getusers. New length is 1
 Sending queued command dns-uk-org-wookey-core-getinfo. New length is 0
 Player object number set to 28024
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
@@ -134,120 +134,17 @@ Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
 Player object number set to 26374
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
-Does object #1 exist?
-Parent: #1 doesn't exist
-Root node
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
-Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
-Does object #6 exist?
-Parent: #6 doesn't exist
-tree node
-Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
-Does object #125 exist?
-Parent: #125 doesn't exist
-tree node
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 2
-Does object #101 exist?
-Parent: #101 doesn't exist
-tree node
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 3
-Does object #4 exist?
-Parent: #4 doesn't exist
-tree node
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 4
-Does object #59 exist?
-Parent: #59 doesn't exist
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 3
-tree node
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 4
-Does object #13153 exist?
-Parent: #13153 doesn't exist
-Sending queued command dns-uk-org-wookey-core-getobj. New length is 3
-tree node
-Added command dns-uk-org-wookey-core-getobj to queue. New length is 4
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 5
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 6
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 5
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 4
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 3
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 2
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 1
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
-Found it
-Does object #1 exist?
-Parent: #1 exists
-Found it
-Found it
-Does object #1 exist?
-Parent: #1 exists
-Found it
-Does object #6 exist?
-Parent: #6 exists
-Found it
-Found it
-Does object #1 exist?
-Parent: #1 exists
-Found it
-Does object #6 exist?
-Parent: #6 exists
-Found it
-Does object #125 exist?
-Parent: #125 exists
-Found it
-Found it
-Does object #1 exist?
-Parent: #1 exists
-Found it
-Does object #6 exist?
-Parent: #6 exists
-Found it
-Does object #125 exist?
-Parent: #125 exists
-Found it
-Does object #101 exist?
-Parent: #101 exists
-Found it
-Found it
-Does object #1 exist?
-Parent: #1 exists
-Found it
-Does object #6 exist?
-Parent: #6 exists
-Found it
-Does object #125 exist?
-Parent: #125 exists
-Found it
-Does object #101 exist?
-Parent: #101 exists
-Found it
-Does object #4 exist?
-Parent: #4 exists
-Found it
-Found it
-Does object #1 exist?
-Parent: #1 exists
-Found it
-Does object #6 exist?
-Parent: #6 exists
-Found it
-Does object #125 exist?
-Parent: #125 exists
-Found it
-Does object #101 exist?
-Parent: #101 exists
-Found it
-Does object #4 exist?
-Parent: #4 exists
-Found it
-Does object #59 exist?
-Parent: #59 exists
-Found it
-Found it
-Main menu click: 'Worlds'
-Plugin Cisco instance activated
-Plugin LocalEditing instance activated
-Plugin MCP instance activated
-CommandRunner thread started
-Load details for: <New World>
-Loading plugin enabled setting for 'Cisco'
-Loading plugin enabled setting for 'LocalEditing'
-Loading plugin enabled setting for 'MCP'
-Dbl-Click PANIC!!!
-Save details for: <New World>
-Invalid world name!
