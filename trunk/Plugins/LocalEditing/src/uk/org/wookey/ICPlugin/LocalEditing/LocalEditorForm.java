@@ -12,15 +12,15 @@ import javax.swing.KeyStroke;
 import uk.org.wookey.IC.Editor.EditorForm;
 import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.IC.Utils.ServerPort;
+import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class LocalEditorForm extends EditorForm implements ActionListener {
 	private static final long serialVersionUID = 4644731315830687023L;
 	private final Logger _logger = new Logger("OOBEditorForm");
 	private String _upload;
-	private ServerPort server;
+	private ServerConnection server;
 
-	public LocalEditorForm(String name, String type, String upload, String content, ServerPort svr) {
+	public LocalEditorForm(String name, String type, String upload, String content, ServerConnection svr) {
 		super(name, type, content);
 		
 		_upload = upload;
@@ -52,13 +52,13 @@ public class LocalEditorForm extends EditorForm implements ActionListener {
 		else if (cmd.equalsIgnoreCase("Upload")) {
 			saveLocalCopy();
 			server.writeLine(_upload);
-			server.writeLine(_editor.getText());
+			server.writeLine(getText());
 			server.writeLine(".");
 		}
 		else if (cmd.equalsIgnoreCase("Save")) {
 			saveLocalCopy();
 			server.writeLine(_upload);
-			server.writeLine(_editor.getText());
+			server.writeLine(getText());
 			server.writeLine(".");
 
 			setVisible(false);
