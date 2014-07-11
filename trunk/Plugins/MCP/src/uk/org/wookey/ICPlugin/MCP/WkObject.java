@@ -1,12 +1,9 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import uk.org.wookey.IC.Utils.Logger;
-
 public class WkObject {
-	private Logger _logger = new Logger("WkObject");
+	//private Logger _logger = new Logger("WkObject");
 	private int objNum;
 	private String objName;
-	private boolean retrieved;
 	private CodeNode treeNode;
 	private CodeNode propsNode;
 	private CodeNode verbsNode;
@@ -35,8 +32,6 @@ public class WkObject {
 		
 		kidsNode = new CodeNode("Kids");
 		treeNode.add(kidsNode);
-		
-		retrieved = false;
 	}
 	
 	public String tostring() {

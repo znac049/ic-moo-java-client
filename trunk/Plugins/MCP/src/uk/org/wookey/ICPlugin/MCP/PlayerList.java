@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 import javax.swing.border.LineBorder;
 
-import Application.MainApplication;
 import uk.org.wookey.IC.Utils.SpringUtilities;
 import uk.org.wookey.IC.Utils.TimeUtils;
 
@@ -28,7 +27,7 @@ public class PlayerList extends JPanel {
 		setLayout(new BorderLayout());
 		setBorder(new LineBorder(Color.black)); 
 		
-		setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+		//setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
 		
 		JLabel title = new JLabel("Connected Players", JLabel.CENTER);
 		add(title, BorderLayout.NORTH);
@@ -38,9 +37,8 @@ public class PlayerList extends JPanel {
 		
 		connectedPlayers.setLayout(new SpringLayout());
 		connectedPlayers.setBackground(Color.white);
+		connectedPlayers.setBorder(BorderFactory.createEmptyBorder(2, 4, 0, 4));
 		
-		//add(connectedPlayers, BorderLayout.CENTER);
-	
 		JScrollPane scroller = new JScrollPane();
         scroller.getViewport().add(connectedPlayers);
         scroller.setMinimumSize(new Dimension(50, scroller.getMaximumSize().height));

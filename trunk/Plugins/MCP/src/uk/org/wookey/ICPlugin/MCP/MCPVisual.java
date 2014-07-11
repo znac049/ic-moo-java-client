@@ -2,13 +2,10 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
-import java.awt.ScrollPane;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
-import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;

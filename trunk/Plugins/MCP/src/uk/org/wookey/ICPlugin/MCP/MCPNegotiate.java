@@ -2,7 +2,6 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
 

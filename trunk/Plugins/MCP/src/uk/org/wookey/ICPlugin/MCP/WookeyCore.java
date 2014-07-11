@@ -5,8 +5,6 @@ import java.awt.GridBagConstraints;
 
 import javax.swing.JPanel;
 
-import Application.MainApplication;
-import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
