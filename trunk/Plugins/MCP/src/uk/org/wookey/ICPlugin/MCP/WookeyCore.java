@@ -121,10 +121,8 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 
 		lhs.setMinimumSize(new Dimension(300, 100));
 		lhs.setSize(lhs.getMinimumSize());
-		mcp.getWorldTab().revalidate();
-
-		lhs.revalidate();
-		lhs.repaint();
+		
+		mcp.getWorldTab().resetToPreferredSizes();
 	}
 	public void run() {
 		MCPCommand command = new MCPCommand();
