@@ -17,7 +17,7 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 	private String _ref;
 	
 	private MCP _mcp;
-	private ServerConnection _server;
+	//private ServerConnection _server;
 	
 	public MCPEditorForm(String name, String ref, String type, String content, MCP mcp, ServerConnection svr, String key) {
 		super(name, type, content);
@@ -26,7 +26,7 @@ public class MCPEditorForm extends EditorForm implements ActionListener {
 		_key = key;
 		
 		_mcp = mcp;
-		_server = svr;
+		//_server = svr;
 		
 		setSyntax(NewGenericEditor.SYNTAX_STYLE_MOO);
 		

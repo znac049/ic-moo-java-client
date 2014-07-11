@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.SystemColor;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,9 +18,11 @@ import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ServerConnection;
 
 public class WkCoreTreePanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	private Logger _logger = new Logger("WkCorePanel");
 
-	private ServerConnection server;
+	//private ServerConnection server;
 	private MCP mcp;
 	
 	private JTree tree;
@@ -42,7 +43,7 @@ public class WkCoreTreePanel extends JPanel {
 		
 		playerObjNum = -1;
 		this.mcp = mcp;
-		this.server = server;
+		//this.server = server;
 		
         JScrollPane scroller = new JScrollPane();
         scroller.getViewport().add(tree);
@@ -157,6 +158,7 @@ public class WkCoreTreePanel extends JPanel {
 	
 	public class ObjectTreeCellRenderer extends	JLabel implements TreeCellRenderer
 	{
+		private static final long serialVersionUID = 1L;
 		private ImageIcon objectImage;
 		private ImageIcon propertyImage;
 		private ImageIcon verbImage;
@@ -227,7 +229,7 @@ public class WkCoreTreePanel extends JPanel {
 		// required to handle this.
 		public void paint(Graphics g) {
 			Color		bColor;
-			Icon		currentI = getIcon();
+			//Icon		currentI = getIcon();
 		
 			// Set the correct background color
 			bColor = bSelected ? SystemColor.textHighlight : Color.white;

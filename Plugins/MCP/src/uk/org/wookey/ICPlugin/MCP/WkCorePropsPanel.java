@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class WkCorePropsPanel extends JPanel {
+	private static final long serialVersionUID = 1L;
+
 	public WkCorePropsPanel() {
 		super();
 		

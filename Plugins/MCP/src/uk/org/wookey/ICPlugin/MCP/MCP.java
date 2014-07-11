@@ -3,15 +3,12 @@ package uk.org.wookey.ICPlugin.MCP;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.IOPluginInterface;
 import uk.org.wookey.IC.Utils.Line;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.IOPlugin;
-import uk.org.wookey.IC.Utils.ServerConnection;
-import uk.org.wookey.IC.Utils.IOPluginInterface.Status;
 
 public class MCP extends IOPlugin {
 	private Logger _logger = new Logger("MCP Root");
@@ -69,6 +66,9 @@ public class MCP extends IOPlugin {
 		switch (pluginType) {
 		case IOPLUGIN:
 			return true;
+			
+		default:
+			break;
 		}
 		
 		return true;
