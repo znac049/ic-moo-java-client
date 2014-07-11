@@ -10,7 +10,6 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import uk.org.wookey.IC.Editor.EditorForm;
-import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ServerConnection;
 
