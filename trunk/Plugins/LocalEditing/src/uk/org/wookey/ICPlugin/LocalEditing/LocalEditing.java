@@ -96,6 +96,9 @@ public class LocalEditing extends IOPlugin {
 		switch (pluginType) {
 		case IOPLUGIN:
 			return true;
+			
+		default:
+			break;
 		}
 		
 		return true;
