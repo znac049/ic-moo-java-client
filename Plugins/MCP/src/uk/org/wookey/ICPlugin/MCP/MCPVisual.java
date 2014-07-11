@@ -98,14 +98,14 @@ public class MCPVisual extends MCPHandler implements Runnable {
 	}
 	
 	private void addGUI() {
-		JPanel lhs = (JPanel) mcp.getWorldTab().getRightPanel();
+		JPanel rhs = (JPanel) mcp.getWorldTab().getRightPanel();
 		GridBagConstraints gbc = new GridBagConstraints();
 		
 		_logger.logInfo("Adding to lhs side panel...");
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
-		gbc.weightx = 1.0;
+		gbc.weightx = 0.5;
 		gbc.weighty = 1.0;
 		
 		gbc.anchor = GridBagConstraints.CENTER;
@@ -113,12 +113,12 @@ public class MCPVisual extends MCPHandler implements Runnable {
 		
 		playerList = new PlayerList();
 		
-		mcp.getWorldTab().setRightResizeWeight(0.8);
-		lhs.add(playerList, gbc);
-		lhs.setMinimumSize(new Dimension(130, 100));
+		rhs.add(playerList, gbc);
+		rhs.setMinimumSize(new Dimension(50, 100));
+		rhs.setSize(rhs.getMinimumSize());
 		
-		lhs.revalidate();
-		lhs.repaint();
+		//mcp.getWorldTab().setRightResizeWeight(0.8);
+		mcp.getWorldTab().resetToPreferredSizes();
 	}
 	
 	public void run() {

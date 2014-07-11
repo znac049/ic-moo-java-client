@@ -43,7 +43,8 @@ public class PlayerList extends JPanel {
 	
 		JScrollPane scroller = new JScrollPane();
         scroller.getViewport().add(connectedPlayers);
-        //scroller.setMinimumSize(new Dimension(250, scroller.getMaximumSize().height));
+        scroller.setMinimumSize(new Dimension(50, scroller.getMaximumSize().height));
+        scroller.setSize(scroller.getMinimumSize());
 		add(scroller, BorderLayout.CENTER);}
 	
 	public void add(Player p) {
@@ -77,6 +78,5 @@ public class PlayerList extends JPanel {
 		SpringUtilities.makeCompactGrid(connectedPlayers, players.size(), 2, 0, 0, 2, 2);
 		
 		connectedPlayers.revalidate();
-		connectedPlayers.repaint();
 	}
 }
