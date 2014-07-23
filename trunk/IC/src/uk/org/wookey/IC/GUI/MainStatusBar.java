@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 import uk.org.wookey.IC.Utils.ImagePanel;
 
 public class MainStatusBar extends JPanel {
-	private static final long serialVersionUID = 3127282971169408687L;
+	private static final long serialVersionUID = 1L;
 	private static MainStatusBar _sb = new MainStatusBar();
 	
 	private JLabel timerLabel;
@@ -20,9 +20,9 @@ public class MainStatusBar extends JPanel {
 		
 		this.setBackground(new Color(0xd0, 0xd0, 0xd0));
 		
-		timerLabel = new JLabel();
+		timerLabel = new JLabel("X");
 		timerLabel.setMinimumSize(new Dimension(170, timerLabel.getMinimumSize().height));
-		//add(timerLabel);
+		add(timerLabel);
 		
 		setTimerMessage(0);
 	}

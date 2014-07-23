@@ -12,53 +12,69 @@ uk.org.wookey.ICPlugin.MCP.MCP is a plugin
 CommandRunner thread started
 Starting up
 Autoconnect to world 'ht'
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151552296, RI=5000, RC=4, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151550313, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151564326, RI=17000, RC=-1, repeats=true, active=true
 Autoconnect to world 'norled'
 Connecting to: moo.harpers-tale.com port 7007
 Autoconnect to world 'uk-gw1'
 Connecting to: moo.harpers-tale.com port 7007
 Connected
-The following IOPlugins were found:
-Plugin Cisco instance activated
-Plugin LocalEditing instance activated
-Plugin MCP instance activated
-CommandRunner thread started
 Connected
-checking global pref: /uk/org/wookey/IC/plugins/CiscoEnabled
-no key - defaulting to disabled
 The following IOPlugins were found:
-checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=CiscoEnabled
+The following IOPlugins were found:
 Plugin Cisco instance activated
-  - Plugin Cisco has been disabled
 Plugin LocalEditing instance activated
-checking global pref: /uk/org/wookey/IC/plugins/LocalEditingEnabled
 Plugin MCP instance activated
 CommandRunner thread started
-Enabled
-checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=LocalEditingEnabled
 checking global pref: /uk/org/wookey/IC/plugins/CiscoEnabled
-  - Plugin LocalEditing has been disabled
+Plugin Cisco instance activated
 no key - defaulting to disabled
 checking world pref: /uk/org/wookey/IC/worlds/norled/Plugins, key=CiscoEnabled
   - Plugin Cisco has been disabled
 checking global pref: /uk/org/wookey/IC/plugins/LocalEditingEnabled
+Plugin LocalEditing instance activated
 Enabled
+Plugin MCP instance activated
+CommandRunner thread started
 checking world pref: /uk/org/wookey/IC/worlds/norled/Plugins, key=LocalEditingEnabled
-checking global pref: /uk/org/wookey/IC/plugins/MCPEnabled
   - Plugin LocalEditing has been disabled
-Enabled
 checking global pref: /uk/org/wookey/IC/plugins/MCPEnabled
 Enabled
 checking world pref: /uk/org/wookey/IC/worlds/norled/Plugins, key=MCPEnabled
   MCP enabled
+Loading keymap from node /uk/org/wookey/IC/worlds/norled/KeyMap
+Mapping key Ctrl-I to macro 'lookaround'
+checking global pref: /uk/org/wookey/IC/plugins/CiscoEnabled
+no key - defaulting to disabled
+checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=CiscoEnabled
+  - Plugin Cisco has been disabled
+checking global pref: /uk/org/wookey/IC/plugins/LocalEditingEnabled
+Enabled
+checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=LocalEditingEnabled
+  - Plugin LocalEditing has been disabled
+checking global pref: /uk/org/wookey/IC/plugins/MCPEnabled
+Enabled
 checking world pref: /uk/org/wookey/IC/worlds/ht/Plugins, key=MCPEnabled
   MCP enabled
-Loading keymap from node /uk/org/wookey/IC/worlds/norled/KeyMap
 Loading keymap from node /uk/org/wookey/IC/worlds/ht/KeyMap
-Autologin as 'norled'
 Mapping key Alt-O to macro 'fishify'
-Execute macro onConnect
+Loading key Ctrl-I for lookaround
 Loading key Alt-O for fishify
+Autologin as 'norled'
+Mapping key Ctrl-F to macro 'fred'
+Execute macro onConnect
 JS file is C:\Users\bob\personal-workspace\IC\.\macros\onConnect.js
+Loading key Ctrl-F for fred
 Mapping key Ctrl-H to macro 'help'
 File exists and is readable
 Loading key Ctrl-H for help
@@ -72,79 +88,445 @@ No handler for MCP command 'Client'
 Added command mcp to queue. New length is 1
 Added command mcp-negotiate-can to queue. New length is 2
 Added command mcp-negotiate-can to queue. New length is 3
-Added command mcp-negotiate-can to queue. New length is 4
-Added command mcp-negotiate-can to queue. New length is 5
-Added command mcp-negotiate-can to queue. New length is 6
-Added command mcp-negotiate-can to queue. New length is 7
-Added command mcp-negotiate-end to queue. New length is 8
-Sending queued command mcp. New length is 7
-No handler for MCP command 'Client'
-Added command mcp to queue. New length is 1
-Added command mcp-negotiate-can to queue. New length is 2
-Sending queued command mcp. New length is 1
-Sending queued command mcp-negotiate-can. New length is 6
-Added command mcp-negotiate-can to queue. New length is 2
+Sending queued command mcp. New length is 2
 Added command mcp-negotiate-can to queue. New length is 3
 Added command mcp-negotiate-can to queue. New length is 4
 Added command mcp-negotiate-can to queue. New length is 5
 Added command mcp-negotiate-can to queue. New length is 6
 Added command mcp-negotiate-end to queue. New length is 7
-Sending queued command mcp-negotiate-can. New length is 5
 Sending queued command mcp-negotiate-can. New length is 6
 Sending queued command mcp-negotiate-can. New length is 5
 Sending queued command mcp-negotiate-can. New length is 4
+No handler for MCP command 'Client'
+Added command mcp to queue. New length is 1
+Added command mcp-negotiate-can to queue. New length is 2
+Added command mcp-negotiate-can to queue. New length is 3
+Added command mcp-negotiate-can to queue. New length is 4
+Added command mcp-negotiate-can to queue. New length is 5
+Sending queued command mcp-negotiate-can. New length is 3
+Added command mcp-negotiate-can to queue. New length is 6
+Sending queued command mcp. New length is 5
+Sending queued command mcp-negotiate-can. New length is 2
 Sending queued command mcp-negotiate-can. New length is 4
-Sending queued command mcp-negotiate-can. New length is 3
+Sending queued command mcp-negotiate-can. New length is 1
 Sending queued command mcp-negotiate-can. New length is 3
 Sending queued command mcp-negotiate-can. New length is 2
-Sending queued command mcp-negotiate-can. New length is 2
-Sending queued command mcp-negotiate-can. New length is 1
-Sending queued command mcp-negotiate-can. New length is 1
 Sending queued command mcp-negotiate-end. New length is 0
+Sending queued command mcp-negotiate-can. New length is 1
+Added command mcp-negotiate-can to queue. New length is 2
+Sending queued command mcp-negotiate-can. New length is 1
+Added command mcp-negotiate-end to queue. New length is 2
+Sending queued command mcp-negotiate-can. New length is 1
 Sending queued command mcp-negotiate-end. New length is 0
 Birth of 'dns-org-mud-moo-simpleedit'
 Birth of 'dns-org-mud-moo-simpleedit'
 Birth of 'mcp-negotiate'
-Added command dns-com-awns-serverinfo to queue. New length is 1
 Adding to lhs side panel...
-Sending queued command dns-com-awns-serverinfo. New length is 0
+Added command dns-com-awns-serverinfo to queue. New length is 1
 TZ=Europe/London
-Added command dns-com-awns-timezone to queue. New length is 1
-Added command dns-com-awns-visual-getusers to queue. New length is 2
+Added command dns-com-awns-timezone to queue. New length is 2
+Added command dns-com-awns-visual-getusers to queue. New length is 3
+Sending queued command dns-com-awns-serverinfo. New length is 2
 Sending queued command dns-com-awns-timezone. New length is 1
 Birth of 'mcp-negotiate'
 Sending queued command dns-com-awns-visual-getusers. New length is 0
-Added command dns-com-awns-serverinfo to queue. New length is 1
-Adding to lhs side panel...
-TZ=Europe/London
-Added command dns-com-awns-timezone to queue. New length is 2
-Sending queued command dns-com-awns-serverinfo. New length is 1
-Added command dns-com-awns-visual-getusers to queue. New length is 2
-Adding to lhs side panel...
-Sending queued command dns-com-awns-timezone. New length is 1
 Adding to lhs side panel...
 Added command dns-uk-org-wookey-core-getinfo to queue. New length is 1
-Added command dns-uk-org-wookey-core-getinfo to queue. New length is 2
 Sending queued command dns-uk-org-wookey-core-getinfo. New length is 0
-Sending queued command dns-com-awns-visual-getusers. New length is 1
+Adding to lhs side panel...
+TZ=Europe/London
+Added command dns-com-awns-timezone to queue. New length is 1
+Sending queued command dns-com-awns-timezone. New length is 0
+Adding to lhs side panel...
+Added command dns-com-awns-visual-getusers to queue. New length is 1
+Added command dns-com-awns-serverinfo to queue. New length is 2
+Added command dns-uk-org-wookey-core-getinfo to queue. New length is 3
+Sending queued command dns-com-awns-visual-getusers. New length is 2
+Sending queued command dns-com-awns-serverinfo. New length is 1
 Sending queued command dns-uk-org-wookey-core-getinfo. New length is 0
-Player object number set to 28024
+Player object number set to 26374
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
-Player object number set to 26374
+Player object number set to 28024
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 2
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 3
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 4
-Sending queued command dns-uk-org-wookey-core-getobj. New length is 3
-Added command dns-uk-org-wookey-core-getobj to queue. New length is 4
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 5
 Added command dns-uk-org-wookey-core-getobj to queue. New length is 6
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 7
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 6
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 5
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151553379, RI=3000, RC=-1, repeats=true, active=true
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 4
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 3
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 2
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 1
 Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151557385, RI=5000, RC=3, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151556389, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151559393, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151562401, RI=5000, RC=2, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151562407, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151567412, RI=5000, RC=1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151565416, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151581420, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151568427, RI=3000, RC=-1, repeats=true, active=true
+exec Shift-???
+Key Shift-??? not mapped
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151567412, RI=5000, RC=0, repeats=true, active=false
+Removing dead timed event from the queue
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151571440, RI=3000, RC=-1, repeats=true, active=true
+Pressed ENTER
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151574449, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151577457, RI=3000, RC=-1, repeats=true, active=true
+exec Shift-???
+Key Shift-??? not mapped
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151580461, RI=3000, RC=-1, repeats=true, active=true
+exec Shift-???
+Key Shift-??? not mapped
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151583467, RI=3000, RC=-1, repeats=true, active=true
+Pressed ENTER
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151598473, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151586483, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151589495, RI=3000, RC=-1, repeats=true, active=true
+Pressed ENTER
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151592501, RI=3000, RC=-1, repeats=true, active=true
+exec Shift-???
+Key Shift-??? not mapped
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151595504, RI=3000, RC=-1, repeats=true, active=true
+exec Shift-???
+Key Shift-??? not mapped
+Pressed ENTER
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151598508, RI=3000, RC=-1, repeats=true, active=true
+Content command.
+KEY IS ic01
+Tell WookeyCore about object #6
+Added command dns-uk-org-wookey-core-getobj to queue. New length is 1
+Ref='#6:39'
+Name='Verb: generic player:where*is @where*is'
+Type='moo-code'
+Content='"Last modified on Sat Nov 16 20:03:59 2013 PST by Fyren (#8833)";
+if (!args)
+  them = $connected_nonhidden_players();
+else
+  who = $command_utils:player_match_result($string_utils:match_player(args), args);
+  if (length(who) <= 1)
+    if (!who[1])
+      player:notify("Where is who?");
+    endif
+    return;
+  elseif (who[1])
+    player:notify("");
+  endif
+  them = listdelete(who, 1);
+endif
+lmax = rmax = 0;
+if (((many = length(them)) <= 20) || $command_utils:yes_or_no(tostr("Are you sure you want all ", many, " lines of output from this?")))
+  for p in (them)
+    $command_utils:suspend_if_needed(0);
+    player:notify($string_utils:pronoun_sub("%N (%#) is in %l (%[#l]).", p));
+  endfor
+else
+  player:tell("Probably a good idea.  Command aborted.");
+endif
+'
+Sending queued command dns-uk-org-wookey-core-getobj. New length is 0
+Check Menu 'File'
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151601511, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151615513, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151604517, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151607520, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151610526, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151613533, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151616536, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151632539, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151619542, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151622545, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151625548, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151628552, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151631556, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151634559, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151649564, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151637567, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151640669, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151643675, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151646679, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151649783, RI=3000, RC=-1, repeats=true, active=true
+Pressed ENTER
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151666589, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151652793, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151655797, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151658802, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151661811, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151664818, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151667825, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151683632, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151670838, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151673845, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151676852, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151679856, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151682862, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151685868, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151700674, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151688878, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151691885, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151694892, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151697897, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151700904, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151717711, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151703918, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151706926, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151709933, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151712941, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151715945, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151718953, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151734758, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151721964, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151724969, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151727973, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151731079, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151734084, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151737092, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151751797, RI=17000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151740101, RI=3000, RC=-1, repeats=true, active=true
+Running timed event
+Timer event runEvent() called
+Resetting TimedEvent
+NTT=1406151743105, RI=3000, RC=-1, repeats=true, active=true

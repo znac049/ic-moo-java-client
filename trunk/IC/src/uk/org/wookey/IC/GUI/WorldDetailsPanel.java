@@ -141,15 +141,28 @@ public class WorldDetailsPanel extends JPanel {
 	}
 
 	public void clearDetails() {
+		saveName.setEnabled(true);
 		saveName.setText("");
 		
+		autoConnect.setEnabled(true);
 		autoConnect.setSelected(false);
+		
+		serverName.setEnabled(true);
 		serverName.setText("");
+		
+		serverPort.setEnabled(true);
 		serverPort.setText("");
 		
+		autoLogin.setEnabled(true);
 		autoLogin.setSelected(false);
+		
+		playerName.setEnabled(true);
 		playerName.setText("");
+		
+		playerPassword.setEnabled(true);
 		playerPassword.setText("");
+		
+		localEcho.setEnabled(true);
 		localEcho.setSelected(true);
 	}
 	
@@ -193,7 +206,7 @@ public class WorldDetailsPanel extends JPanel {
 			cb.setSelected(prefs.getBoolean(name + "Enabled",  pluginDefault));
 		}
 	}
-
+	
 	public void saveDetails() {
 		String worldName = saveName.getText();
 		Preferences prefs = Prefs.node(Prefs.WorldsRoot, worldName);

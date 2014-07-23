@@ -19,7 +19,7 @@ public class TimerProcess  implements Runnable {
 			while (true) {
 				long now = System.currentTimeMillis();
 			
-				sb.setTimerMessage(42);
+				sb.setTimerMessage(eventQueue.size());
 				for (int i=0; i<eventQueue.size(); i++) {
 					TimedEvent ev = eventQueue.get(i);
 					

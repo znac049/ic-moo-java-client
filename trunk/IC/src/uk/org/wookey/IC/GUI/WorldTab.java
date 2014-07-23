@@ -274,6 +274,12 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		return server;
 	}
 	
+	public void editSettings() {
+		WorldSettingsForm settings = new WorldSettingsForm();
+		
+		settings.show(true);
+	}
+	
 	class KeyHandler implements KeyListener {
 		private KeyCode keyCode = new KeyCode(0);
 

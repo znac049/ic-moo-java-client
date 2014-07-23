@@ -240,6 +240,10 @@ public class ServerConnection {
 		}
 	}
 	
+	public boolean getLogging() {
+		return logging;
+	}
+	
 	public void setLogging(boolean enabled) {
 		if (enabled && !logging) {
 			// open/create log file

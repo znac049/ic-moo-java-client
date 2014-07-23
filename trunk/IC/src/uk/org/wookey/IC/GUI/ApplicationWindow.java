@@ -3,18 +3,28 @@ package uk.org.wookey.IC.GUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.MouseInfo;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -24,7 +34,7 @@ import uk.org.wookey.IC.Utils.TabInterface;
 public class ApplicationWindow extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private final static Logger _logger = new Logger("ApplicationWindow");
-	private JTabbedPane tabs;
+	protected JTabbedPane tabs;
 	private MainStatusBar statusBar;
 	
 	public ApplicationWindow() {
@@ -76,9 +86,12 @@ public class ApplicationWindow extends JFrame implements ActionListener {
         tabs.addChangeListener(new ChangeListener() {
         	public void stateChanged(ChangeEvent e) {
         		TabInterface tab = (TabInterface) tabs.getSelectedComponent();
-        		tab.clearActivity();
+        		//tab.clearActivity();
         	}
         });
+        
+        tabs.addMouseListener(new PopupListener());
+        
         menu.addTabs(tabs);
 
 		tabs.add("Console", new DebugTab());
@@ -87,7 +100,7 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 		gbc.weighty = 1.0;
 		add(tabs, gbc);
 		
-		statusBar = new MainStatusBar(); 
+		statusBar = MainStatusBar.getMainStatusBar(); 
 		JPanel outer = new JPanel();
 		outer.setLayout(new BorderLayout());
 		outer.add(statusBar, BorderLayout.EAST);
@@ -155,5 +168,75 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 	
 	public JTabbedPane getTabbedPane() {
 		return tabs;
+	}
+	
+	private class PopupListener extends MouseAdapter implements ActionListener {
+		private static final String SETTINGS_TEXT = "Settings";
+		private static final String MACROS_TEXT = "Macros";
+		private static final String KEYMAP_TEXT = "Key Map";
+		private static final String LOGSESSION_TEXT = "Log Session";
+
+		private WorldTab _tab = null;
+		
+		public void mouseClicked(MouseEvent e) {			
+    		TabInterface tab = (TabInterface) tabs.getSelectedComponent();
+			int button = e.getButton();
+			
+			tab.clearActivity();
+
+			if (button == MouseEvent.BUTTON3){
+				//_logger.logInfo("Button3 - do popup");
+				handlePopup(e.getX(), e.getY());
+			}
+		}
+		
+		private void handlePopup(int x, int y) {
+			if (tabs.getSelectedComponent() instanceof WorldTab) {
+				_logger.logInfo("WorldTab popup");
+				
+				JPopupMenu popup = new JPopupMenu();
+				
+				_tab = (WorldTab) tabs.getSelectedComponent();
+				
+				JMenuItem keys = new JMenuItem(KEYMAP_TEXT);
+				keys.addActionListener(this);
+				popup.add(keys);
+				
+				JMenuItem macros = new JMenuItem(MACROS_TEXT);
+				macros.addActionListener(this);
+				popup.add(macros);
+				
+				JMenuItem settings = new JMenuItem(SETTINGS_TEXT);
+				settings.addActionListener(this);
+				popup.add(settings);
+
+				JCheckBoxMenuItem logSession = new JCheckBoxMenuItem(LOGSESSION_TEXT);
+				logSession.setSelected(_tab.getServerPort().getLogging());
+				logSession.addActionListener(this);
+				popup.add(logSession);
+
+				popup.show(tabs.getSelectedComponent(), x, y-20);
+			}
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String cmd = e.getActionCommand();
+			
+			_logger.logInfo("Popup menu click: '" + cmd + "'");
+			
+			if (cmd.equalsIgnoreCase(SETTINGS_TEXT)) {
+				_tab.editSettings();
+			}
+			else if (cmd.equalsIgnoreCase(MACROS_TEXT)) {
+				new MacroManagerForm();
+			}
+			else if (cmd.equalsIgnoreCase(LOGSESSION_TEXT)) {
+				_tab.getServerPort().setLogging(((JCheckBoxMenuItem)e.getSource()).isSelected());
+			}
+			else if (cmd.equalsIgnoreCase(KEYMAP_TEXT)) {
+				new KeyMapForm(_tab);
+			}
+		}
 	}
 }
