@@ -76,6 +76,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	public void loadObject(int objNum) {
 		if (objNum != -1) {
 			try {
+				@SuppressWarnings("unused")
 				WkObject ob = WkObjectDB.getObject(objNum);
 				
 				MCPCommand cmd = new MCPCommand();

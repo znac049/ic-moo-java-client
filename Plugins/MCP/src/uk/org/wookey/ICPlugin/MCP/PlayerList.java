@@ -63,13 +63,16 @@ public class PlayerList extends JPanel {
 		connectedPlayers.removeAll();
 		
 		for (Player p: players) {
-			JLabel pName = new JLabel(p.getName());
+			JLabel pName = new JLabel(p.getName() + " (" + p.getId() + ")");
+			//JLabel pLoc = new JLabel(p.getLocation());
 			JLabel pIdle = new JLabel(TimeUtils.approxString(p.getIdle()));
 			
 			pName.setOpaque(false);
+			//pLoc.setOpaque(false);
 			pIdle.setOpaque(false);
 			
 			connectedPlayers.add(pName);
+			//connectedPlayers.add(pLoc);
 			connectedPlayers.add(pIdle);
 		}
 		
