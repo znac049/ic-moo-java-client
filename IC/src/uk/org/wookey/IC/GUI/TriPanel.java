@@ -19,9 +19,11 @@ public class TriPanel extends JPanel {
 	public TriPanel() {
 		leftAndCentre = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 		leftAndCentre.setResizeWeight(0.5);
+		leftAndCentre.setDividerSize(6);
 		
 		twoPlusOne = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
-		twoPlusOne.setResizeWeight(0.5);
+		twoPlusOne.setResizeWeight(0.9);
+		twoPlusOne.setDividerSize(6);
 		
 		lhs = new JPanel();
 		lhs.setLayout(new BorderLayout());
@@ -91,5 +93,10 @@ public class TriPanel extends JPanel {
 	public void setResizeWeight(double left, double right) {
 		leftAndCentre.setResizeWeight(left);
 		twoPlusOne.setResizeWeight(right);
+	}
+	
+	public void resetToPreferredSizes() {
+		leftAndCentre.resetToPreferredSizes();
+		twoPlusOne.resetToPreferredSizes();
 	}
 }
