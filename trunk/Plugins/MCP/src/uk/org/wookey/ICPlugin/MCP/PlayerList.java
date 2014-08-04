@@ -3,29 +3,39 @@ package uk.org.wookey.ICPlugin.MCP;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.SpringUtilities;
 import uk.org.wookey.IC.Utils.TimeUtils;
 
 public class PlayerList extends JPanel {
     private static final long serialVersionUID = 1L;
+    private Logger _logger = new Logger("MCP PlayerList");
 
 	private ArrayList<Player> players;
 	private JPanel connectedPlayers;
+	private MCP mcp;
 
-	public PlayerList() {
+	public PlayerList(MCP mcp) {
 		super();
 		
 		setLayout(new BorderLayout());
-		setBorder(new LineBorder(Color.black)); 
+		setBorder(new LineBorder(Color.black));
+		
+		this.mcp = mcp;
 		
 		//setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
 		
@@ -63,11 +73,21 @@ public class PlayerList extends JPanel {
 		connectedPlayers.removeAll();
 		
 		for (Player p: players) {
-			JLabel pName = new JLabel(p.getName() + " (" + p.getId() + ")");
+			//JLabel pName = new JLabel(p.getName() + " (" + p.getId() + ")");
+			final JButton pName = new JButton(p.getName() + " (" + p.getId() + ")");
+			
 			//JLabel pLoc = new JLabel(p.getLocation());
 			JLabel pIdle = new JLabel(TimeUtils.approxString(p.getIdle()));
 			
-			pName.setOpaque(false);
+			pName.setOpaque(true);
+			pName.setContentAreaFilled(false);
+			pName.setBorderPainted(false);
+			pName.setFocusPainted(false);
+			pName.setMargin(new Insets(0, 0, 0, 0));
+			pName.setHorizontalAlignment(SwingConstants.LEFT);
+			pName.setBackground(Color.GREEN);
+			pName.addMouseListener(new Mousie(p.getId()));
+
 			//pLoc.setOpaque(false);
 			pIdle.setOpaque(false);
 			
@@ -79,5 +99,46 @@ public class PlayerList extends JPanel {
 		SpringUtilities.makeCompactGrid(connectedPlayers, players.size(), 2, 0, 0, 2, 2);
 		
 		connectedPlayers.revalidate();
+	}
+	
+	private class Mousie implements MouseListener {
+		private String id;
+		
+		public Mousie(String id) {
+			this.id = id;
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			((JButton) e.getSource()).setBackground(Color.CYAN);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+			((JButton) e.getSource()).setBackground(Color.WHITE);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent arg0) {
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent arg0) {
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent arg0) {
+			_logger.logInfo("Click! - '" + id + "'");
+			
+			// If the Wookey-core package is loaded, tell it about this object.
+			if (mcp.packageActive("dns-uk-org-wookey-core")) {
+				_logger.logInfo("Tell WookeyCore about object " + id);
+				WookeyCore handler = (WookeyCore) mcp.findHandler("dns-uk-org-wookey-core");
+					
+				if (handler != null) {
+					handler.loadObject(WkObjectDB.decodeObjectNumNoEx(id));
+				}
+			}
+		}
 	}
 }

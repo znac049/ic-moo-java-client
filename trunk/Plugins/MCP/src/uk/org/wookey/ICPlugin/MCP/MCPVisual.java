@@ -108,7 +108,7 @@ public class MCPVisual extends MCPHandler implements Runnable {
 		gbc.anchor = GridBagConstraints.CENTER;
 		gbc.fill = GridBagConstraints.BOTH;
 		
-		playerList = new PlayerList();
+		playerList = new PlayerList(mcp);
 		
 		rhs.add(playerList, gbc);
 		rhs.setMinimumSize(new Dimension(50, 100));
