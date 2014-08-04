@@ -50,6 +50,7 @@ public class MCP extends IOPlugin {
 			_handlers.add(new MCPVisual(server, this));
 			_handlers.add(new MCPServerInfo(server, this));
 			_handlers.add(new MCPTimezone(server, this));
+			_handlers.add(new MCPStatus(server, this));
 		} catch (ParserException e) {
 			// Any handler that generates an exception just gets binned.
 			_logger.logMsg("Caught MCP Exception");
