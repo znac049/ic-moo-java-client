@@ -1,5 +1,8 @@
 package uk.org.wookey.ICPlugin.MCP;
 
+import java.awt.TrayIcon;
+
+import Application.MainApplication;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
@@ -15,6 +18,8 @@ public class MCPStatus extends MCPHandler {
 		String text = command.getParam("text");
 		
 		_logger.logInfo("TEXT='" + text + "'");
+		
+		MainApplication.getAppWindow().getTrayIcon().displayMessage(mcp.getWorldTab().getName(), text, TrayIcon.MessageType.NONE);
 	}
 	
 	public void born() {
