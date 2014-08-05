@@ -2,6 +2,7 @@ package uk.org.wookey.ICPlugin.MCP;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.MouseEvent;
@@ -81,9 +82,11 @@ public class PlayerList extends JPanel {
 			
 			pName.setOpaque(true);
 			pName.setContentAreaFilled(false);
+			pName.setBorder(null);
 			pName.setBorderPainted(false);
 			pName.setFocusPainted(false);
 			pName.setMargin(new Insets(0, 0, 0, 0));
+			pName.setCursor(new Cursor(Cursor.HAND_CURSOR));
 			pName.setHorizontalAlignment(SwingConstants.LEFT);
 			pName.setBackground(Color.GREEN);
 			pName.addMouseListener(new Mousie(p.getId()));
