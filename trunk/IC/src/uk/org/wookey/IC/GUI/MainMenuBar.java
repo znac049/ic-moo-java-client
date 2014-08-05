@@ -75,7 +75,10 @@ public class MainMenuBar extends JMenuBar implements ActionListener {
 		
 		JMenu helpMenu = new JMenu(HELP_TEXT);
 		helpMenu.setMnemonic(KeyEvent.VK_H);
-		helpMenu.add(new JMenuItem(ABOUT_TEXT));
+
+		JMenuItem aboutItem = new JMenuItem(ABOUT_TEXT);
+		aboutItem.addActionListener(this);
+		helpMenu.add(aboutItem);
 		
 		add(helpMenu);
 	}
@@ -125,6 +128,10 @@ public class MainMenuBar extends JMenuBar implements ActionListener {
 					new KeyMapForm((WorldTab) tab);
 				}
 			}
+		}
+		else if (cmd.equalsIgnoreCase(ABOUT_TEXT)) {
+			JDialog about = new AboutWindow();
+			about.setVisible(true);
 		}
 	}
 }

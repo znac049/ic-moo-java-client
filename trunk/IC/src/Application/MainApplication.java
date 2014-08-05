@@ -39,6 +39,7 @@ public class MainApplication {
 		} catch (Exception e) {
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
+		
 		mainWindow = new ApplicationWindow();
 		
 		AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory)TokenMakerFactory.getDefaultInstance();
@@ -52,15 +53,15 @@ public class MainApplication {
 		
 		TimedEvent ev = new TimedEvent();
 		ev.setRepeat(5000, 5);
-		TimerProcess.queueTimerEvent(ev);
+		//TimerProcess.queueTimerEvent(ev);
 		
 		ev = new TimedEvent();
 		ev.setRepeat(3000);
-		TimerProcess.queueTimerEvent(ev);
+		//TimerProcess.queueTimerEvent(ev);
 
 		ev = new TimedEvent();
 		ev.setRepeat(17000);		
-		TimerProcess.queueTimerEvent(ev);
+		//TimerProcess.queueTimerEvent(ev);
 		
 		// Check for worlds to autoconnect to
 		for (String world: Worlds.getListOfWorlds()) {

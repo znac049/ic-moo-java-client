@@ -1,14 +1,18 @@
 package uk.org.wookey.IC.GUI;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Event;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.MouseInfo;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -17,6 +21,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,9 +41,14 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 	private final static Logger _logger = new Logger("ApplicationWindow");
 	protected JTabbedPane tabs;
 	private MainStatusBar statusBar;
+	private TrayIcon trayIcon = null;
 	
 	public ApplicationWindow() {
 		super("IC");
+		
+		if (SystemTray.isSupported()) {
+			setupSystemTray();
+		}
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
@@ -113,6 +123,25 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 		add(outer, gbc);
 		
 		setVisible(true);
+	}
+	
+	private void setupSystemTray() {
+		SystemTray tray = SystemTray.getSystemTray();
+		Image image = (new ImageIcon("images/bulb.gif", "Zzz")).getImage();
+		trayIcon = new TrayIcon(image);
+		
+		trayIcon.setToolTip("IC MOO Client");
+		try {
+			tray.add(trayIcon);
+			//trayIcon.displayMessage("Fred", "Off we go...", TrayIcon.MessageType.INFO);
+		} catch (AWTException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public TrayIcon getTrayIcon() {
+		return trayIcon;
 	}
 
 	public void addTab(WorldTab tab) {
