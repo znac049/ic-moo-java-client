@@ -204,6 +204,8 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 		private static final String MACROS_TEXT = "Macros";
 		private static final String KEYMAP_TEXT = "Key Map";
 		private static final String LOGSESSION_TEXT = "Log Session";
+		private static final String HOMEPAGE_TEXT = "Browse world homepage";
+		private static final String HELPPAGE_TEXT = "Online world help";
 
 		private WorldTab _tab = null;
 		
@@ -243,6 +245,20 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 				logSession.setSelected(_tab.getServerPort().getLogging());
 				logSession.addActionListener(this);
 				popup.add(logSession);
+				
+				String url = _tab.getHomepage();
+				if (url != null) {
+					JMenuItem homePage = new JMenuItem(HOMEPAGE_TEXT);
+					homePage.addActionListener(this);
+					popup.add(homePage);
+				}
+
+				url = _tab.getHelpPage();
+				if (url != null) {
+					JMenuItem helpPage = new JMenuItem(HELPPAGE_TEXT);
+					helpPage.addActionListener(this);
+					popup.add(helpPage);
+				}
 
 				popup.show(tabs.getSelectedComponent(), x, y-20);
 			}

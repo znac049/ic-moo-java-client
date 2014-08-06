@@ -1,7 +1,7 @@
 package uk.org.wookey.IC.Utils;
 
-import java.awt.Container;
-
+import uk.org.wookey.IC.GUI.ConfigPanel;
+import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.GUI.WorldTab;
 
 public interface CorePluginInterface {
@@ -20,6 +20,6 @@ public interface CorePluginInterface {
 	
 	public String getVersionString();
 	
-	public Container getGlobalSettings();
-	public Container getWorldSettings(WorldTab worldTab);
+	public GlobalConfigPanel getGlobalSettings();
+	public ConfigPanel getWorldSettings(WorldTab worldTab);
 }

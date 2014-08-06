@@ -46,6 +46,9 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 	
 	private KeyMap keyMap;
 	
+	private String homePage = null;
+	private String helpPage = null;
+	
 	public WorldTab(String host, int port) throws IOException {
 		super();
 		
@@ -278,6 +281,22 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		WorldSettingsForm settings = new WorldSettingsForm();
 		
 		settings.show(true);
+	}
+	
+	public void setHomePage(String url) {
+		homePage = url;
+	}
+	
+	public String getHomepage() {
+		return homePage;
+	}
+	
+	public void setHelpPage(String url) {
+		helpPage = url;
+	}
+	
+	public String getHelpPage() {
+		return helpPage;
 	}
 	
 	class KeyHandler implements KeyListener {

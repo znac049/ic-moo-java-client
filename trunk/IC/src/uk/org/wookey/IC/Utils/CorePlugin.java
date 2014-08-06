@@ -2,6 +2,8 @@ package uk.org.wookey.IC.Utils;
 
 import java.awt.Container;
 
+import uk.org.wookey.IC.GUI.ConfigPanel;
+import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.GUI.WorldTab;
 
 
@@ -43,14 +45,16 @@ public class CorePlugin implements CorePluginInterface {
 	}
 
 	@Override
-	public Container getGlobalSettings() {
+	public GlobalConfigPanel getGlobalSettings() {
 		_logger.logInfo("getGlobalSettings for " + getName());
 		
-		return null;
+		GlobalConfigPanel conf = new GlobalConfigPanel("Plugin: " + getName());
+		
+		return conf;
 	}
 
 	@Override
-	public Container getWorldSettings(WorldTab worldTab) {
+	public ConfigPanel getWorldSettings(WorldTab worldTab) {
 		_logger.logInfo("getWorldSettings for " + getName());
 
 		return null;
