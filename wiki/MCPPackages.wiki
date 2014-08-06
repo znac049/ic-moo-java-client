@@ -26,6 +26,8 @@ More details of the package can be found at http://www.awns.com/mcp/packages/REA
 
 *dns-com-awns-serverinfo*.
 
+*dns-com-awns-status*.
+
 *dns-com-awns-timezone*.
 
 If you feel a particular package should be implemented, please suggest it to the authors. Alternatively, write it yourself and send us the code for inclusion!
