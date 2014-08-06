@@ -12,7 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ServerConnection;
@@ -142,6 +145,13 @@ public class WkCoreTreePanel extends JPanel {
 				ob.addVerb(verb);
 			}
 		}
+		
+		DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
+		model.reload((TreeNode) model.getRoot());
+		
+		TreePath path = new TreePath(ob.getTreeNode().getPath());
+		tree.setSelectionPath(path);
+		tree.scrollPathToVisible(path);
 		
 		tree.revalidate();
 		tree.repaint();
