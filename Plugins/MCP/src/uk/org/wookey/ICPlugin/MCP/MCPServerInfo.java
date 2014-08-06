@@ -19,6 +19,9 @@ public class MCPServerInfo extends MCPHandler implements Runnable {
 			
 			_logger.logMsg("Home='" + homeUrl + "'");
 			_logger.logMsg("Help='" + helpUrl + "'");
+			
+			mcp.getWorldTab().setHomePage(homeUrl);
+			mcp.getWorldTab().setHelpPage(helpUrl);
 		}
 	}
 	

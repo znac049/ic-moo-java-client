@@ -75,18 +75,19 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	
 	public void loadObject(int objNum) {
 		if (objNum != -1) {
-			try {
-				@SuppressWarnings("unused")
-				WkObject ob = WkObjectDB.getObject(objNum);
+			//try {
+				//WkObject ob = WkObjectDB.getObject(objNum);
 				
-				MCPCommand cmd = new MCPCommand();
-				cmd.setAuthKey(mcp.authKey);
-				cmd.setName(packageName, "getobj");
-				cmd.addParam("objnum", ""+objNum);
-				mcp.queueOutgoingCommand(cmd);
-			} catch (MCPException e) {
-				_logger.logError("Failed to send object info to WookeyCore", e);
-			}
+				if (!WkObjectDB.objectExists(objNum)) {
+					MCPCommand cmd = new MCPCommand();
+					cmd.setAuthKey(mcp.authKey);
+					cmd.setName(packageName, "getobj");
+					cmd.addParam("objnum", ""+objNum);
+					mcp.queueOutgoingCommand(cmd);
+				}
+			//} catch (MCPException e) {
+			//	_logger.logError("Failed to send object info to WookeyCore", e);
+			//}
 		}
 	}
 	
