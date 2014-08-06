@@ -7,7 +7,7 @@ public class WkObject {
 	private CodeNode treeNode;
 	private CodeNode propsNode;
 	private CodeNode verbsNode;
-	private CodeNode kidsNode;
+	//private CodeNode kidsNode;
 	private int parentObjNum;
 	private String verbs;
 	private String properties;
@@ -30,8 +30,8 @@ public class WkObject {
 		verbsNode = new CodeNode("Verbs");
 		treeNode.add(verbsNode);
 		
-		kidsNode = new CodeNode("Kids");
-		treeNode.add(kidsNode);
+		//kidsNode = new CodeNode("Kids");
+		//treeNode.add(kidsNode);
 	}
 	
 	public String tostring() {
@@ -94,7 +94,7 @@ public class WkObject {
 	}
 
 	public CodeNode getKidsNode() {
-		return kidsNode;
+		return treeNode;
 	}
 
 	public String getProperties() {
