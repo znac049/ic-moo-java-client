@@ -71,11 +71,23 @@ public class PlayerList extends JPanel {
 	}
 	
 	private void buildPlayerList() {
+		boolean showDetail = true;
+		
 		connectedPlayers.removeAll();
+
+		// If the wookey-core package is active, then only show minimal info in the player
+		// list as we can click on a player and get all the dirt from the wookey-core package
+		if (mcp.packageActive("dns-uk-org-wookey-core")) {
+			showDetail = false;
+		}
 		
 		for (Player p: players) {
 			//JLabel pName = new JLabel(p.getName() + " (" + p.getId() + ")");
-			final JButton pName = new JButton(p.getName() + " (" + p.getId() + ")");
+			String lab = p.getName();
+			if (showDetail) {
+				lab = lab + " (" + p.getId() + ")";
+			}
+			final JButton pName = new JButton(lab);
 			
 			//JLabel pLoc = new JLabel(p.getLocation());
 			JLabel pIdle = new JLabel(TimeUtils.approxString(p.getIdle()));
@@ -135,11 +147,14 @@ public class PlayerList extends JPanel {
 			
 			// If the Wookey-core package is loaded, tell it about this object.
 			if (mcp.packageActive("dns-uk-org-wookey-core")) {
-				_logger.logInfo("Tell WookeyCore about object " + id);
 				WookeyCore handler = (WookeyCore) mcp.findHandler("dns-uk-org-wookey-core");
 					
 				if (handler != null) {
+					_logger.logInfo("Tell WookeyCore about object " + id);
 					handler.loadObject(WkObjectDB.decodeObjectNumNoEx(id));
+				}
+				else {
+					_logger.logWarn("wookey core package not active");
 				}
 			}
 		}
