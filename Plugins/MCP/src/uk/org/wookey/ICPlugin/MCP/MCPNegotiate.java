@@ -41,4 +41,9 @@ public class MCPNegotiate extends MCPHandler {
 			mcp.activatePackage(packageName, minVersion, maxVersion);
 		}
 	}
+	
+	@Override
+	public boolean isMandatory() {
+		return true;
+	}
 }

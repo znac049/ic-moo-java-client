@@ -50,20 +50,14 @@ public class MCPHandler implements MCPHandlerInterface {
 		
 		return false;
 	}
-	
-	public void ZZZZZsendCommandToServer(String command) {
-		MCPSession sess = new MCPSession();
-		String auth = sess.getSessionKey();
-		ZZZZZsendToServer(name + "-" + command + " " + auth);
-	}
-	
-	public void ZZZZZsendToServer(String line) {
-		logger.logMsg("C->S: " + line);
-		server.writeLine(line);
-	}
-	
+
 	public MCP getMCP() {
 		return mcp;
+	}
+	
+	public boolean isMandatory() {
+		// Most handlers are not mandatory
+		return false;
 	}
 
 	@Override

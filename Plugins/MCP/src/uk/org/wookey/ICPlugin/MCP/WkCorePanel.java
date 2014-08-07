@@ -8,7 +8,9 @@ public class WkCorePanel extends JSplitPane {
 	public WkCorePanel() {
 		super(JSplitPane.VERTICAL_SPLIT);
 		
-		setResizeWeight(0.66);
-		setOneTouchExpandable(true);
+		//setResizeWeight(0.5);
+		//setOneTouchExpandable(true);
+		setDividerLocation(0.6);
+		setContinuousLayout(true);
 	}
 }
