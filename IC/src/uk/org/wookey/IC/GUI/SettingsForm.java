@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import uk.org.wookey.IC.Utils.CorePlugin;
 import uk.org.wookey.IC.Utils.CorePluginInterface.PluginType;
+import uk.org.wookey.IC.Utils.IOPlugin;
 import uk.org.wookey.IC.Utils.PluginManager;
 import webBoltOns.layoutManager.GridFlowLayout;
 import webBoltOns.layoutManager.GridFlowLayoutParameter;
@@ -31,7 +32,7 @@ public class SettingsForm extends JDialog {
 		
 		ArrayList<CorePlugin> plugins = PluginManager.pluginsSupporting(PluginType.IOPLUGIN);
 		for (CorePlugin p: plugins) {
-			GlobalConfigPanel conf = p.getGlobalSettings();
+			GlobalConfigPanel conf = ((IOPlugin) p).getGlobalSettings();
 			
 			add(conf);
 		}
