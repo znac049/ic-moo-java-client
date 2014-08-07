@@ -50,7 +50,13 @@ public class CorePlugin implements CorePluginInterface {
 		
 		GlobalConfigPanel conf = new GlobalConfigPanel("Plugin: " + getName());
 		
+		initGlobalSettings(conf);
+		
 		return conf;
+	}
+	
+	public void initGlobalSettings(GlobalConfigPanel conf) {
+		_logger.logInfo("initGlobalSettings()...");
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package uk.org.wookey.IC.Utils;
 
+import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.GUI.WorldTab;
 
 public class IOPlugin extends CorePlugin implements IOPluginInterface {
