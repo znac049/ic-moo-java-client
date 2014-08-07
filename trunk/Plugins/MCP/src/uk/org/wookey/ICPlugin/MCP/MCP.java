@@ -3,6 +3,10 @@ package uk.org.wookey.ICPlugin.MCP;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+
+import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.IOPluginInterface;
 import uk.org.wookey.IC.Utils.Line;
@@ -60,6 +64,16 @@ public class MCP extends IOPlugin {
 		// Start a thread for coordinating messages to the server
 		commandRunner = new Thread(new CommandRunner());
 		commandRunner.start();
+	}
+
+	@Override
+	public void initGlobalSettings(GlobalConfigPanel conf) {
+		conf.add(new JLabel("MCP Packages"));
+		for (MCPHandler h: _handlers) {
+			if (!h.isMandatory()) {
+				conf.addItem(new JCheckBox(h.getName()));
+			}
+		}
 	}
 
 	@Override
