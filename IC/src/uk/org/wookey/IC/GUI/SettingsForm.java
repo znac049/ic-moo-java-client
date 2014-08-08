@@ -9,22 +9,24 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import uk.org.wookey.IC.Utils.CorePlugin;
 import uk.org.wookey.IC.Utils.CorePluginInterface.PluginType;
 import uk.org.wookey.IC.Utils.IOPlugin;
+import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.PluginManager;
-import webBoltOns.layoutManager.GridFlowLayout;
-import webBoltOns.layoutManager.GridFlowLayoutParameter;
 
 public class SettingsForm extends JDialog {
-	private static final long serialVersionUID = 5212833746627586111L;
+	private static Logger _logger = new Logger("Settings Form");
+	private static final long serialVersionUID = 1L;
+	
+	private ArrayList<ConfigPanel> panels; 
 
 	public SettingsForm() {
 		super(new JFrame(), "Global Settings", true);
+		
+		panels = new ArrayList<ConfigPanel>();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -34,7 +36,7 @@ public class SettingsForm extends JDialog {
 		for (CorePlugin p: plugins) {
 			GlobalConfigPanel conf = ((IOPlugin) p).getGlobalSettings();
 			
-			add(conf);
+			addPanel(conf);
 		}
 		
 		JPanel buttons = new JPanel();
@@ -45,7 +47,9 @@ public class SettingsForm extends JDialog {
 		okBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent evt) {
-				setVisible(false);
+				if (saveSettings()) {
+					setVisible(false);
+				}
 			}
 		});
 		
@@ -66,5 +70,20 @@ public class SettingsForm extends JDialog {
 		pack();
 		setResizable(false);
 		setVisible(true);
-	}	
+	}
+	
+	private void addPanel(ConfigPanel conf) {
+		panels.add(conf);
+		add(conf);
+	}
+	
+	private boolean saveSettings() {
+		_logger.logInfo("Saving global settings...");
+		
+		for (ConfigPanel panel: panels) {
+			panel.saveChanges();
+		}
+		
+		return true;
+	}
 }

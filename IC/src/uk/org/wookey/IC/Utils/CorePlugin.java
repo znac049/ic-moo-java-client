@@ -7,7 +7,7 @@ import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.GUI.WorldTab;
 
 
-public class CorePlugin implements CorePluginInterface {
+public class CorePlugin implements CorePluginInterface, ConfigInterface {
 	private Logger _logger = new Logger("CorePlugin");
 	protected String version = "1.0.0";
 	protected String name;
@@ -69,5 +69,10 @@ public class CorePlugin implements CorePluginInterface {
 	@Override
 	public String getVersionString() {
 		return name + " " + version;
+	}
+	
+	public boolean saveGlobalConfig() {
+		_logger.logInfo("Save global config");
+		return true;
 	}
 }
