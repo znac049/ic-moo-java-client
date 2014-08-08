@@ -3,7 +3,6 @@ package uk.org.wookey.ICPlugin.MCP;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
@@ -71,9 +70,11 @@ public class MCP extends IOPlugin {
 		conf.add(new JLabel("MCP Packages"));
 		for (MCPHandler h: _handlers) {
 			if (!h.isMandatory()) {
-				conf.addItem(new JCheckBox(h.getName()));
+				conf.addItem(h.getGlobalEnabledCheckBox());
 			}
 		}
+		
+		conf.registerConfigHandler(this);
 	}
 
 	@Override

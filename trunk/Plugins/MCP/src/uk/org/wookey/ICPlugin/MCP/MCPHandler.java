@@ -1,5 +1,7 @@
 package uk.org.wookey.ICPlugin.MCP;
 
+import javax.swing.JCheckBox;
+
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
@@ -12,6 +14,7 @@ public class MCPHandler implements MCPHandlerInterface {
 	protected ServerConnection server;
 	protected boolean negotiated;
 	protected MCP mcp;
+	protected JCheckBox enabled;
 	
 	public MCPHandler(String pkgName, String min, String max, ServerConnection svr, MCP mcpRoot) throws ParserException {
 		name = pkgName;
@@ -20,6 +23,9 @@ public class MCPHandler implements MCPHandlerInterface {
 		server = svr;
 		mcp = mcpRoot;
 		negotiated = false;
+		
+		enabled = new JCheckBox(name);
+		enabled.setSelected(true);
 	}
 	
 	public void born() {
@@ -63,5 +69,10 @@ public class MCPHandler implements MCPHandlerInterface {
 	@Override
 	public void sendToServer(MCPCommand cmd) {
 		mcp.queueOutgoingCommand(cmd);
+	}
+
+	@Override
+	public JCheckBox getGlobalEnabledCheckBox() {
+		return enabled;
 	}
 }
