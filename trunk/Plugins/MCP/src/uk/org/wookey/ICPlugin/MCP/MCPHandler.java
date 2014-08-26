@@ -1,12 +1,15 @@
 package uk.org.wookey.ICPlugin.MCP;
 
 import javax.swing.JCheckBox;
+import javax.swing.JComponent;
 
+import uk.org.wookey.IC.Utils.ConfigInterface;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
 
-public class MCPHandler implements MCPHandlerInterface {
+public class MCPHandler implements MCPHandlerInterface, ConfigInterface {
+	private static boolean handlerGloballyEnabled = true;
 	private Logger logger = new Logger("MCPHandler");
 	protected String name;
 	private MCPVersion minVersion;
@@ -15,6 +18,8 @@ public class MCPHandler implements MCPHandlerInterface {
 	protected boolean negotiated;
 	protected MCP mcp;
 	protected JCheckBox enabled;
+	
+	private boolean instanceEnabled = true;
 	
 	public MCPHandler(String pkgName, String min, String max, ServerConnection svr, MCP mcpRoot) throws ParserException {
 		name = pkgName;
@@ -25,7 +30,7 @@ public class MCPHandler implements MCPHandlerInterface {
 		negotiated = false;
 		
 		enabled = new JCheckBox(name);
-		enabled.setSelected(true);
+		enabled.setSelected(isEnabled());
 	}
 	
 	public void born() {
@@ -72,7 +77,47 @@ public class MCPHandler implements MCPHandlerInterface {
 	}
 
 	@Override
-	public JCheckBox getGlobalEnabledCheckBox() {
+	public JComponent getConfigUI(int configType) {
+		if (configType == ConfigInterface.CONFIG_GLOBAL) {
+			enabled.setSelected(handlerGloballyEnabled);
+		}
+		else {
+			enabled.setSelected(isEnabled());
+		}
+		
 		return enabled;
+	}
+
+	@Override
+	public boolean saveConfig(int configType) {
+		if (configType == ConfigInterface.CONFIG_GLOBAL) {
+			handlerGloballyEnabled = enabled.isSelected();
+			if (!handlerGloballyEnabled) {
+				instanceEnabled = false;
+			}
+		}
+		else {
+			instanceEnabled = enabled.isSelected();
+		}
+
+		return false;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		logger.logInfo("MCP handler is enabled");
+		if (!MCPHandler.handlerGloballyEnabled) {
+			logger.logInfo("Globall disabled.");
+			return false;
+		}
+		
+		if (instanceEnabled) {
+			logger.logInfo("Handler locally enabled");
+		}
+		else {
+			logger.logInfo("Handler locally disabled");
+		}
+		
+		return instanceEnabled;
 	}
 }

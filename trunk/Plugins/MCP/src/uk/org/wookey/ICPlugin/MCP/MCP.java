@@ -70,7 +70,7 @@ public class MCP extends IOPlugin {
 		conf.add(new JLabel("MCP Packages"));
 		for (MCPHandler h: _handlers) {
 			if (!h.isMandatory()) {
-				conf.addItem(h.getGlobalEnabledCheckBox());
+				conf.addItem(h.getConfigUI(CONFIG_GLOBAL));
 			}
 		}
 		
@@ -352,6 +352,17 @@ public class MCP extends IOPlugin {
 		// not much to do, really
 		_outgoingCommandQueue.addLast(new MCPCommand(cmd));
 		_logger.logInfo("Added command " + cmd.getName() + " to queue. New length is " + _outgoingCommandQueue.size());
+	}
+	
+	@Override
+	public boolean saveConfig(int configType) {
+		_logger.logInfo("Save MCP config");
+		
+		for (MCPHandler h: _handlers) {
+			h.saveConfig(configType);
+		}
+
+		return true;
 	}
 
 	private class CommandRunner implements Runnable {

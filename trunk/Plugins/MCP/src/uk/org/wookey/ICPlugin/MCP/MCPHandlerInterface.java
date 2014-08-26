@@ -10,5 +10,5 @@ public interface MCPHandlerInterface {
 	void handle(MCPCommand cmd, String key);
 	void sendToServer(MCPCommand cmd);
 	void born();
-	JCheckBox getGlobalEnabledCheckBox();
+	boolean isEnabled();
 }

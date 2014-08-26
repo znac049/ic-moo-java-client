@@ -52,7 +52,21 @@ public class MCPSimpleEdit extends MCPHandler {
 			_logger.logMsg("Type='" + type + "'");
 			_logger.logMsg("Content='" + content + "'");
 			
-			new MCPEditorForm(itemName, ref, type, content, mcp, server, key);
+			String fileExt = ".txt";
+			String saveName = itemName;
+			
+			if (itemName.startsWith("Verb: ")) {
+				saveName = itemName.substring(6);
+				fileExt = ".moo";
+			}
+			else if (type.equalsIgnoreCase("string-list")) {
+				fileExt = ".note";
+			}
+			
+			saveName = saveName.replace(":",  "-");
+			
+			MCPEditorForm form = new MCPEditorForm(saveName, ref, type, content, mcp, server, key);
+			form.setSaveName(saveName + fileExt);
 		}
 	}
 }
