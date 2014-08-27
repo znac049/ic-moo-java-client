@@ -20,6 +20,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
@@ -84,7 +86,8 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 
 		setLayout(new GridBagLayout());
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.addWindowListener(new MainWindowListener());
 		
 		MainMenuBar menu = new MainMenuBar();
 		menu.add(new QuickLaunch(this));
@@ -197,6 +200,46 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 	
 	public JTabbedPane getTabbedPane() {
 		return tabs;
+	}
+	
+	private class MainWindowListener implements WindowListener {
+
+		@Override
+		public void windowActivated(WindowEvent arg0) {
+		}
+
+		@Override
+		public void windowClosed(WindowEvent arg0) {
+			_logger.logInfo("Main window closed");
+			
+			for (Component tab: tabs.getComponents()) {
+				if (tab instanceof WorldTab) {
+					WorldTab wt = (WorldTab) tab;
+					wt.tearDown();
+				}	
+			}
+		}
+
+		@Override
+		public void windowClosing(WindowEvent arg0) {
+			_logger.logInfo("Main window closing");
+		}
+
+		@Override
+		public void windowDeactivated(WindowEvent arg0) {
+		}
+
+		@Override
+		public void windowDeiconified(WindowEvent arg0) {
+		}
+
+		@Override
+		public void windowIconified(WindowEvent arg0) {
+		}
+
+		@Override
+		public void windowOpened(WindowEvent arg0) {
+		}
 	}
 	
 	private class PopupListener extends MouseAdapter implements ActionListener {

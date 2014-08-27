@@ -1,6 +1,7 @@
 package uk.org.wookey.IC.GUI;
 
 import java.awt.Component;
+import java.awt.Container;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
