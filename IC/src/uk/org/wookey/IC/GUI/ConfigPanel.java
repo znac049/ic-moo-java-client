@@ -1,5 +1,6 @@
 package uk.org.wookey.IC.GUI;
 
+import java.awt.Container;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -24,14 +25,14 @@ public class ConfigPanel extends JPanel {
 		setBorder(BorderFactory.createTitledBorder(name));
 	}
 	
-	public void addItem(String label, JComponent comp) {
-		FormItem item = new FormItem(label, comp);
+	public void addItem(String label, JComponent container) {
+		FormItem item = new FormItem(label, container);
 		
 		add(item);
 	}
 	
-	public void addItem(JComponent comp) {
-		addItem("", comp);
+	public void addItem(JComponent container) {
+		addItem("", container);
 	}
 	
 	public void registerConfigHandler(ConfigInterface configClass) {
@@ -42,7 +43,7 @@ public class ConfigPanel extends JPanel {
 		_logger.logInfo("Saving changes");
 		
 		if (configClass != null) {
-			configClass.saveGlobalConfig();
+			configClass.saveConfig(ConfigInterface.CONFIG_GLOBAL);
 		}
 		return true;
 	}

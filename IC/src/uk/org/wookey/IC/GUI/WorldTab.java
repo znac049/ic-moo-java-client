@@ -101,6 +101,8 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		keyboardHistory = new ArrayList<String>();
 		historyIndex = 0;
 		
+		loadCommandHistory();
+		
 		keyboard = new JTextField();
 		Font font = new Font("Courier", Font.BOLD, 16);
 		keyboard.setFont(font);
@@ -122,11 +124,58 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 	public void tearDown() {
 		_logger.logInfo("Die, die!");
 		
+		saveCommandHistory();
+		
 		Macro onClose = new Macro("onClose");
 		onClose.exec(jsEngine, server);
 		
 		listenerThread.interrupt();
 		server.disconnect();
+	}
+	
+	private String getCommandHistoryName() {
+		return "conf/" + getName() + "_commandhistory.log";
+	}
+	
+	private void saveCommandHistory() {
+		PrintWriter fd;
+		try {
+			fd = new PrintWriter(new FileWriter(getCommandHistoryName()));
+		
+			for (String command: keyboardHistory) {
+				fd.println(command);
+			}
+			
+			fd.close();
+		} catch (IOException e) {
+			_logger.logError("Failed to create file to save command history", e);
+			return;
+		}		
+	}
+	
+	private void loadCommandHistory() {
+		BufferedReader br;
+		
+		try {
+			br = new BufferedReader(new FileReader(getCommandHistoryName()));
+		} catch (FileNotFoundException e) {
+			_logger.logError("Failed to open file to read command history", e);
+			return;
+		}
+		
+		String command;
+		try {
+			while ((command = br.readLine()) != null) {
+				command = command.replace("\r","").replace("\n","");
+				keyboardHistory.add(command);
+			}
+
+			br.close();
+			historyIndex = keyboardHistory.size();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	private void setupKeyMap() {
@@ -227,7 +276,7 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		keyboardHistory.add(line);
 		int size = keyboardHistory.size();
 
-		while (size > 100) {
+		while (size > 500) {
 			keyboardHistory.remove(0);
 			size--;
 		}

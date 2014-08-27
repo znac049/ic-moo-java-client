@@ -2,6 +2,8 @@ package uk.org.wookey.IC.Utils;
 
 import java.awt.Container;
 
+import javax.swing.JComponent;
+
 import uk.org.wookey.IC.GUI.ConfigPanel;
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.GUI.WorldTab;
@@ -71,8 +73,15 @@ public class CorePlugin implements CorePluginInterface, ConfigInterface {
 		return name + " " + version;
 	}
 	
-	public boolean saveGlobalConfig() {
-		_logger.logInfo("Save global config");
-		return true;
+	@Override
+	public JComponent getConfigUI(int configType) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean saveConfig(int configType) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

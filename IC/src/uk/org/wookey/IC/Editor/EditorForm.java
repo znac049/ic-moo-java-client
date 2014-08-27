@@ -54,6 +54,7 @@ public class EditorForm extends JFrame implements ActionListener {
 		_editor = new NewGenericEditor();
 		_editor.setText(content);
 		_editor.setName(name + ":" + type);
+		//setSaveName(name);
 		
 		setTitle(getEditorName() + ": " + name);
 
