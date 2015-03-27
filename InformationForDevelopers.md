@@ -1,0 +1,9 @@
+# Introduction #
+This page provides an introduction to developers wishing to work with the client, including plugin development.
+
+
+# Details #
+
+## Plugins ##
+In no particular order:
+  * newly discovered plugins are disabled by default.

@@ -1,0 +1,28 @@
+# Introduction #
+This is an MCP/2.1 package written for the JHCore MCP/2.1 implementation for MOO.
+
+You can find out more about MCP/2.1 here:
+
+> http://www.awns.com/mcp/
+
+# Details #
+
+This package allows MOO programmers to get under the hood of the MOO more easily than simply using the MOO's built-in tools.
+
+This protocol is evolving, but this page is reasonably usually up to date.
+
+As ever, if you spot any errors or omissions, please let us know.
+
+## C-> S ##
+### getinfo ###
+`$#$dns-uk-org-wookey-core-getinfo`
+
+### getobj ###
+`$#$dns-uk-org-wookey-core-getobj (objnum)`
+
+## S->C ##
+### info ###
+`$#$dns-uk-org-wookey-core-info` (maxobj, playerobj)
+
+### obj ###
+`$#$dns-uk-org-wookey-core-obj (name, objnum, properties*, verbs*, parents*)`
