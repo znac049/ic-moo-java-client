@@ -64,6 +64,7 @@ public class MCPSimpleEdit extends MCPHandler {
 			}
 			
 			saveName = saveName.replace(":",  "-");
+			saveName = saveName.replace("@",  "_at_");
 			
 			MCPEditorForm form = new MCPEditorForm(saveName, ref, type, content, mcp, server, key);
 			form.setSaveName(saveName + fileExt);
