@@ -69,20 +69,7 @@ public class ApplicationWindow extends JFrame implements ActionListener {
 		
 		gbc.anchor = GridBagConstraints.PAGE_START;
 		
-		Toolkit tk = Toolkit.getDefaultToolkit();
-		int xSize = tk.getScreenSize().width;
-		int ySize = tk.getScreenSize().height;
-		
-		if (xSize > 1360) {
-			xSize = 1360;
-		}
-		
-		if (ySize > 768) {
-			ySize = 768;
-		}
-		
-		setSize(xSize, ySize);
-		setLocation((tk.getScreenSize().width - xSize) / 2, (tk.getScreenSize().height - ySize) / 2);
+		setSize(800, 600);
 
 		setLayout(new GridBagLayout());
 		
