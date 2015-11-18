@@ -54,7 +54,8 @@ public class PlayerList extends JPanel {
         scroller.getViewport().add(connectedPlayers);
         scroller.setMinimumSize(new Dimension(50, scroller.getMaximumSize().height));
         scroller.setSize(scroller.getMinimumSize());
-		add(scroller, BorderLayout.CENTER);}
+		add(scroller, BorderLayout.CENTER);
+	}
 	
 	public void add(Player p) {
 		players.add(p);

@@ -105,7 +105,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 
 		corePanel = new WkCoreTreePanel(getMCP(), server);
 		parentPanel.setTopComponent(corePanel);
-		parentPanel.setBottomComponent(new WkCorePropsPanel());
+		parentPanel.setBottomComponent(new WkCorePropsPanel(corePanel));
 		
 		_logger.logInfo("Adding to lhs side panel...");
 		

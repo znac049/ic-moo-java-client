@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.SystemColor;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -107,7 +106,6 @@ public class WkCoreTreePanel extends JPanel {
 					cmd.setName(WookeyCore.packageName, "getobj");
 					cmd.addParam("objnum", ""+parentObjNum);
 					queueCommand(cmd);
-					//cmd.sendToServer(server);
 					
 					ancestor = ob;				
 					ancestorObjNum = parentObjNum;
@@ -166,22 +164,17 @@ public class WkCoreTreePanel extends JPanel {
 		mcp.queueOutgoingCommand(cmd);
 	}
 	
+	public JTree getTree() {
+		return tree;
+	}
+	
 	public class ObjectTreeCellRenderer extends	JLabel implements TreeCellRenderer
 	{
 		private static final long serialVersionUID = 1L;
-		private ImageIcon objectImage;
-		private ImageIcon propertyImage;
-		private ImageIcon verbImage;
-		private ImageIcon nodeImage;
 
 		private boolean	bSelected;
 		
 		public ObjectTreeCellRenderer() {
-			// Load the images
-			objectImage = new ImageIcon("images/object.png");
-			propertyImage = new ImageIcon("images/property.png");
-			verbImage = new ImageIcon("images/verb.png");			
-			nodeImage = new ImageIcon("images/node.png");			
 		}
 		
 		public Component getTreeCellRendererComponent( JTree tree,
@@ -195,37 +188,37 @@ public class WkCoreTreePanel extends JPanel {
 			if (userObj instanceof WkObject) {
 				WkObject ob = (WkObject)userObj;
 				
-				setIcon(objectImage);
+				//setIcon(objectImage);
 				label = ob.tostring();
 			}
 			else if (userObj instanceof String) {
 				label = (String)userObj;
 				
 				if ((label.length() > 0) && (label.startsWith("."))) {
-					setIcon(propertyImage);
+					//setIcon(propertyImage);
 				}
 				else if ((label.length() > 0) && (label.startsWith(":"))) {
-					setIcon(verbImage);
+					//setIcon(verbImage);
 					label = label.substring(1) + "()";
 				}
 				else {
-					setIcon(nodeImage);
+					//setIcon(nodeImage);
 				}
 			}
 			else {
 				label = "???";
-				setIcon(nodeImage);
+				//setIcon(nodeImage);
 			}
 			
 			this.bSelected = bSelected;
 			
 			// Set the correct foreground color
-			if( !bSelected ) {
-				setForeground( Color.black );
-			}
-			else {
-				setForeground( Color.white );
-			}
+			//if( !bSelected ) {
+			//	setForeground( Color.black );
+			//}
+			//else {
+			//	setForeground( Color.white );
+			//}
 		
 			// Add the text to the cell
 			setText(label);

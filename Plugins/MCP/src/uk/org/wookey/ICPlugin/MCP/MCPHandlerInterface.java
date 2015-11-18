@@ -1,7 +1,5 @@
 package uk.org.wookey.ICPlugin.MCP;
 
-import javax.swing.JCheckBox;
-
 public interface MCPHandlerInterface {
 	String getName();
 	String getMinVersion();

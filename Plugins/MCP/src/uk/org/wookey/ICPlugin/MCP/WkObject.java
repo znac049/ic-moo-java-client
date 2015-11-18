@@ -1,16 +1,16 @@
 package uk.org.wookey.ICPlugin.MCP;
 
+import java.util.ArrayList;
+
 public class WkObject {
 	//private Logger _logger = new Logger("WkObject");
 	private int objNum;
 	private String objName;
 	private CodeNode treeNode;
-	private CodeNode propsNode;
-	private CodeNode verbsNode;
-	//private CodeNode kidsNode;
 	private int parentObjNum;
-	private String verbs;
-	private String properties;
+	
+	private ArrayList<WkVerb> verbList;
+	private ArrayList<WkProperty> propertyList;
 
 	public WkObject(int objNum) {
 		this.objNum = objNum;
@@ -18,17 +18,18 @@ public class WkObject {
 		objName = null;
 		
 		parentObjNum = -1;
-		properties = "";
-		verbs = "";
 		
 		treeNode = new CodeNode("#" + objNum);
 		treeNode.setUserObject(this);
 		
-		propsNode = new CodeNode("Props");
-		treeNode.add(propsNode);
+		//propsNode = new CodeNode("Props");
+		//treeNode.add(propsNode);
 		
-		verbsNode = new CodeNode("Verbs");
-		treeNode.add(verbsNode);
+		//verbsNode = new CodeNode("Verbs");
+		//treeNode.add(verbsNode);
+		
+		verbList = new ArrayList<WkVerb>();
+		propertyList = new ArrayList<WkProperty>();
 		
 		//kidsNode = new CodeNode("Kids");
 		//treeNode.add(kidsNode);
@@ -43,28 +44,33 @@ public class WkObject {
 	}
 	
 	public void addProperty(String name) {
-		addLeafNode("." + name, propsNode);
-	}
-	
-	public void addVerb(String name) {
-		addLeafNode(":" + name, verbsNode);
-	}
-	
-	private void addLeafNode(String name, CodeNode parent) {
-		// If a node already exists, do nothing...
-		for (int i=0; i<parent.getChildCount(); i++) {
-			if (parent.getUserObject().toString().equals(name)) {
-				// node already exists
+		//addLeafNode("." + name, propsNode);
+
+		for (WkProperty prop: propertyList) {
+			if (prop.getName().equals(name)) {
+				// Already got it
 				return;
 			}
 		}
 		
-		// ok to add it..
-		CodeNode leaf = new CodeNode(name);
-		leaf.setUserObject(name);
-		parent.add(leaf);
+		WkProperty prop = new WkProperty(name);
+		propertyList.add(prop);
 	}
-
+	
+	public void addVerb(String name) {
+		//addLeafNode(":" + name, verbsNode);
+		
+		for (WkVerb vb: verbList) {
+			if (vb.getName().equals(name)) {
+				// Already got it
+				return;
+			}
+		}
+		
+		WkVerb vb = new WkVerb(name);
+		verbList.add(vb);
+	}
+	
 	public void setName(String objName) {
 		this.objName = objName;
 	}
@@ -85,32 +91,8 @@ public class WkObject {
 		return treeNode;
 	}
 
-	public CodeNode getPropertiesNode() {
-		return propsNode;
-	}
-
-	public CodeNode getVerbsNode() {
-		return verbsNode;
-	}
-
 	public CodeNode getKidsNode() {
 		return treeNode;
-	}
-
-	public String getProperties() {
-		return properties;
-	}
-
-	public void setProperties(String properties) {
-		this.properties = properties;
-	}
-
-	public String getVerbs() {
-		return verbs;
-	}
-
-	public void setVerbs(String verbs) {
-		this.verbs = verbs;
 	}
 
 	public int getParentObjNum() {
@@ -119,5 +101,13 @@ public class WkObject {
 
 	public void setParentObjNum(int parentObjNum) {
 		this.parentObjNum = parentObjNum;
+	}
+	
+	public ArrayList<WkProperty> getPropertyList() {
+		return propertyList;
+	}
+	
+	public ArrayList<WkVerb> getVerbList() {
+		return verbList;
 	}
 }
