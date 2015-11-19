@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import javax.swing.JLabel;
 
+import dns.uk.org.wookey.core.WookeyCore;
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.IOPluginInterface;

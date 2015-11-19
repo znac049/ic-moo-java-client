@@ -1,4 +1,4 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.uk.org.wookey.core;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -8,10 +8,16 @@ import javax.swing.JPanel;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
+import uk.org.wookey.ICPlugin.MCP.MCP;
+import uk.org.wookey.ICPlugin.MCP.MCPCommand;
+import uk.org.wookey.ICPlugin.MCP.MCPException;
+import uk.org.wookey.ICPlugin.MCP.MCPHandler;
 
 public class WookeyCore  extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCPWookeyCore");
 	private WkCoreTreePanel corePanel;
+	private WkObjectDB objectDB;
+	
 	public final static String packageName = "dns-uk-org-wookey-core";
 	
 	public WookeyCore(ServerConnection svr, MCP mcp) throws ParserException {
@@ -26,7 +32,12 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		else if (commandName.equalsIgnoreCase(name + "-obj")) {
 			handleObjCommand(command, key);
 		}
-
+		else if (commandName.equalsIgnoreCase(name + "-prop")) {
+			handlePropCommand(command, key);
+		}
+		else if (commandName.equalsIgnoreCase(name + "-verb")) {
+			handleVerbCommand(command, key);
+		}
 	}
 	
 	private void handleInfoCommand(MCPCommand command, String key) {
@@ -35,7 +46,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		
 		try {
 			int num = WkObjectDB.decodeObjectNum(maxObj);
-			WkObjectDB.setMaxObject(num);
+			objectDB.setMaxObject(num);
 
 			num = WkObjectDB.decodeObjectNum(playerObj);
 			corePanel.setPlayerObj(num);
@@ -73,12 +84,48 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		corePanel.repaint();
 	}
 	
+	private void handlePropCommand(MCPCommand command, String key) {
+		String obName = command.getParam("name");
+		String obNum = command.getParam("objnum");
+		String properties = command.getParam("properties");			
+		String verbs = command.getParam("verbs");			
+		String parents = command.getParam("parents");			
+
+		//_logger.logInfo("Obj command, objnum " + obNum);
+		//_logger.logInfo("  props: '" + properties + "'");
+		//_logger.logInfo("  verbs: '" + verbs + "'");
+		//_logger.logInfo("  parents: '" + parents + "'");
+		
+		corePanel.registerObject(mcp, WkObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
+		
+		corePanel.revalidate();
+		corePanel.repaint();
+	}
+	
+	private void handleVerbCommand(MCPCommand command, String key) {
+		String obName = command.getParam("name");
+		String obNum = command.getParam("objnum");
+		String properties = command.getParam("properties");			
+		String verbs = command.getParam("verbs");			
+		String parents = command.getParam("parents");			
+
+		//_logger.logInfo("Obj command, objnum " + obNum);
+		//_logger.logInfo("  props: '" + properties + "'");
+		//_logger.logInfo("  verbs: '" + verbs + "'");
+		//_logger.logInfo("  parents: '" + parents + "'");
+		
+		corePanel.registerObject(mcp, WkObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
+		
+		corePanel.revalidate();
+		corePanel.repaint();
+	}
+	
 	public void loadObject(int objNum) {
 		if (objNum != -1) {
 			//try {
 				//WkObject ob = WkObjectDB.getObject(objNum);
 				
-				if (!WkObjectDB.objectExists(objNum)) {
+				if (!objectDB.objectExists(objNum)) {
 					MCPCommand cmd = new MCPCommand();
 					cmd.setAuthKey(mcp.authKey);
 					cmd.setName(packageName, "getobj");
@@ -92,6 +139,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	}
 	
 	public void born() {
+		objectDB = new WkObjectDB(mcp);
 		addGUI();
 		
 		new Thread(this, "wookey-core: " + mcp.getWorldName()).start();
@@ -103,7 +151,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		
 		WkCorePanel parentPanel = new WkCorePanel();
 
-		corePanel = new WkCoreTreePanel(getMCP(), server);
+		corePanel = new WkCoreTreePanel(getMCP(), server, objectDB);
 		parentPanel.setTopComponent(corePanel);
 		parentPanel.setBottomComponent(new WkCorePropsPanel(corePanel));
 		
@@ -124,6 +172,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		
 		mcp.getWorldTab().resetToPreferredSizes();
 	}
+	
 	public void run() {
 		MCPCommand command = new MCPCommand();
 		command.setName(name, "getinfo");

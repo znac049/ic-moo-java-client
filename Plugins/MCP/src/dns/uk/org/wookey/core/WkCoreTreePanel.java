@@ -1,4 +1,4 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -18,6 +18,10 @@ import javax.swing.tree.TreePath;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ServerConnection;
+import uk.org.wookey.ICPlugin.MCP.CodeNode;
+import uk.org.wookey.ICPlugin.MCP.MCP;
+import uk.org.wookey.ICPlugin.MCP.MCPCommand;
+import uk.org.wookey.ICPlugin.MCP.MCPException;
 
 public class WkCoreTreePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
@@ -30,8 +34,9 @@ public class WkCoreTreePanel extends JPanel {
 	private JTree tree;
 	private CodeNode objectRoot;
 	private int playerObjNum;
+	private WkObjectDB objectDB;
 	
-	public WkCoreTreePanel(MCP mcp, ServerConnection server) {
+	public WkCoreTreePanel(MCP mcp, ServerConnection server, WkObjectDB oDB) {
 		super();
 		
 		setLayout(new BorderLayout());
@@ -45,6 +50,7 @@ public class WkCoreTreePanel extends JPanel {
 		
 		playerObjNum = -1;
 		this.mcp = mcp;
+		objectDB = oDB;
 		//this.server = server;
 		
         JScrollPane scroller = new JScrollPane();
@@ -66,10 +72,10 @@ public class WkCoreTreePanel extends JPanel {
 				String parent = parentItems[i];
 				int parentObjNum = WkObjectDB.decodeObjectNumNoEx(parent);
 				
-				if (WkObjectDB.objectExists(parentObjNum)) {
+				if (objectDB.objectExists(parentObjNum)) {
 					//_logger.logInfo("Parent: " + parent + " exists");
 					try {
-						ancestor = WkObjectDB.getObject(parentObjNum);
+						ancestor = objectDB.getObject(parentObjNum);
 						ancestorObjNum = parentObjNum;
 					} catch (MCPException e) {
 						_logger.logError("Object hierarcy broken:", e);
@@ -80,7 +86,7 @@ public class WkCoreTreePanel extends JPanel {
 					//_logger.logInfo("Parent: " + parent + " doesn't exist");
 					WkObject ob;
 					try {
-						ob = WkObjectDB.getObject(parentObjNum);
+						ob = objectDB.getObject(parentObjNum);
 					} catch (MCPException e) {
 						_logger.logError("Failed to create object " + parentObjNum + " via the WkObjectDB", e);
 						return;
@@ -117,7 +123,7 @@ public class WkCoreTreePanel extends JPanel {
 
 		WkObject ob;
 		try {
-			ob = WkObjectDB.getObject(objNum);
+			ob = objectDB.getObject(objNum);
 		} catch (MCPException e) {
 			_logger.logError("Object database is corrupt", e);
 			return;

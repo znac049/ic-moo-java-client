@@ -1,4 +1,4 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.uk.org.wookey.core;
 
 import uk.org.wookey.IC.Utils.Logger;
 

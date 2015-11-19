@@ -1,4 +1,4 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -55,7 +55,8 @@ public class PropertyList extends JPanel {
 			pName.setOpaque(true);
 			pName.setContentAreaFilled(false);
 			pName.setBorder(null);
-			pName.setBorderPainted(false);
+			pName.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray));
+			//pName.setBorderPainted(false);
 			pName.setFocusPainted(false);
 			pName.setMargin(new Insets(0, 0, 0, 0));
 			pName.setCursor(new Cursor(Cursor.HAND_CURSOR));

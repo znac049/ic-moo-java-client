@@ -1,4 +1,4 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -12,6 +12,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.ICPlugin.MCP.MCPCommand;
 
 public class WkCorePropsPanel extends JPanel implements TreeSelectionListener {
 	private static final long serialVersionUID = 1L;
@@ -50,16 +51,42 @@ public class WkCorePropsPanel extends JPanel implements TreeSelectionListener {
 		if (node == null) return;
 
 		/* retrieve the node that was selected */ 
-		WkObject wk = (WkObject) node.getUserObject();
+		WkObject ob = (WkObject) node.getUserObject();
 		
-		_logger.logInfo("NODE: " + wk.getName());
+		_logger.logInfo("NODE: " + ob.getName());
 		
-		ArrayList<WkProperty> pList = wk.getPropertyList();
+		ArrayList<WkProperty> pList = ob.getPropertyList();
+		for (WkProperty prop: pList) {
+			// fire off MCP getprop requests to the server
+			MCPCommand cmd = new MCPCommand();
+			
+			cmd.setAuthKey(ob.getMCP().authKey);
+			cmd.setName(WookeyCore.packageName, "getprop");
+			cmd.addParam("objnum", "" + ob.getObjNum());
+			cmd.addParam("propertyname", "" + prop.getName());
+			
+			ob.getMCP().queueOutgoingCommand(cmd);
+		}
+				
 		Collections.sort(pList);
 		props.buildList(pList);
 		
-		ArrayList<WkVerb> vList = wk.getVerbList();
+		ArrayList<WkVerb> vList = ob.getVerbList();
+		for (WkVerb verb: vList) {
+			// fire off MCP getverb requests to the server
+			MCPCommand cmd = new MCPCommand();
+			
+			cmd.setAuthKey(ob.getMCP().authKey);
+			cmd.setName(WookeyCore.packageName, "getverb");
+			cmd.addParam("objnum", "" + ob.getObjNum());
+			cmd.addParam("propertyname", "" + verb.getName());
+			
+			ob.getMCP().queueOutgoingCommand(cmd);
+		}
+				
 		Collections.sort(vList);
 		verbs.buildList(vList);
+		
+		tabs.repaint();
 	}
 }

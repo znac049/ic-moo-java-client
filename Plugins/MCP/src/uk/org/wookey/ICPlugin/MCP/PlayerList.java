@@ -18,6 +18,8 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import dns.uk.org.wookey.core.WkObjectDB;
+import dns.uk.org.wookey.core.WookeyCore;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.SpringUtilities;
 import uk.org.wookey.IC.Utils.TimeUtils;

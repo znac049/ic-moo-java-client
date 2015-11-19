@@ -1,5 +1,7 @@
 package uk.org.wookey.ICPlugin.MCP;
 
+import dns.uk.org.wookey.core.WkObjectDB;
+import dns.uk.org.wookey.core.WookeyCore;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;

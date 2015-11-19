@@ -1,4 +1,4 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -54,10 +54,11 @@ public class VerbList extends JPanel {
 			//JLabel pLoc = new JLabel(p.getLocation());
 			JLabel pIdle = new JLabel("42");
 			
-			vName.setOpaque(true);
+			//vName.setOpaque(true);
 			vName.setContentAreaFilled(false);
-			vName.setBorder(null);
-			vName.setBorderPainted(false);
+			//vName.setBorder(BorderFactory.createLineBorder(Color.black));
+			vName.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray));
+			//vName.setBorderPainted(false);
 			vName.setFocusPainted(false);
 			vName.setMargin(new Insets(0, 0, 0, 0));
 			vName.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -68,7 +69,6 @@ public class VerbList extends JPanel {
 			pIdle.setOpaque(false);
 			
 			verbs.add(vName);
-			//connectedPlayers.add(pLoc);
 			verbs.add(pIdle);
 		}
 		

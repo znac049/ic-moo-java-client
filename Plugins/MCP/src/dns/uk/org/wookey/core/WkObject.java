@@ -1,6 +1,9 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.uk.org.wookey.core;
 
 import java.util.ArrayList;
+
+import uk.org.wookey.ICPlugin.MCP.CodeNode;
+import uk.org.wookey.ICPlugin.MCP.MCP;
 
 public class WkObject {
 	//private Logger _logger = new Logger("WkObject");
@@ -11,8 +14,10 @@ public class WkObject {
 	
 	private ArrayList<WkVerb> verbList;
 	private ArrayList<WkProperty> propertyList;
+	
+	private MCP mcp;
 
-	public WkObject(int objNum) {
+	public WkObject(int objNum, MCP mcp) {
 		this.objNum = objNum;
 		
 		objName = null;
@@ -22,17 +27,10 @@ public class WkObject {
 		treeNode = new CodeNode("#" + objNum);
 		treeNode.setUserObject(this);
 		
-		//propsNode = new CodeNode("Props");
-		//treeNode.add(propsNode);
-		
-		//verbsNode = new CodeNode("Verbs");
-		//treeNode.add(verbsNode);
-		
 		verbList = new ArrayList<WkVerb>();
 		propertyList = new ArrayList<WkProperty>();
 		
-		//kidsNode = new CodeNode("Kids");
-		//treeNode.add(kidsNode);
+		this.mcp = mcp;
 	}
 	
 	public String tostring() {
@@ -44,8 +42,6 @@ public class WkObject {
 	}
 	
 	public void addProperty(String name) {
-		//addLeafNode("." + name, propsNode);
-
 		for (WkProperty prop: propertyList) {
 			if (prop.getName().equals(name)) {
 				// Already got it
@@ -58,8 +54,6 @@ public class WkObject {
 	}
 	
 	public void addVerb(String name) {
-		//addLeafNode(":" + name, verbsNode);
-		
 		for (WkVerb vb: verbList) {
 			if (vb.getName().equals(name)) {
 				// Already got it
@@ -109,5 +103,9 @@ public class WkObject {
 	
 	public ArrayList<WkVerb> getVerbList() {
 		return verbList;
+	}
+	
+	public MCP getMCP() {
+		return mcp;
 	}
 }
