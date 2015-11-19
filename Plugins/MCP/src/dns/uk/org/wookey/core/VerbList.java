@@ -44,10 +44,10 @@ public class VerbList extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 	
-	public void buildList(ArrayList<WkVerb> vList) {
+	public void buildList(ArrayList<Verb> vList) {
 		verbs.removeAll();
 
-		for (WkVerb vb: vList) {
+		for (Verb vb: vList) {
 			//JLabel pName = new JLabel(p.getName() + " (" + p.getId() + ")");
 			final JButton vName = new JButton(vb.getName());
 			

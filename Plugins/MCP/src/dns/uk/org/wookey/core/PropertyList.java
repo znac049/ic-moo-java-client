@@ -44,10 +44,10 @@ public class PropertyList extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 	
-	public void buildList(ArrayList<WkProperty> pList) {
+	public void buildList(ArrayList<Property> pList) {
 		props.removeAll();
 
-		for (WkProperty prop: pList) {
+		for (Property prop: pList) {
 			final JButton pName = new JButton(prop.getName());
 			
 			JLabel pIdle = new JLabel("42");

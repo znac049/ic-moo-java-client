@@ -15,8 +15,8 @@ import uk.org.wookey.ICPlugin.MCP.MCPHandler;
 
 public class WookeyCore  extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCPWookeyCore");
-	private WkCoreTreePanel corePanel;
-	private WkObjectDB objectDB;
+	private TreePanel corePanel;
+	private ObjectDB objectDB;
 	
 	public final static String packageName = "dns-uk-org-wookey-core";
 	
@@ -45,10 +45,10 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		String playerObj = command.getParam("playerobj");	
 		
 		try {
-			int num = WkObjectDB.decodeObjectNum(maxObj);
+			int num = ObjectDB.decodeObjectNum(maxObj);
 			objectDB.setMaxObject(num);
 
-			num = WkObjectDB.decodeObjectNum(playerObj);
+			num = ObjectDB.decodeObjectNum(playerObj);
 			corePanel.setPlayerObj(num);
 		}
 		catch (MCPException e) {
@@ -78,7 +78,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		//_logger.logInfo("  verbs: '" + verbs + "'");
 		//_logger.logInfo("  parents: '" + parents + "'");
 		
-		corePanel.registerObject(mcp, WkObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
+		corePanel.registerObject(mcp, ObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
 		
 		corePanel.revalidate();
 		corePanel.repaint();
@@ -96,7 +96,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		//_logger.logInfo("  verbs: '" + verbs + "'");
 		//_logger.logInfo("  parents: '" + parents + "'");
 		
-		corePanel.registerObject(mcp, WkObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
+		corePanel.registerObject(mcp, ObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
 		
 		corePanel.revalidate();
 		corePanel.repaint();
@@ -114,7 +114,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		//_logger.logInfo("  verbs: '" + verbs + "'");
 		//_logger.logInfo("  parents: '" + parents + "'");
 		
-		corePanel.registerObject(mcp, WkObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
+		corePanel.registerObject(mcp, ObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
 		
 		corePanel.revalidate();
 		corePanel.repaint();
@@ -139,7 +139,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	}
 	
 	public void born() {
-		objectDB = new WkObjectDB(mcp);
+		objectDB = new ObjectDB(mcp);
 		addGUI();
 		
 		new Thread(this, "wookey-core: " + mcp.getWorldName()).start();
@@ -149,11 +149,11 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 		JPanel lhs = (JPanel) mcp.getWorldTab().getLeftPanel();
 		GridBagConstraints gbc = new GridBagConstraints();
 		
-		WkCorePanel parentPanel = new WkCorePanel();
+		MainPanel parentPanel = new MainPanel();
 
-		corePanel = new WkCoreTreePanel(getMCP(), server, objectDB);
+		corePanel = new TreePanel(getMCP(), server, objectDB);
 		parentPanel.setTopComponent(corePanel);
-		parentPanel.setBottomComponent(new WkCorePropsPanel(corePanel));
+		parentPanel.setBottomComponent(new DetailPanel(corePanel));
 		
 		_logger.logInfo("Adding to lhs side panel...");
 		

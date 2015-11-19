@@ -1,4 +1,4 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.com.awns.visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,6 +8,7 @@ import java.awt.Insets;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -18,11 +19,12 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import dns.uk.org.wookey.core.WkObjectDB;
+import dns.uk.org.wookey.core.ObjectDB;
 import dns.uk.org.wookey.core.WookeyCore;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.SpringUtilities;
 import uk.org.wookey.IC.Utils.TimeUtils;
+import uk.org.wookey.ICPlugin.MCP.MCP;
 
 public class PlayerList extends JPanel {
     private static final long serialVersionUID = 1L;
@@ -61,14 +63,14 @@ public class PlayerList extends JPanel {
 	
 	public void add(Player p) {
 		players.add(p);
-		Sorter.sort(players);
+		Collections.sort(players);
 		
 		buildPlayerList();
 	}
 	
 	public void setData(ArrayList<Player> p) {
 		players = p;
-		Sorter.sort(players);
+		Collections.sort(players);
 		
 		buildPlayerList();
 	}
@@ -154,7 +156,7 @@ public class PlayerList extends JPanel {
 					
 				if (handler != null) {
 					_logger.logInfo("Tell WookeyCore about object " + id);
-					handler.loadObject(WkObjectDB.decodeObjectNumNoEx(id));
+					handler.loadObject(ObjectDB.decodeObjectNumNoEx(id));
 				}
 				else {
 					_logger.logWarn("wookey core package not active");

@@ -1,10 +1,13 @@
-package uk.org.wookey.ICPlugin.MCP;
+package dns.org.mud.moo.simpleedit;
 
-import dns.uk.org.wookey.core.WkObjectDB;
+import dns.uk.org.wookey.core.ObjectDB;
 import dns.uk.org.wookey.core.WookeyCore;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
+import uk.org.wookey.ICPlugin.MCP.MCP;
+import uk.org.wookey.ICPlugin.MCP.MCPCommand;
+import uk.org.wookey.ICPlugin.MCP.MCPHandler;
 
 public class MCPSimpleEdit extends MCPHandler {
 	private Logger _logger = new Logger("MCP SimpleEdit");
@@ -44,7 +47,7 @@ public class MCPSimpleEdit extends MCPHandler {
 					WookeyCore handler = (WookeyCore) mcp.findHandler("dns-uk-org-wookey-core");
 					
 					if (handler != null) {
-						handler.loadObject(WkObjectDB.decodeObjectNumNoEx(objNum));
+						handler.loadObject(ObjectDB.decodeObjectNumNoEx(objNum));
 					}
 				}
 			}

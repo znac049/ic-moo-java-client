@@ -6,27 +6,27 @@ import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
 
-public class WkObjectDB {
+public class ObjectDB {
 	private static Logger _logger = new Logger("WkObjectDB");
-	private ArrayList<WkObject> db;
+	private ArrayList<MooObject> db;
 	private int maxObjNum;
 	
 	private MCP mcp;
 	
-	public WkObjectDB(MCP m) {
-		db = new ArrayList<WkObject>();
+	public ObjectDB(MCP m) {
+		db = new ArrayList<MooObject>();
 		maxObjNum = -1;
 		
 		mcp = m;
 	}
 	
-	public WkObject getObject(int objNum) throws MCPException {
+	public MooObject getObject(int objNum) throws MCPException {
 		if ((objNum < 0) || (objNum > maxObjNum)) {
 			throw new MCPException("Object number out of range");
 		}
 		
 		//_logger.logInfo("Look up object #" + objNum);
-		for (WkObject o: db) {
+		for (MooObject o: db) {
 			if (o.getObjNum() == objNum) {
 				//_logger.logInfo("Found it");
 				
@@ -36,7 +36,7 @@ public class WkObjectDB {
 		
 		//_logger.logInfo("No object - creating one");
 		
-		WkObject obj = new WkObject(objNum, mcp);
+		MooObject obj = new MooObject(objNum, mcp);
 		db.add(obj);
 		
 		return obj;
@@ -50,7 +50,7 @@ public class WkObjectDB {
 			return false;
 		}
 		
-		for (WkObject o: db) {
+		for (MooObject o: db) {
 			if (o.getObjNum() == objNum) {
 				//_logger.logInfo("Yes");
 				

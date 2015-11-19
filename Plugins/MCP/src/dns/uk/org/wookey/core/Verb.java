@@ -2,12 +2,12 @@ package dns.uk.org.wookey.core;
 
 import uk.org.wookey.IC.Utils.Logger;
 
-public class WkVerb implements Comparable<WkVerb> {
+public class Verb implements Comparable<Verb> {
 	private Logger _logger = new Logger("WkVerb");
 	
 	public String name;
 
-	public WkVerb(String name) {
+	public Verb(String name) {
 		_logger.logInfo("new verb '" + name + "'");
 		
 		this.name = name;
@@ -18,7 +18,7 @@ public class WkVerb implements Comparable<WkVerb> {
 	}
 
 	@Override
-	public int compareTo(WkVerb other) {
+	public int compareTo(Verb other) {
 		return name.compareToIgnoreCase(other.name);
 	}
 }

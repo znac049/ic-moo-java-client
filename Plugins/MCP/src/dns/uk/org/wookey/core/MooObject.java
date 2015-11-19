@@ -2,22 +2,21 @@ package dns.uk.org.wookey.core;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.ICPlugin.MCP.CodeNode;
 import uk.org.wookey.ICPlugin.MCP.MCP;
 
-public class WkObject {
+public class MooObject {
 	//private Logger _logger = new Logger("WkObject");
 	private int objNum;
 	private String objName;
 	private CodeNode treeNode;
 	private int parentObjNum;
 	
-	private ArrayList<WkVerb> verbList;
-	private ArrayList<WkProperty> propertyList;
+	private ArrayList<Verb> verbList;
+	private ArrayList<Property> propertyList;
 	
 	private MCP mcp;
 
-	public WkObject(int objNum, MCP mcp) {
+	public MooObject(int objNum, MCP mcp) {
 		this.objNum = objNum;
 		
 		objName = null;
@@ -25,10 +24,10 @@ public class WkObject {
 		parentObjNum = -1;
 		
 		treeNode = new CodeNode("#" + objNum);
-		treeNode.setUserObject(this);
+		treeNode.setUserObject(this); 
 		
-		verbList = new ArrayList<WkVerb>();
-		propertyList = new ArrayList<WkProperty>();
+		verbList = new ArrayList<Verb>();
+		propertyList = new ArrayList<Property>();
 		
 		this.mcp = mcp;
 	}
@@ -42,26 +41,26 @@ public class WkObject {
 	}
 	
 	public void addProperty(String name) {
-		for (WkProperty prop: propertyList) {
+		for (Property prop: propertyList) {
 			if (prop.getName().equals(name)) {
 				// Already got it
 				return;
 			}
 		}
 		
-		WkProperty prop = new WkProperty(name);
+		Property prop = new Property(name);
 		propertyList.add(prop);
 	}
 	
 	public void addVerb(String name) {
-		for (WkVerb vb: verbList) {
+		for (Verb vb: verbList) {
 			if (vb.getName().equals(name)) {
 				// Already got it
 				return;
 			}
 		}
 		
-		WkVerb vb = new WkVerb(name);
+		Verb vb = new Verb(name);
 		verbList.add(vb);
 	}
 	
@@ -97,11 +96,11 @@ public class WkObject {
 		this.parentObjNum = parentObjNum;
 	}
 	
-	public ArrayList<WkProperty> getPropertyList() {
+	public ArrayList<Property> getPropertyList() {
 		return propertyList;
 	}
 	
-	public ArrayList<WkVerb> getVerbList() {
+	public ArrayList<Verb> getVerbList() {
 		return verbList;
 	}
 	

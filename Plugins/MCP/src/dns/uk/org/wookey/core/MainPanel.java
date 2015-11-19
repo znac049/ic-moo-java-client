@@ -2,10 +2,10 @@ package dns.uk.org.wookey.core;
 
 import javax.swing.JSplitPane;
 
-public class WkCorePanel extends JSplitPane {
+public class MainPanel extends JSplitPane {
 	private static final long serialVersionUID = 1L;
 
-	public WkCorePanel() {
+	public MainPanel() {
 		super(JSplitPane.VERTICAL_SPLIT, true);
 		
 		setResizeWeight(0.5);

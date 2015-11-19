@@ -14,7 +14,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.ICPlugin.MCP.MCPCommand;
 
-public class WkCorePropsPanel extends JPanel implements TreeSelectionListener {
+public class DetailPanel extends JPanel implements TreeSelectionListener {
 	private static final long serialVersionUID = 1L;
 
 	private Logger _logger = new Logger("WkCorePropsPanel");
@@ -24,7 +24,7 @@ public class WkCorePropsPanel extends JPanel implements TreeSelectionListener {
 	private VerbList verbs;
 	private JTabbedPane tabs;
 	
-	public WkCorePropsPanel(WkCoreTreePanel corePanel) {
+	public DetailPanel(TreePanel corePanel) {
 		super();
 		
 		setLayout(new BorderLayout());
@@ -51,12 +51,12 @@ public class WkCorePropsPanel extends JPanel implements TreeSelectionListener {
 		if (node == null) return;
 
 		/* retrieve the node that was selected */ 
-		WkObject ob = (WkObject) node.getUserObject();
+		MooObject ob = (MooObject) node.getUserObject();
 		
 		_logger.logInfo("NODE: " + ob.getName());
 		
-		ArrayList<WkProperty> pList = ob.getPropertyList();
-		for (WkProperty prop: pList) {
+		ArrayList<Property> pList = ob.getPropertyList();
+		for (Property prop: pList) {
 			// fire off MCP getprop requests to the server
 			MCPCommand cmd = new MCPCommand();
 			
@@ -71,8 +71,8 @@ public class WkCorePropsPanel extends JPanel implements TreeSelectionListener {
 		Collections.sort(pList);
 		props.buildList(pList);
 		
-		ArrayList<WkVerb> vList = ob.getVerbList();
-		for (WkVerb verb: vList) {
+		ArrayList<Verb> vList = ob.getVerbList();
+		for (Verb verb: vList) {
 			// fire off MCP getverb requests to the server
 			MCPCommand cmd = new MCPCommand();
 			

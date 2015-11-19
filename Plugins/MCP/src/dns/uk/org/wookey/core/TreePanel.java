@@ -18,12 +18,11 @@ import javax.swing.tree.TreePath;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ServerConnection;
-import uk.org.wookey.ICPlugin.MCP.CodeNode;
 import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPCommand;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
 
-public class WkCoreTreePanel extends JPanel {
+public class TreePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private Logger _logger = new Logger("WkCorePanel");
@@ -34,9 +33,9 @@ public class WkCoreTreePanel extends JPanel {
 	private JTree tree;
 	private CodeNode objectRoot;
 	private int playerObjNum;
-	private WkObjectDB objectDB;
+	private ObjectDB objectDB;
 	
-	public WkCoreTreePanel(MCP mcp, ServerConnection server, WkObjectDB oDB) {
+	public TreePanel(MCP mcp, ServerConnection server, ObjectDB oDB) {
 		super();
 		
 		setLayout(new BorderLayout());
@@ -62,7 +61,7 @@ public class WkCoreTreePanel extends JPanel {
 	public void registerObject(MCP mcp, int objNum, String objName, String props, String verbs, String parents) {
 		String[] parentItems;
 		boolean root = true;
-		WkObject ancestor = null;
+		MooObject ancestor = null;
 		int ancestorObjNum = -1;
 		
 		if (!parents.equals("")) {
@@ -70,7 +69,7 @@ public class WkCoreTreePanel extends JPanel {
 
 			for (int i=parentItems.length-1; i>=0; i--) {
 				String parent = parentItems[i];
-				int parentObjNum = WkObjectDB.decodeObjectNumNoEx(parent);
+				int parentObjNum = ObjectDB.decodeObjectNumNoEx(parent);
 				
 				if (objectDB.objectExists(parentObjNum)) {
 					//_logger.logInfo("Parent: " + parent + " exists");
@@ -84,7 +83,7 @@ public class WkCoreTreePanel extends JPanel {
 				}
 				else {
 					//_logger.logInfo("Parent: " + parent + " doesn't exist");
-					WkObject ob;
+					MooObject ob;
 					try {
 						ob = objectDB.getObject(parentObjNum);
 					} catch (MCPException e) {
@@ -121,7 +120,7 @@ public class WkCoreTreePanel extends JPanel {
 			}
 		}
 
-		WkObject ob;
+		MooObject ob;
 		try {
 			ob = objectDB.getObject(objNum);
 		} catch (MCPException e) {
@@ -191,8 +190,8 @@ public class WkCoreTreePanel extends JPanel {
 			Object userObj = node.getUserObject();
 			String label;
 			
-			if (userObj instanceof WkObject) {
-				WkObject ob = (WkObject)userObj;
+			if (userObj instanceof MooObject) {
+				MooObject ob = (MooObject)userObj;
 				
 				//setIcon(objectImage);
 				label = ob.tostring();
