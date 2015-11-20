@@ -193,38 +193,14 @@ public class TreePanel extends JPanel {
 			if (userObj instanceof MooObject) {
 				MooObject ob = (MooObject)userObj;
 				
-				//setIcon(objectImage);
 				label = ob.tostring();
-			}
-			else if (userObj instanceof String) {
-				label = (String)userObj;
-				
-				if ((label.length() > 0) && (label.startsWith("."))) {
-					//setIcon(propertyImage);
-				}
-				else if ((label.length() > 0) && (label.startsWith(":"))) {
-					//setIcon(verbImage);
-					label = label.substring(1) + "()";
-				}
-				else {
-					//setIcon(nodeImage);
-				}
 			}
 			else {
 				label = "???";
-				//setIcon(nodeImage);
 			}
 			
 			this.bSelected = bSelected;
 			
-			// Set the correct foreground color
-			//if( !bSelected ) {
-			//	setForeground( Color.black );
-			//}
-			//else {
-			//	setForeground( Color.white );
-			//}
-		
 			// Add the text to the cell
 			setText(label);
 		

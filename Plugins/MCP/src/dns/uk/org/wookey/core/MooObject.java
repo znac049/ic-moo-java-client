@@ -62,6 +62,16 @@ public class MooObject {
 		verbList.add(vb);
 	}
 	
+	public Property getProperty(String name) {
+		for (Property prop: propertyList) {
+			if (prop.hasName(name)) {
+				return prop;
+			}
+		}
+		
+		return null;
+	}
+	
 	public void setName(String objName) {
 		this.objName = objName;
 	}

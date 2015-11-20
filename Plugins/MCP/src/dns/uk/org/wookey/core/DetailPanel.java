@@ -1,6 +1,8 @@
 package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,12 +12,13 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPCommand;
 
-public class DetailPanel extends JPanel implements TreeSelectionListener {
+public class DetailPanel extends JPanel implements TreeSelectionListener, MouseListener {
 	private static final long serialVersionUID = 1L;
 
 	private Logger _logger = new Logger("WkCorePropsPanel");
@@ -31,7 +34,8 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 		setLayout(new BorderLayout());
 		
 		tree = corePanel.getTree();
-		tree.addTreeSelectionListener(this);		
+		//tree.addTreeSelectionListener(this);
+		tree.addMouseListener(this);
 
 		tabs = new JTabbedPane();
 		
@@ -43,37 +47,33 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 		
 		add(tabs, BorderLayout.CENTER);
 	}
-
-	@Override
-	public void valueChanged(TreeSelectionEvent arg0) {
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
-
-		/* if nothing is selected */ 
-		if (node == null) return;
-
-		/* retrieve the node that was selected */ 
-		MooObject ob = (MooObject) node.getUserObject();
+	
+	private void queryPropertyDetails(MooObject ob) {
 		MCP mcp = ob.getMCPHandler().getMCP();
-		
-		_logger.logInfo("NODE: " + ob.getName());
-		
 		ArrayList<Property> pList = ob.getPropertyList();
+
 		for (Property prop: pList) {
 			// fire off MCP getprop requests to the server
 			MCPCommand cmd = new MCPCommand();
 			
+			_logger.logInfo("getprop: #" + ob.getObjNum() + "." + prop.getName());
+			
 			cmd.setAuthKey(mcp.authKey);
 			cmd.setName(WookeyCoreHandler.packageName, "getprop");
 			cmd.addParam("objnum", "" + ob.getObjNum());
-			cmd.addParam("propertyname", "" + prop.getName());
+			cmd.addParam("propname", "" + prop.getName());
 			
 			mcp.queueOutgoingCommand(cmd);
 		}
-				
+
 		Collections.sort(pList);
 		props.buildList(pList);
-		
+	}
+
+	private void queryVerbDetails(MooObject ob) {
+		MCP mcp = ob.getMCPHandler().getMCP();
 		ArrayList<Verb> vList = ob.getVerbList();
+
 		for (Verb verb: vList) {
 			// fire off MCP getverb requests to the server
 			MCPCommand cmd = new MCPCommand();
@@ -81,14 +81,74 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 			cmd.setAuthKey(mcp.authKey);
 			cmd.setName(WookeyCoreHandler.packageName, "getverb");
 			cmd.addParam("objnum", "" + ob.getObjNum());
-			cmd.addParam("propertyname", "" + verb.getName());
+			cmd.addParam("verbname", "" + verb.getName());
 			
 			mcp.queueOutgoingCommand(cmd);
 		}
 				
 		Collections.sort(vList);
 		verbs.buildList(vList);
+	}
+	
+	@Override
+	public void valueChanged(TreeSelectionEvent e) {
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+
+		/* if nothing is selected */ 
+		if (node == null) return;
+
+		/* retrieve the node that was selected */ 
+		MooObject ob = (MooObject) node.getUserObject();
+		
+		_logger.logInfo("NODE: " + ob.getName());
+		
+		queryPropertyDetails(ob);
+		queryVerbDetails(ob);
 		
 		tabs.repaint();
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+        int selRow = tree.getRowForLocation(e.getX(), e.getY());
+        TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
+        
+        if (selPath == null) {
+        	return;
+        }
+        
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+
+		if(selRow != -1) {
+			MooObject ob = (MooObject) node.getUserObject();
+
+			if(e.getClickCount() == 1) {
+                _logger.logInfo("SINGLE: " + ob.getName());
+                
+        		queryPropertyDetails(ob);
+        		queryVerbDetails(ob);
+        		
+        		tabs.repaint();
+            }
+            else if(e.getClickCount() == 2) {
+                _logger.logInfo("DOUBLE: " + ob.getName());
+            }
+        }
+ 	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
 	}
 }

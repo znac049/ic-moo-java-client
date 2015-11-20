@@ -16,10 +16,13 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.SpringUtilities;
 
 public class PropertyList extends JPanel {
 	private static final long serialVersionUID = 1L;
+	
+	private Logger _logger = new Logger("PropertyList");
 
 	private JPanel props;
 	
@@ -50,8 +53,6 @@ public class PropertyList extends JPanel {
 		for (Property prop: pList) {
 			final JButton pName = new JButton(prop.getName());
 			
-			JLabel pIdle = new JLabel("42");
-			
 			pName.setOpaque(true);
 			pName.setContentAreaFilled(false);
 			pName.setBorder(null);
@@ -64,15 +65,29 @@ public class PropertyList extends JPanel {
 			pName.setBackground(Color.GREEN);
 
 			//pLoc.setOpaque(false);
-			pIdle.setOpaque(false);
+			//pIdle.setOpaque(false);
 			
 			props.add(pName);
 			//connectedPlayers.add(pLoc);
-			props.add(pIdle);
+
+			JLabel owner = new JLabel("-");
+			JLabel perms = new JLabel("-");
+			
+			if (prop.isValid()) {
+				owner.setText(prop.getOwner());
+				perms.setText(prop.getPerms());
+			}
+			
+			props.add(owner);
+			props.add(perms);
 		}
 		
-		SpringUtilities.makeCompactGrid(props, pList.size(), 2, 0, 0, 2, 2);
+		SpringUtilities.makeCompactGrid(props, pList.size(), 3, 0, 0, 2, 2);
 		
 		props.revalidate();
+	}
+	
+	public void validate() {
+		_logger.logInfo("WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 	}
 }

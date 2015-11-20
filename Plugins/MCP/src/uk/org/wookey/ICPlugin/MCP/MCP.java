@@ -102,10 +102,11 @@ public class MCP extends IOPlugin {
 		String line = l.get();
 		MCPCommand cmd = new MCPCommand();
 		
-		//_logger.logInfo("Does the MCP lugin care about '" + line + "'?");
 		if (!line.startsWith(outOfBandToken)) {
 			return IOPluginInterface.Status.IGNORED;
 		}
+		
+		_logger.logInfo("Got: '" + line + "'");
 		
 		line = line.substring(outOfBandToken.length());
 

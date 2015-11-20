@@ -15,13 +15,16 @@ import uk.org.wookey.ICPlugin.MCP.MCPHandler;
 
 public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCPWookeyCore");
-	private TreePanel corePanel;
-	private ObjectDB objectDB;
+	private TreePanel treePanel;
+	private DetailPanel detailPanel;
+	private ObjectDB objectDB;	
 	
 	public final static String packageName = "dns-uk-org-wookey-core";
 	
 	public WookeyCoreHandler(ServerConnection svr, MCP mcp) throws ParserException {
 		super(packageName, "1.0", "1.0", svr, mcp);
+		
+		detailPanel = null;
 	}
 	
 	public void handle(MCPCommand command, String key) {
@@ -49,7 +52,7 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 			objectDB.setMaxObject(num);
 
 			num = ObjectDB.decodeObjectNum(playerObj);
-			corePanel.setPlayerObj(num);
+			treePanel.setPlayerObj(num);
 		}
 		catch (MCPException e) {
 			
@@ -78,46 +81,62 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 		//_logger.logInfo("  verbs: '" + verbs + "'");
 		//_logger.logInfo("  parents: '" + parents + "'");
 		
-		corePanel.registerObject(mcp, ObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
+		treePanel.registerObject(mcp, ObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
 		
-		corePanel.revalidate();
-		corePanel.repaint();
+		treePanel.revalidate();
+		treePanel.repaint();
 	}
 	
 	private void handlePropCommand(MCPCommand command, String key) {
-		String obName = command.getParam("name");
+		String propName = command.getParam("propname");
 		String obNum = command.getParam("objnum");
-		String properties = command.getParam("properties");			
-		String verbs = command.getParam("verbs");			
-		String parents = command.getParam("parents");			
+		String owner = command.getParam("owner");
+		String perms = command.getParam("perms");
 
-		//_logger.logInfo("Obj command, objnum " + obNum);
-		//_logger.logInfo("  props: '" + properties + "'");
-		//_logger.logInfo("  verbs: '" + verbs + "'");
-		//_logger.logInfo("  parents: '" + parents + "'");
+		_logger.logInfo("Prop command,  #" + obNum + "." + propName);
+		_logger.logInfo("  owner: '" + owner + "'");
+		_logger.logInfo("  perms: '" + perms + "'");
 		
-		corePanel.registerObject(mcp, ObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
+		MooObject ob;
+		try {
+			ob = objectDB.getObject(Integer.parseInt(obNum));
+		} catch (NumberFormatException | MCPException e) {
+			_logger.logError("Bad object number '" + obNum + "' in response", e);
+			return;
+		}
+
+		Property prop = ob.getProperty(propName);
+		if (prop == null) {
+			_logger.logError("No property '" + propName + "' on object '" + ob.getName() + "' (#" + ob.getObjNum() + ")");
+			return;
+		}
 		
-		corePanel.revalidate();
-		corePanel.repaint();
+		prop.setDetail(owner, perms);
+		
+		detailPanel.revalidate();
+		detailPanel.repaint();
 	}
 	
 	private void handleVerbCommand(MCPCommand command, String key) {
-		String obName = command.getParam("name");
+		String verbName = command.getParam("verbname");
 		String obNum = command.getParam("objnum");
-		String properties = command.getParam("properties");			
-		String verbs = command.getParam("verbs");			
-		String parents = command.getParam("parents");			
+		String owner = command.getParam("owner");
+		String perms = command.getParam("perms");
+		String name = command.getParam("name");
+		String direct = command.getParam("direct");
+		String prep = command.getParam("prep");
+		String indirect = command.getParam("indirect");
 
-		//_logger.logInfo("Obj command, objnum " + obNum);
-		//_logger.logInfo("  props: '" + properties + "'");
-		//_logger.logInfo("  verbs: '" + verbs + "'");
-		//_logger.logInfo("  parents: '" + parents + "'");
+		_logger.logInfo("Verb command,  #" + obNum + ":" + verbName);
+		_logger.logInfo("  owner: '" + owner + "'");
+		_logger.logInfo("  perms: '" + perms + "'");
+		_logger.logInfo("  name: '" + name + "'");
+		_logger.logInfo("  direct: '" + direct + "'");
+		_logger.logInfo("  prep: '" + prep + "'");
+		_logger.logInfo("  indirect: '" + indirect + "'");
 		
-		corePanel.registerObject(mcp, ObjectDB.decodeObjectNumNoEx(obNum), obName, properties, verbs, parents);
-		
-		corePanel.revalidate();
-		corePanel.repaint();
+		//corePanel.revalidate();
+		//corePanel.repaint();
 	}
 	
 	public void loadObject(int objNum) {
@@ -152,9 +171,11 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 		
 		MainPanel parentPanel = new MainPanel();
 
-		corePanel = new TreePanel(getMCP(), server, objectDB);
-		parentPanel.setTopComponent(corePanel);
-		parentPanel.setBottomComponent(new DetailPanel(corePanel));
+		treePanel = new TreePanel(getMCP(), server, objectDB);
+		detailPanel = new DetailPanel(treePanel);
+		
+		parentPanel.setTopComponent(treePanel);
+		parentPanel.setBottomComponent(detailPanel);
 		
 		_logger.logInfo("Adding to lhs side panel...");
 		
