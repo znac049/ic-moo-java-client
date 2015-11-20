@@ -67,9 +67,6 @@ public class PropertyList extends JPanel {
 			//pLoc.setOpaque(false);
 			//pIdle.setOpaque(false);
 			
-			props.add(pName);
-			//connectedPlayers.add(pLoc);
-
 			JLabel owner = new JLabel("-");
 			JLabel perms = new JLabel("-");
 			
@@ -78,6 +75,7 @@ public class PropertyList extends JPanel {
 				perms.setText(prop.getPerms());
 			}
 			
+			props.add(pName);
 			props.add(owner);
 			props.add(perms);
 		}

@@ -93,9 +93,9 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 		String owner = command.getParam("owner");
 		String perms = command.getParam("perms");
 
-		_logger.logInfo("Prop command,  #" + obNum + "." + propName);
-		_logger.logInfo("  owner: '" + owner + "'");
-		_logger.logInfo("  perms: '" + perms + "'");
+		//_logger.logInfo("Prop command,  #" + obNum + "." + propName);
+		//_logger.logInfo("  owner: '" + owner + "'");
+		//_logger.logInfo("  perms: '" + perms + "'");
 		
 		MooObject ob;
 		try {
@@ -122,21 +122,38 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 		String obNum = command.getParam("objnum");
 		String owner = command.getParam("owner");
 		String perms = command.getParam("perms");
+		@SuppressWarnings("unused")
 		String name = command.getParam("name");
 		String direct = command.getParam("direct");
 		String prep = command.getParam("prep");
 		String indirect = command.getParam("indirect");
 
-		_logger.logInfo("Verb command,  #" + obNum + ":" + verbName);
-		_logger.logInfo("  owner: '" + owner + "'");
-		_logger.logInfo("  perms: '" + perms + "'");
-		_logger.logInfo("  name: '" + name + "'");
-		_logger.logInfo("  direct: '" + direct + "'");
-		_logger.logInfo("  prep: '" + prep + "'");
-		_logger.logInfo("  indirect: '" + indirect + "'");
+		//_logger.logInfo("Verb command,  #" + obNum + ":" + verbName);
+		//_logger.logInfo("  owner: '" + owner + "'");
+		//_logger.logInfo("  perms: '" + perms + "'");
+		//_logger.logInfo("  name: '" + name + "'");
+		//_logger.logInfo("  direct: '" + direct + "'");
+		//_logger.logInfo("  prep: '" + prep + "'");
+		//_logger.logInfo("  indirect: '" + indirect + "'");
 		
-		//corePanel.revalidate();
-		//corePanel.repaint();
+		MooObject ob;
+		try {
+			ob = objectDB.getObject(Integer.parseInt(obNum));
+		} catch (NumberFormatException | MCPException e) {
+			_logger.logError("Bad object number '" + obNum + "' in response", e);
+			return;
+		}
+
+		Verb verb = ob.getVerb(verbName);
+		if (verb == null) {
+			_logger.logError("No verb '" + verbName + "' on object '" + ob.getName() + "' (#" + ob.getObjNum() + ")");
+			return;
+		}
+		
+		verb.setDetail(owner, perms, direct, prep, indirect);
+		
+		detailPanel.revalidate();
+		detailPanel.repaint();
 	}
 	
 	public void loadObject(int objNum) {

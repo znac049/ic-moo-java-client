@@ -72,6 +72,16 @@ public class MooObject {
 		return null;
 	}
 	
+	public Verb getVerb(String name) {
+		for (Verb verb: verbList) {
+			if (verb.hasName(name)) {
+				return verb;
+			}
+		}
+		
+		return null;
+	}
+	
 	public void setName(String objName) {
 		this.objName = objName;
 	}

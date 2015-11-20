@@ -106,7 +106,7 @@ public class MCP extends IOPlugin {
 			return IOPluginInterface.Status.IGNORED;
 		}
 		
-		_logger.logInfo("Got: '" + line + "'");
+		//_logger.logInfo("Got: '" + line + "'");
 		
 		line = line.substring(outOfBandToken.length());
 

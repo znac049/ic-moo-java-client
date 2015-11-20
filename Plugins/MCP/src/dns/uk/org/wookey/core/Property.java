@@ -17,6 +17,9 @@ public class Property implements Comparable<Property> {
 		containingObject = ob;
 		name = propName;
 		
+		owner = null;
+		perms = null;
+		
 		isValid = false;
 	}
 	
