@@ -11,7 +11,7 @@ import dns.com.awns.status.MCPStatus;
 import dns.com.awns.timezone.MCPTimezone;
 import dns.com.awns.visual.MCPVisual;
 import dns.org.mud.moo.simpleedit.MCPSimpleEdit;
-import dns.uk.org.wookey.core.WookeyCore;
+import dns.uk.org.wookey.core.WookeyCoreHandler;
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.Utils.CorePluginInterface;
 import uk.org.wookey.IC.Utils.IOPluginInterface;
@@ -28,7 +28,7 @@ public class MCP extends IOPlugin {
 	private MCPVersion _minVer;
 	private MCPVersion _maxVer;
 	public MCPSession _mcpSession;
-	private WookeyCore _core;
+	private WookeyCoreHandler _core;
 	private ArrayList<MCPHandler> _handlers;
 	public String authKey;
 	
@@ -53,7 +53,7 @@ public class MCP extends IOPlugin {
 		authKey = "ic0" + System.currentTimeMillis() % 10;
 		
 		try {
-			_core = new WookeyCore(server, this);
+			_core = new WookeyCoreHandler(server, this);
 			_handlers.add(_core);
 			_handlers.add(new MCPNegotiate(server, this));
 			_handlers.add(new MCPSimpleEdit(server, this));

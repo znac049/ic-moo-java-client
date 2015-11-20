@@ -108,7 +108,7 @@ public class TreePanel extends JPanel {
 					//Request details about the object
 					MCPCommand cmd = new MCPCommand();
 					cmd.setAuthKey(mcp.authKey);
-					cmd.setName(WookeyCore.packageName, "getobj");
+					cmd.setName(WookeyCoreHandler.packageName, "getobj");
 					cmd.addParam("objnum", ""+parentObjNum);
 					queueCommand(cmd);
 					

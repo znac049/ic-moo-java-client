@@ -1,7 +1,7 @@
 package dns.org.mud.moo.simpleedit;
 
 import dns.uk.org.wookey.core.ObjectDB;
-import dns.uk.org.wookey.core.WookeyCore;
+import dns.uk.org.wookey.core.WookeyCoreHandler;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
@@ -44,7 +44,7 @@ public class MCPSimpleEdit extends MCPHandler {
 					String objNum = ref.substring(0, colon);
 					
 					_logger.logInfo("Tell WookeyCore about object " + objNum);
-					WookeyCore handler = (WookeyCore) mcp.findHandler("dns-uk-org-wookey-core");
+					WookeyCoreHandler handler = (WookeyCoreHandler) mcp.findHandler("dns-uk-org-wookey-core");
 					
 					if (handler != null) {
 						handler.loadObject(ObjectDB.decodeObjectNumNoEx(objNum));

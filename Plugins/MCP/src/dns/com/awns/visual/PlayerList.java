@@ -20,7 +20,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import dns.uk.org.wookey.core.ObjectDB;
-import dns.uk.org.wookey.core.WookeyCore;
+import dns.uk.org.wookey.core.WookeyCoreHandler;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.SpringUtilities;
 import uk.org.wookey.IC.Utils.TimeUtils;
@@ -152,7 +152,7 @@ public class PlayerList extends JPanel {
 			
 			// If the Wookey-core package is loaded, tell it about this object.
 			if (mcp.packageActive("dns-uk-org-wookey-core")) {
-				WookeyCore handler = (WookeyCore) mcp.findHandler("dns-uk-org-wookey-core");
+				WookeyCoreHandler handler = (WookeyCoreHandler) mcp.findHandler("dns-uk-org-wookey-core");
 					
 				if (handler != null) {
 					_logger.logInfo("Tell WookeyCore about object " + id);

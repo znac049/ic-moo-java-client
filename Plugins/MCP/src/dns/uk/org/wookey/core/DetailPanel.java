@@ -61,7 +61,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 			MCPCommand cmd = new MCPCommand();
 			
 			cmd.setAuthKey(ob.getMCP().authKey);
-			cmd.setName(WookeyCore.packageName, "getprop");
+			cmd.setName(WookeyCoreHandler.packageName, "getprop");
 			cmd.addParam("objnum", "" + ob.getObjNum());
 			cmd.addParam("propertyname", "" + prop.getName());
 			
@@ -77,7 +77,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 			MCPCommand cmd = new MCPCommand();
 			
 			cmd.setAuthKey(ob.getMCP().authKey);
-			cmd.setName(WookeyCore.packageName, "getverb");
+			cmd.setName(WookeyCoreHandler.packageName, "getverb");
 			cmd.addParam("objnum", "" + ob.getObjNum());
 			cmd.addParam("propertyname", "" + verb.getName());
 			

@@ -13,14 +13,14 @@ import uk.org.wookey.ICPlugin.MCP.MCPCommand;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
 import uk.org.wookey.ICPlugin.MCP.MCPHandler;
 
-public class WookeyCore  extends MCPHandler implements Runnable {
+public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 	private Logger _logger = new Logger("MCPWookeyCore");
 	private TreePanel corePanel;
 	private ObjectDB objectDB;
 	
 	public final static String packageName = "dns-uk-org-wookey-core";
 	
-	public WookeyCore(ServerConnection svr, MCP mcp) throws ParserException {
+	public WookeyCoreHandler(ServerConnection svr, MCP mcp) throws ParserException {
 		super(packageName, "1.0", "1.0", svr, mcp);
 	}
 	
@@ -140,6 +140,7 @@ public class WookeyCore  extends MCPHandler implements Runnable {
 	
 	public void born() {
 		objectDB = new ObjectDB(mcp);
+		
 		addGUI();
 		
 		new Thread(this, "wookey-core: " + mcp.getWorldName()).start();
