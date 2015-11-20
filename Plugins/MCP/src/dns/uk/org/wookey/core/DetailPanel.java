@@ -12,6 +12,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPCommand;
 
 public class DetailPanel extends JPanel implements TreeSelectionListener {
@@ -52,6 +53,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 
 		/* retrieve the node that was selected */ 
 		MooObject ob = (MooObject) node.getUserObject();
+		MCP mcp = ob.getMCPHandler().getMCP();
 		
 		_logger.logInfo("NODE: " + ob.getName());
 		
@@ -60,12 +62,12 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 			// fire off MCP getprop requests to the server
 			MCPCommand cmd = new MCPCommand();
 			
-			cmd.setAuthKey(ob.getMCP().authKey);
+			cmd.setAuthKey(mcp.authKey);
 			cmd.setName(WookeyCoreHandler.packageName, "getprop");
 			cmd.addParam("objnum", "" + ob.getObjNum());
 			cmd.addParam("propertyname", "" + prop.getName());
 			
-			ob.getMCP().queueOutgoingCommand(cmd);
+			mcp.queueOutgoingCommand(cmd);
 		}
 				
 		Collections.sort(pList);
@@ -76,12 +78,12 @@ public class DetailPanel extends JPanel implements TreeSelectionListener {
 			// fire off MCP getverb requests to the server
 			MCPCommand cmd = new MCPCommand();
 			
-			cmd.setAuthKey(ob.getMCP().authKey);
+			cmd.setAuthKey(mcp.authKey);
 			cmd.setName(WookeyCoreHandler.packageName, "getverb");
 			cmd.addParam("objnum", "" + ob.getObjNum());
 			cmd.addParam("propertyname", "" + verb.getName());
 			
-			ob.getMCP().queueOutgoingCommand(cmd);
+			mcp.queueOutgoingCommand(cmd);
 		}
 				
 		Collections.sort(vList);

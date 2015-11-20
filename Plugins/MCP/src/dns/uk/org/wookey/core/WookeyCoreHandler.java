@@ -139,7 +139,7 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 	}
 	
 	public void born() {
-		objectDB = new ObjectDB(mcp);
+		objectDB = new ObjectDB(this);
 		
 		addGUI();
 		

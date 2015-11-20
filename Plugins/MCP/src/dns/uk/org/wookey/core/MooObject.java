@@ -2,8 +2,6 @@ package dns.uk.org.wookey.core;
 
 import java.util.ArrayList;
 
-import uk.org.wookey.ICPlugin.MCP.MCP;
-
 public class MooObject {
 	//private Logger _logger = new Logger("WkObject");
 	private int objNum;
@@ -14,9 +12,9 @@ public class MooObject {
 	private ArrayList<Verb> verbList;
 	private ArrayList<Property> propertyList;
 	
-	private MCP mcp;
+	private WookeyCoreHandler mcpHandler;
 
-	public MooObject(int objNum, MCP mcp) {
+	public MooObject(int objNum, WookeyCoreHandler handler) {
 		this.objNum = objNum;
 		
 		objName = null;
@@ -29,7 +27,7 @@ public class MooObject {
 		verbList = new ArrayList<Verb>();
 		propertyList = new ArrayList<Property>();
 		
-		this.mcp = mcp;
+		mcpHandler = handler;
 	}
 	
 	public String tostring() {
@@ -48,7 +46,7 @@ public class MooObject {
 			}
 		}
 		
-		Property prop = new Property(name);
+		Property prop = new Property(this, name);
 		propertyList.add(prop);
 	}
 	
@@ -60,7 +58,7 @@ public class MooObject {
 			}
 		}
 		
-		Verb vb = new Verb(name);
+		Verb vb = new Verb(this, name);
 		verbList.add(vb);
 	}
 	
@@ -104,7 +102,7 @@ public class MooObject {
 		return verbList;
 	}
 	
-	public MCP getMCP() {
-		return mcp;
+	public WookeyCoreHandler getMCPHandler() {
+		return mcpHandler;
 	}
 }

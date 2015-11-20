@@ -3,7 +3,6 @@ package dns.uk.org.wookey.core;
 import java.util.ArrayList;
 
 import uk.org.wookey.IC.Utils.Logger;
-import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
 
 public class ObjectDB {
@@ -11,13 +10,13 @@ public class ObjectDB {
 	private ArrayList<MooObject> db;
 	private int maxObjNum;
 	
-	private MCP mcp;
+	private WookeyCoreHandler mcpHandler;
 	
-	public ObjectDB(MCP m) {
+	public ObjectDB(WookeyCoreHandler handler) {
 		db = new ArrayList<MooObject>();
 		maxObjNum = -1;
 		
-		mcp = m;
+		mcpHandler = handler;
 	}
 	
 	public MooObject getObject(int objNum) throws MCPException {
@@ -36,7 +35,7 @@ public class ObjectDB {
 		
 		//_logger.logInfo("No object - creating one");
 		
-		MooObject obj = new MooObject(objNum, mcp);
+		MooObject obj = new MooObject(objNum, mcpHandler);
 		db.add(obj);
 		
 		return obj;

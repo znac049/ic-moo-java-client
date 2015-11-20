@@ -6,14 +6,20 @@ public class Property implements Comparable<Property> {
 	@SuppressWarnings("unused")
 	private Logger _logger = new Logger("WkProperty");
 	
-	public String name;
+	private String name;
+	private MooObject ownerObject;
 
-	public Property(String name) {
-		this.name = name;
+	public Property(MooObject ob, String propName) {
+		ownerObject = ob;
+		name = propName;
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public MooObject getOwnerObject() {
+		return ownerObject;
 	}
 
 	@Override

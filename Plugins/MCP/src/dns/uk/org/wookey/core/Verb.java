@@ -3,18 +3,23 @@ package dns.uk.org.wookey.core;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class Verb implements Comparable<Verb> {
+	@SuppressWarnings("unused")
 	private Logger _logger = new Logger("WkVerb");
 	
-	public String name;
+	private String name;
+	private MooObject ownerObject;
 
-	public Verb(String name) {
-		_logger.logInfo("new verb '" + name + "'");
-		
-		this.name = name;
+	public Verb(MooObject ob, String verbName) {
+		ownerObject = ob;
+		name = verbName;
 	}
 	
 	public String getName() {
 		return name;
+	}
+	
+	public MooObject getOwnerObject() {
+		return ownerObject;
 	}
 
 	@Override
