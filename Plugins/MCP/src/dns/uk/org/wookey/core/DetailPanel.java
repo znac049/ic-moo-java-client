@@ -78,10 +78,21 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 			// fire off MCP getverb requests to the server
 			MCPCommand cmd = new MCPCommand();
 			
+			String vbName = verb.getName();
+			int space = vbName.indexOf(' ');
+			if (space != -1) {
+				vbName = vbName.substring(0,  space);
+			}
+			
+			int asterix = vbName.indexOf('*');
+			if (asterix != -1) {
+				vbName = vbName.substring(0,  asterix);
+			}
+			
 			cmd.setAuthKey(mcp.authKey);
 			cmd.setName(WookeyCoreHandler.packageName, "getverb");
 			cmd.addParam("objnum", "" + ob.getObjNum());
-			cmd.addParam("verbname", "" + verb.getName());
+			cmd.addParam("verbname", "" + vbName);
 			
 			mcp.queueOutgoingCommand(cmd);
 		}

@@ -69,7 +69,15 @@ public class Verb implements Comparable<Verb> {
 	}
 	
 	public boolean hasName(String target) {
-		return name.equalsIgnoreCase(target);
+		String[] names = name.split(" ");
+		
+		for (String name: names) {
+			if (name.equalsIgnoreCase(target)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	@Override
