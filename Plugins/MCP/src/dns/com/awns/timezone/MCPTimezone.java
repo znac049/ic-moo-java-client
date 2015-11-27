@@ -20,7 +20,7 @@ public class MCPTimezone extends MCPHandler implements Runnable {
 	}
 	
 	public void born() {
-		new Thread(this, "tz: " + mcp.getWorldName()).start();
+		new Thread(this, "mcp-awns-timezone: " + mcp.getWorldName()).start();
 	}
 	
 	public void run() {

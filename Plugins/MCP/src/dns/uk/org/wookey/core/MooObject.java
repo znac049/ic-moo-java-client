@@ -2,8 +2,11 @@ package dns.uk.org.wookey.core;
 
 import java.util.ArrayList;
 
+import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.ICPlugin.MCP.MCPException;
+
 public class MooObject {
-	//private Logger _logger = new Logger("WkObject");
+	private Logger _logger = new Logger("WkObject");
 	private int objNum;
 	private String objName;
 	private CodeNode treeNode;
@@ -114,7 +117,29 @@ public class MooObject {
 		this.parentObjNum = parentObjNum;
 	}
 	
-	public ArrayList<Property> getPropertyList() {
+	private int locationOf(Property prop, ArrayList<Property> props) {
+		for (int i=0; i<props.size(); i++) {
+			Property p = props.get(i);
+			
+			if (p.getName().equalsIgnoreCase(prop.getName())) {
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+	
+	private ArrayList<Property> mergeWithParentProperties() {
+		_logger.logInfo("merging with parent properties");
+		
+		return propertyList;
+	}
+	
+	public ArrayList<Property> getPropertyList(boolean recurse) {
+		if (recurse) {
+			return mergeWithParentProperties();
+		}
+		
 		return propertyList;
 	}
 	

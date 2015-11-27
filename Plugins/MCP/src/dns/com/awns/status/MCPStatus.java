@@ -26,6 +26,6 @@ public class MCPStatus extends MCPHandler {
 	}
 	
 	public void born() {
-		_logger.logInfo("No thread needed");
+		_logger.logInfo("No thread needed for mcp-awns-status");
 	}
 }

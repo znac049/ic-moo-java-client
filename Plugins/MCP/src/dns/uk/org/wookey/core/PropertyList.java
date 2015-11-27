@@ -2,18 +2,14 @@ package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import uk.org.wookey.IC.Utils.Logger;
@@ -25,9 +21,13 @@ public class PropertyList extends JPanel {
 	private Logger _logger = new Logger("PropertyList");
 
 	private JPanel props;
+	@SuppressWarnings("unused")
+	private WookeyCoreHandler handler;
 	
-	public PropertyList() {
+	public PropertyList(WookeyCoreHandler wookeyCoreHandler) {
 		super();
+		
+		handler = wookeyCoreHandler;
 		
 		setLayout(new BorderLayout());
 		setBorder(new LineBorder(Color.black));
@@ -47,26 +47,13 @@ public class PropertyList extends JPanel {
 		add(scroller, BorderLayout.CENTER);
 	}
 	
-	public void buildList(ArrayList<Property> pList) {
+	public void buildList(MooObject obj) {
+		ArrayList<Property> pList = obj.getPropertyList(true);
+		
 		props.removeAll();
 
 		for (Property prop: pList) {
-			final JButton pName = new JButton(prop.getName());
-			
-			pName.setOpaque(true);
-			pName.setContentAreaFilled(false);
-			pName.setBorder(null);
-			pName.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray));
-			//pName.setBorderPainted(false);
-			pName.setFocusPainted(false);
-			pName.setMargin(new Insets(0, 0, 0, 0));
-			pName.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			pName.setHorizontalAlignment(SwingConstants.LEFT);
-			pName.setBackground(Color.GREEN);
-
-			//pLoc.setOpaque(false);
-			//pIdle.setOpaque(false);
-			
+			PropertyLabel pName = new PropertyLabel(prop);
 			JLabel owner = new JLabel("-");
 			JLabel perms = new JLabel("-");
 			

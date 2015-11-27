@@ -28,14 +28,16 @@ public class TreePanel extends JPanel {
 	private Logger _logger = new Logger("WkCorePanel");
 
 	//private ServerConnection server;
-	private MCP mcp;
+	//private MCP mcp;
 	
 	private JTree tree;
 	private CodeNode objectRoot;
 	private int playerObjNum;
 	private ObjectDB objectDB;
 	
-	public TreePanel(MCP mcp, ServerConnection server, ObjectDB oDB) {
+	private WookeyCoreHandler handler;
+	
+	public TreePanel(WookeyCoreHandler wookeyCoreHandler, ServerConnection server, ObjectDB oDB) {
 		super();
 		
 		setLayout(new BorderLayout());
@@ -44,11 +46,13 @@ public class TreePanel extends JPanel {
 		
 	    objectRoot = new CodeNode("Objects");
 	
+	    handler = wookeyCoreHandler;
+	    
 		tree = new JTree(objectRoot);
 		tree.setCellRenderer(new ObjectTreeCellRenderer());
 		
 		playerObjNum = -1;
-		this.mcp = mcp;
+		//this.mcp = mcp;
 		objectDB = oDB;
 		//this.server = server;
 		
@@ -108,7 +112,7 @@ public class TreePanel extends JPanel {
 					//Request details about the object
 					MCPCommand cmd = new MCPCommand();
 					cmd.setAuthKey(mcp.authKey);
-					cmd.setName(WookeyCoreHandler.packageName, "getobj");
+					cmd.setName(handler.getName(), "getobj");
 					cmd.addParam("objnum", ""+parentObjNum);
 					queueCommand(cmd);
 					
@@ -166,7 +170,7 @@ public class TreePanel extends JPanel {
 	}
 	
 	private void queueCommand(MCPCommand cmd) {
-		mcp.queueOutgoingCommand(cmd);
+		handler.getMCP().queueOutgoingCommand(cmd);
 	}
 	
 	public JTree getTree() {

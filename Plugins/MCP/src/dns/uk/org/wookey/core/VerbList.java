@@ -2,18 +2,14 @@ package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -50,19 +46,8 @@ public class VerbList extends JPanel {
 		verbs.removeAll();
 
 		for (Verb verb: vList) {
-			final JButton vName = new JButton("<html>" + verb.getName().replaceAll(" ", "<br/>") + "</html>");
+			VerbLabel vName = new VerbLabel(verb);
 			
-			//vName.setOpaque(true);
-			vName.setContentAreaFilled(false);
-			//vName.setBorder(BorderFactory.createLineBorder(Color.black));
-			vName.setBorder(b);
-			//vName.setBorderPainted(false);
-			vName.setFocusPainted(false);
-			vName.setMargin(new Insets(0, 0, 0, 0));
-			vName.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			vName.setHorizontalAlignment(SwingConstants.LEFT);
-			vName.setBackground(Color.GREEN);
-
 			JLabel owner = new JLabel("-");
 			JLabel perms = new JLabel("-");
 			JLabel direct = new JLabel("-");

@@ -27,11 +27,14 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 	private PropertyList props;
 	private VerbList verbs;
 	private JTabbedPane tabs;
+	private WookeyCoreHandler handler;
 	
-	public DetailPanel(TreePanel corePanel) {
+	public DetailPanel(WookeyCoreHandler wookeyCoreHandler, TreePanel corePanel) {
 		super();
 		
 		setLayout(new BorderLayout());
+		
+		handler = wookeyCoreHandler;
 		
 		tree = corePanel.getTree();
 		//tree.addTreeSelectionListener(this);
@@ -39,7 +42,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 
 		tabs = new JTabbedPane();
 		
-		props = new PropertyList();
+		props = new PropertyList(wookeyCoreHandler);
 		tabs.addTab("Properties",  props);
 		
 		verbs = new VerbList();
@@ -50,7 +53,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 	
 	private void queryPropertyDetails(MooObject ob) {
 		MCP mcp = ob.getMCPHandler().getMCP();
-		ArrayList<Property> pList = ob.getPropertyList();
+		ArrayList<Property> pList = ob.getPropertyList(false);
 
 		for (Property prop: pList) {
 			// fire off MCP getprop requests to the server
@@ -59,7 +62,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 			_logger.logInfo("getprop: #" + ob.getObjNum() + "." + prop.getName());
 			
 			cmd.setAuthKey(mcp.authKey);
-			cmd.setName(WookeyCoreHandler.packageName, "getprop");
+			cmd.setName(handler.getName(), "getprop");
 			cmd.addParam("objnum", "" + ob.getObjNum());
 			cmd.addParam("propname", "" + prop.getName());
 			
@@ -67,7 +70,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 		}
 
 		Collections.sort(pList);
-		props.buildList(pList);
+		props.buildList(ob);
 	}
 
 	private void queryVerbDetails(MooObject ob) {
@@ -90,7 +93,7 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 			}
 			
 			cmd.setAuthKey(mcp.authKey);
-			cmd.setName(WookeyCoreHandler.packageName, "getverb");
+			cmd.setName(handler.getName(), "getverb");
 			cmd.addParam("objnum", "" + ob.getObjNum());
 			cmd.addParam("verbname", "" + vbName);
 			

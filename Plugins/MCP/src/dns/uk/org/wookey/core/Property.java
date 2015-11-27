@@ -10,6 +10,7 @@ public class Property implements Comparable<Property> {
 	private MooObject containingObject;
 	private String owner;
 	private String perms;
+	private boolean inherited;
 	
 	private boolean isValid;
 
@@ -20,6 +21,8 @@ public class Property implements Comparable<Property> {
 		owner = null;
 		perms = null;
 		
+		inherited = false;
+		
 		isValid = false;
 	}
 	
@@ -28,6 +31,14 @@ public class Property implements Comparable<Property> {
 		this.perms = perms;
 		
 		isValid = true;
+	}
+	
+	public void setInherited(boolean val) {
+		inherited = val;
+	}
+	
+	public boolean isInherited() {
+		return inherited;
 	}
 	
 	public String getName() {

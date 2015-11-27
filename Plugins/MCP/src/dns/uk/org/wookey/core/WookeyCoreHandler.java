@@ -19,10 +19,8 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 	private DetailPanel detailPanel;
 	private ObjectDB objectDB;	
 	
-	public final static String packageName = "dns-uk-org-wookey-core";
-	
 	public WookeyCoreHandler(ServerConnection svr, MCP mcp) throws ParserException {
-		super(packageName, "1.0", "1.0", svr, mcp);
+		super("dns-uk-org-wookey-core", "1.0", "1.0", svr, mcp);
 		
 		detailPanel = null;
 	}
@@ -164,7 +162,7 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 				if (!objectDB.objectExists(objNum)) {
 					MCPCommand cmd = new MCPCommand();
 					cmd.setAuthKey(mcp.authKey);
-					cmd.setName(packageName, "getobj");
+					cmd.setName(name, "getobj");
 					cmd.addParam("objnum", ""+objNum);
 					mcp.queueOutgoingCommand(cmd);
 				}
@@ -188,8 +186,8 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 		
 		MainPanel parentPanel = new MainPanel();
 
-		treePanel = new TreePanel(getMCP(), server, objectDB);
-		detailPanel = new DetailPanel(treePanel);
+		treePanel = new TreePanel(this, server, objectDB);
+		detailPanel = new DetailPanel(this, treePanel);
 		
 		parentPanel.setTopComponent(treePanel);
 		parentPanel.setBottomComponent(detailPanel);
@@ -210,6 +208,10 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 		lhs.setSize(lhs.getMinimumSize());
 		
 		mcp.getWorldTab().resetToPreferredSizes();
+	}
+	
+	public ObjectDB getObjectDB() {
+		return objectDB;
 	}
 	
 	public void run() {

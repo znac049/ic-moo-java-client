@@ -94,7 +94,7 @@ public class MCPVisual extends MCPHandler implements Runnable {
 
 	public void born() {
 		addGUI();
-		new Thread(this, "vis: " + mcp.getWorldName()).start();
+		new Thread(this, "mcp-awns-visual: " + mcp.getWorldName()).start();
 	}
 	
 	private void addGUI() {

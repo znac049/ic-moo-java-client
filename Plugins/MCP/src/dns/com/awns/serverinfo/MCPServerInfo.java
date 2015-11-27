@@ -29,7 +29,7 @@ public class MCPServerInfo extends MCPHandler implements Runnable {
 	}
 	
 	public void born() {
-		new Thread(this, "vis: " + mcp.getWorldName()).start();
+		new Thread(this, "mcp-awns-serverinfo: " + mcp.getWorldName()).start();
 	}
 	
 	public void run() {
