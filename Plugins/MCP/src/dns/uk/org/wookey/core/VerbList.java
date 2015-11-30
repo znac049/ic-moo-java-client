@@ -10,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import uk.org.wookey.IC.Utils.SpringUtilities;
@@ -26,8 +25,6 @@ public class VerbList extends JPanel {
 		setLayout(new BorderLayout());		
 		setBorder(new LineBorder(Color.black));
 		
-		//setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-		
 		verbs = new JPanel();
 		
 		verbs.setLayout(new SpringLayout());
@@ -42,33 +39,56 @@ public class VerbList extends JPanel {
 	}
 	
 	public void buildList(ArrayList<Verb> vList) {
-		Border b = BorderFactory.createMatteBorder(1, 0, 0, 0, Color.gray);
 		verbs.removeAll();
 
+		Color odd = Color.LIGHT_GRAY;
+		Color even = Color.WHITE;
+		int i = 0;
+		
 		for (Verb verb: vList) {
 			VerbLabel vName = new VerbLabel(verb);
 			
-			JLabel owner = new JLabel("-");
-			JLabel perms = new JLabel("-");
-			JLabel direct = new JLabel("-");
-			JLabel prep = new JLabel("-");
-			JLabel indirect = new JLabel("-");
+			JLabel owner = new JLabel(" - ");
+			JLabel perms = new JLabel(" - ");
+			JLabel direct = new JLabel(" - ");
+			JLabel prep = new JLabel(" - ");
+			JLabel indirect = new JLabel(" - ");
 			
-			owner.setBorder(b);
-			perms.setBorder(b);
-			direct.setBorder(b);
-			prep.setBorder(b);
-			indirect.setBorder(b);
+			owner.setOpaque(true);
+			perms.setOpaque(true);
+			direct.setOpaque(true);
+			prep.setOpaque(true);
+			indirect.setOpaque(true);
 			
 			owner.setMinimumSize(new Dimension(100, 20));
-			//perms.setMinimumSize(new Dimension(15, 7));
 			
 			if (verb.isValid()) {
-				owner.setText(verb.getOwner());
-				perms.setText(verb.getPerms());
-				direct.setText(verb.getDirect());
-				prep.setText(verb.getPreposition());
+				owner.setText(" " + verb.getOwner() + " ");
+				perms.setText(verb.getPerms() + " ");
+				direct.setText(verb.getDirect() + " ");
+				prep.setText(verb.getPreposition() + " ");
 				indirect.setText(verb.getIndirect());
+			}
+			
+			if (i == 0) {
+				vName.setBackground(even);
+				owner.setBackground(even);
+				perms.setBackground(even);
+				direct.setBackground(even);
+				prep.setBackground(even);
+				indirect.setBackground(even);
+				
+				i++;
+			}
+			else {
+				vName.setBackground(odd);
+				owner.setBackground(odd);
+				perms.setBackground(odd);
+				direct.setBackground(odd);
+				prep.setBackground(odd);
+				indirect.setBackground(odd);
+				
+				i = 0;
 			}
 			
 			verbs.add(vName);
@@ -79,7 +99,7 @@ public class VerbList extends JPanel {
 			verbs.add(indirect);			
 		}
 		
-		SpringUtilities.makeCompactGrid(verbs, vList.size(), 6, 0, 0, 2, 2);
+		SpringUtilities.makeCompactGrid(verbs, vList.size(), 6, 0, 0, 0, 0);
 		
 		verbs.revalidate();
 	}

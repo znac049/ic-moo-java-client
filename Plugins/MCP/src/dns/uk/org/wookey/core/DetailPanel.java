@@ -69,7 +69,6 @@ public class DetailPanel extends JPanel implements TreeSelectionListener, MouseL
 			mcp.queueOutgoingCommand(cmd);
 		}
 
-		Collections.sort(pList);
 		props.buildList(ob);
 	}
 

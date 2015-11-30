@@ -2,6 +2,7 @@ package dns.uk.org.wookey.core;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
@@ -32,8 +33,6 @@ public class PropertyList extends JPanel {
 		setLayout(new BorderLayout());
 		setBorder(new LineBorder(Color.black));
 		
-		//setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
-		
 		props = new JPanel();
 		
 		props.setLayout(new SpringLayout());
@@ -51,28 +50,89 @@ public class PropertyList extends JPanel {
 		ArrayList<Property> pList = obj.getPropertyList(true);
 		
 		props.removeAll();
-
+		
+		Color odd = Color.LIGHT_GRAY;
+		Color even = Color.WHITE;
+		int i = 0;
+		
 		for (Property prop: pList) {
 			PropertyLabel pName = new PropertyLabel(prop);
-			JLabel owner = new JLabel("-");
+			ColumnLabel owner = new ColumnLabel("-", 50);
 			JLabel perms = new JLabel("-");
 			
 			if (prop.isValid()) {
-				owner.setText(prop.getOwner());
+				owner.setText(" " + prop.getOwner() + " ");
 				perms.setText(prop.getPerms());
 			}
+
+			owner.setOpaque(true);
+			perms.setOpaque(true);
 			
+			if (i == 0) {
+				pName.setBackground(even);
+				owner.setBackground(even);
+				perms.setBackground(even);
+				
+				i++;
+			}
+			else {
+				pName.setBackground(odd);
+				owner.setBackground(odd);
+				perms.setBackground(odd);
+				
+				i = 0;
+			}
+
 			props.add(pName);
 			props.add(owner);
 			props.add(perms);
 		}
 		
-		SpringUtilities.makeCompactGrid(props, pList.size(), 3, 0, 0, 2, 2);
+		//packGrid();
+		SpringUtilities.makeCompactGrid(props, pList.size(), 3, 0, 0, 0, 0);
+		packGrid();
 		
 		props.revalidate();
 	}
 	
-	public void validate() {
-		_logger.logInfo("WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+	private void packGrid() {
+		final int numColumns = 3;
+		int count = props.getComponentCount();
+		double[] widths = new double[numColumns];
+		Component[] components = props.getComponents();
+		
+		for (int i=0; i<numColumns; i++) {
+			widths[i] = 0;
+		}
+		
+		_logger.logMsg("Num components is " + count);
+		if ((count % numColumns) != 0) {
+			_logger.logError("Incorrect component count - should be a multiple of " + numColumns);
+		}
+		
+		for (int i=0; i<count; i+=numColumns) {
+			for (int j=0; j<numColumns; j++) {
+				Component comp = components[i+j];
+				
+				if (comp.getPreferredSize().getWidth() > widths[j]) {
+					widths[j] = comp.getPreferredSize().getWidth();
+				}
+			}
+		}
+
+		for (int i=0; i<count; i+=numColumns) {
+			for (int j=0; j<numColumns; j++) {
+				Component comp = components[i+j];
+				Dimension d = comp.getPreferredSize();
+				
+				d.setSize(widths[j], d.getHeight());
+				comp.setPreferredSize(d);
+			}
+		}
+		
+		_logger.logInfo("Final prop widths:");
+		for (int i=0; i<numColumns; i++) {
+			_logger.logInfo(" " + i + ": " + widths[i]);
+		}
 	}
 }

@@ -13,6 +13,15 @@ public class Property implements Comparable<Property> {
 	private boolean inherited;
 	
 	private boolean isValid;
+	
+	public Property(Property orig) {
+		name = orig.name;
+		containingObject = orig.containingObject;
+		owner = orig.owner;
+		perms = orig.perms;
+		inherited = orig.inherited;
+		isValid = orig.isValid;
+	}
 
 	public Property(MooObject ob, String propName) {
 		containingObject = ob;
@@ -63,6 +72,16 @@ public class Property implements Comparable<Property> {
 	
 	public boolean hasName(String target) {
 		return name.equalsIgnoreCase(target);
+	}
+	
+	public String toString() {
+		String res = name;
+		
+		if (inherited) {
+			res = name + " (i)";
+		}
+		
+		return res;
 	}
 
 	@Override

@@ -138,6 +138,7 @@ public class TreePanel extends JPanel {
 		}
 		else {
 			ancestor.getKidsNode().add(ob.getTreeNode());
+			ob.setParentObjNum(ancestor.getObjNum());
 		}
 		
 		//Add verb and property info now.

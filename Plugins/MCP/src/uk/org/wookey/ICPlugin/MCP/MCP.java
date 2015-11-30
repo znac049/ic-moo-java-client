@@ -359,7 +359,7 @@ public class MCP extends IOPlugin {
 	public void queueOutgoingCommand(MCPCommand cmd) {
 		// not much to do, really
 		_outgoingCommandQueue.addLast(new MCPCommand(cmd));
-		_logger.logInfo("Added command " + cmd.getName() + " to queue. New length is " + _outgoingCommandQueue.size());
+		//_logger.logInfo("Added command " + cmd.getName() + " to queue. New length is " + _outgoingCommandQueue.size());
 	}
 	
 	@Override
@@ -383,7 +383,7 @@ public class MCP extends IOPlugin {
 					if (_outgoingCommandQueue.size() > 0) {
 						MCPCommand cmd = _outgoingCommandQueue.removeFirst();
 						
-						_logger.logError("Sending queued command " + cmd.getName() + ". New length is " + _outgoingCommandQueue.size());
+						//_logger.logError("Sending queued command " + cmd.getName() + ". New length is " + _outgoingCommandQueue.size());
 						cmd.sendToServer(server);
 					}
 					
@@ -398,5 +398,4 @@ public class MCP extends IOPlugin {
 			}
 		}
 	}
-
 }

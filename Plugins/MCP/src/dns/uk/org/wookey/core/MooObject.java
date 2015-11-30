@@ -1,6 +1,7 @@
 package dns.uk.org.wookey.core;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
@@ -117,30 +118,49 @@ public class MooObject {
 		this.parentObjNum = parentObjNum;
 	}
 	
-	private int locationOf(Property prop, ArrayList<Property> props) {
-		for (int i=0; i<props.size(); i++) {
-			Property p = props.get(i);
-			
-			if (p.getName().equalsIgnoreCase(prop.getName())) {
-				return i;
+	private ArrayList<Property> getParentProperties() {
+		ArrayList<Property> props = new ArrayList<Property>();
+		
+		_logger.logInfo("Looking for parent properties of #" + getObjNum());
+		_logger.logInfo("..parent is #" + getParentObjNum());
+		
+		if (getParentObjNum() != -1) {
+			try {
+				MooObject ob = mcpHandler.getObjectDB().getObject(getParentObjNum());
+				
+				for (Property prop: ob.getPropertyList(true)) {
+					props.add(new Property(prop));
+				}
+			} catch (MCPException e) {
+
 			}
 		}
 		
-		return -1;
-	}
-	
-	private ArrayList<Property> mergeWithParentProperties() {
-		_logger.logInfo("merging with parent properties");
+		for (Property prop: props) {
+			prop.setInherited(true);
+		}
 		
-		return propertyList;
+		return props;
 	}
 	
 	public ArrayList<Property> getPropertyList(boolean recurse) {
+		ArrayList<Property> allProperties = new ArrayList<Property>();
+		
 		if (recurse) {
-			return mergeWithParentProperties();
+			ArrayList<Property> parentProps = getParentProperties();
+			
+			for (Property prop: parentProps) {
+				allProperties.add(prop);
+			}
 		}
 		
-		return propertyList;
+		for (Property prop: propertyList) {
+			allProperties.add(prop);
+		}
+		
+		Collections.sort(allProperties);
+		
+		return allProperties;
 	}
 	
 	public ArrayList<Verb> getVerbList() {
