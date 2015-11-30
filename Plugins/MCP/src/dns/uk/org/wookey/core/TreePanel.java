@@ -20,6 +20,7 @@ import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.ServerConnection;
 import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPCommand;
+import uk.org.wookey.ICPlugin.MCP.MCPCommandQueue;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
 
 public class TreePanel extends JPanel {
@@ -114,7 +115,7 @@ public class TreePanel extends JPanel {
 					cmd.setAuthKey(mcp.authKey);
 					cmd.setName(handler.getName(), "getobj");
 					cmd.addParam("objnum", ""+parentObjNum);
-					queueCommand(cmd);
+					handler.getMCP().queueOutgoingCommand(cmd, MCPCommandQueue.highPriority);
 					
 					ancestor = ob;				
 					ancestorObjNum = parentObjNum;
@@ -168,10 +169,6 @@ public class TreePanel extends JPanel {
 	public void setPlayerObj(int num) {
 		playerObjNum = num;
 		_logger.logInfo("Player object number set to " + playerObjNum);
-	}
-	
-	private void queueCommand(MCPCommand cmd) {
-		handler.getMCP().queueOutgoingCommand(cmd);
 	}
 	
 	public JTree getTree() {

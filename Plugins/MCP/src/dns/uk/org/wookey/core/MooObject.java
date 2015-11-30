@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import uk.org.wookey.IC.Utils.Logger;
+import uk.org.wookey.ICPlugin.MCP.MCPCommand;
+import uk.org.wookey.ICPlugin.MCP.MCPCommandQueue;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
 
 public class MooObject {
@@ -50,6 +52,14 @@ public class MooObject {
 			}
 		}
 		
+		//Request details about the object
+		MCPCommand cmd = new MCPCommand();
+		cmd.setAuthKey(mcpHandler.getMCP().authKey);
+		cmd.setName(mcpHandler.getName(), "getprop");
+		cmd.addParam("objnum", ""+objNum);
+		cmd.addParam("propname", name);
+		mcpHandler.getMCP().queueOutgoingCommand(cmd, MCPCommandQueue.highPriority);
+
 		Property prop = new Property(this, name);
 		propertyList.add(prop);
 	}

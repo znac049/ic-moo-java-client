@@ -10,6 +10,7 @@ import uk.org.wookey.IC.Utils.ParserException;
 import uk.org.wookey.IC.Utils.ServerConnection;
 import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPCommand;
+import uk.org.wookey.ICPlugin.MCP.MCPCommandQueue;
 import uk.org.wookey.ICPlugin.MCP.MCPException;
 import uk.org.wookey.ICPlugin.MCP.MCPHandler;
 
@@ -164,7 +165,7 @@ public class WookeyCoreHandler  extends MCPHandler implements Runnable {
 					cmd.setAuthKey(mcp.authKey);
 					cmd.setName(name, "getobj");
 					cmd.addParam("objnum", ""+objNum);
-					mcp.queueOutgoingCommand(cmd);
+					mcp.queueOutgoingCommand(cmd, MCPCommandQueue.normalPriority);
 				}
 			//} catch (MCPException e) {
 			//	_logger.logError("Failed to send object info to WookeyCore", e);

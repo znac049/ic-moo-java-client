@@ -35,7 +35,7 @@ public class MCP extends IOPlugin {
     private ArrayList<MCPCommand> _multilineSessions;
 
     private LinkedList<MCPCommand> _incomingCommandQueue;
-    private volatile LinkedList<MCPCommand> _outgoingCommandQueue;
+    private volatile MCPCommandQueue _outgoingCommandQueue;
     
     private Thread commandRunner;
 
@@ -48,7 +48,7 @@ public class MCP extends IOPlugin {
 		_incomingCommandQueue = new LinkedList<MCPCommand>();
 		_multilineSessions = new ArrayList<MCPCommand>();
 		
-		_outgoingCommandQueue = new LinkedList<MCPCommand>();
+		_outgoingCommandQueue = new MCPCommandQueue();
 
 		authKey = "ic0" + System.currentTimeMillis() % 10;
 		
@@ -356,10 +356,13 @@ public class MCP extends IOPlugin {
         return null;
 	}
 	
+	public void queueOutgoingCommand(MCPCommand cmd, int priority) {
+		_outgoingCommandQueue.queueCommand(new MCPCommand(cmd), priority);
+		_logger.logInfo("Added command " + cmd.getName() + " to queue " + priority + ". New length is " + _outgoingCommandQueue.getQueueLength(priority));
+	}
+	
 	public void queueOutgoingCommand(MCPCommand cmd) {
-		// not much to do, really
-		_outgoingCommandQueue.addLast(new MCPCommand(cmd));
-		//_logger.logInfo("Added command " + cmd.getName() + " to queue. New length is " + _outgoingCommandQueue.size());
+		queueOutgoingCommand(cmd, MCPCommandQueue.normalPriority);
 	}
 	
 	@Override
@@ -380,16 +383,29 @@ public class MCP extends IOPlugin {
 			_logger.logError("CommandRunner thread started");
 			try {
 				while (true) {
-					if (_outgoingCommandQueue.size() > 0) {
-						MCPCommand cmd = _outgoingCommandQueue.removeFirst();
-						
-						//_logger.logError("Sending queued command " + cmd.getName() + ". New length is " + _outgoingCommandQueue.size());
+					int delay = 5;
+					MCPCommand cmd = null;
+					
+					if (_outgoingCommandQueue.getQueueLength(MCPCommandQueue.highPriority) > 0) {
+						cmd = _outgoingCommandQueue.getQueuedCommand(MCPCommandQueue.highPriority);
+					}
+					else if (_outgoingCommandQueue.getQueueLength(MCPCommandQueue.normalPriority) > 0) {
+						cmd = _outgoingCommandQueue.getQueuedCommand(MCPCommandQueue.normalPriority);
+						delay = 10;
+					}
+					else if (_outgoingCommandQueue.getQueueLength(MCPCommandQueue.lowPriority) > 0) {
+						cmd = _outgoingCommandQueue.getQueuedCommand(MCPCommandQueue.lowPriority);
+						delay = 100;
+					}
+ 
+					if (cmd != null) {
+						_logger.logError("Sending queued command " + cmd.getName());
 						cmd.sendToServer(server);
 					}
 					
 					// Don't be too aggressive - also gives us a chance to pick
 					// up any pending interrupts
-					Thread.sleep(10);
+					Thread.sleep(delay);
 				}
 			} catch (InterruptedException e) {
 				_logger.logError("CommandRunner thread interrupted", e);
