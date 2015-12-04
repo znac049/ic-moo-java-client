@@ -10,6 +10,7 @@ import javax.swing.SwingConstants;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.ICPlugin.MCP.MCP;
 import uk.org.wookey.ICPlugin.MCP.MCPCommand;
+import uk.org.wookey.ICPlugin.MCP.MCPCommandQueue;
 import uk.org.wookey.ICPlugin.MCP.MCPHandler;
 
 public class VerbLabel extends JLabel implements MouseListener {
@@ -51,7 +52,7 @@ public class VerbLabel extends JLabel implements MouseListener {
 		cmd.addParam("objnum", "" + ob.getObjNum());
 		cmd.addParam("verbname", verb.getName());
 		
-		mcp.queueOutgoingCommand(cmd);
+		mcp.queueOutgoingCommand(cmd, MCPCommandQueue.highPriority);
 	}
 
 	@Override

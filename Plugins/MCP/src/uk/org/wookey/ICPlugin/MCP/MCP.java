@@ -395,11 +395,11 @@ public class MCP extends IOPlugin {
 					}
 					else if (_outgoingCommandQueue.getQueueLength(MCPCommandQueue.lowPriority) > 0) {
 						cmd = _outgoingCommandQueue.getQueuedCommand(MCPCommandQueue.lowPriority);
-						delay = 100;
+						delay = 30;
 					}
  
 					if (cmd != null) {
-						_logger.logError("Sending queued command " + cmd.getName());
+						//_logger.logError("Sending queued command " + cmd.getName());
 						cmd.sendToServer(server);
 					}
 					

@@ -52,13 +52,13 @@ public class MooObject {
 			}
 		}
 		
-		//Request details about the object
+		//Request details about the prop
 		MCPCommand cmd = new MCPCommand();
 		cmd.setAuthKey(mcpHandler.getMCP().authKey);
 		cmd.setName(mcpHandler.getName(), "getprop");
 		cmd.addParam("objnum", ""+objNum);
 		cmd.addParam("propname", name);
-		mcpHandler.getMCP().queueOutgoingCommand(cmd, MCPCommandQueue.highPriority);
+		mcpHandler.getMCP().queueOutgoingCommand(cmd, MCPCommandQueue.lowPriority);
 
 		Property prop = new Property(this, name);
 		propertyList.add(prop);
@@ -71,7 +71,25 @@ public class MooObject {
 				return;
 			}
 		}
+	
+		int space = name.indexOf(' ');
+		if (space != -1) {
+			name = name.substring(0,  space);
+		}
 		
+		int asterix = name.indexOf('*');
+		if (asterix != -1) {
+			name = name.substring(0,  asterix);
+		}
+
+		//Request details about the verb
+		MCPCommand cmd = new MCPCommand();
+		cmd.setAuthKey(mcpHandler.getMCP().authKey);
+		cmd.setName(mcpHandler.getName(), "getverb");
+		cmd.addParam("objnum", ""+objNum);
+		cmd.addParam("verbname", name);
+		mcpHandler.getMCP().queueOutgoingCommand(cmd, MCPCommandQueue.lowPriority);
+
 		Verb vb = new Verb(this, name);
 		verbList.add(vb);
 	}
@@ -139,7 +157,7 @@ public class MooObject {
 				MooObject ob = mcpHandler.getObjectDB().getObject(getParentObjNum());
 				
 				for (Property prop: ob.getPropertyList(true)) {
-					props.add(new Property(prop));
+					props.add(new Property(ob, prop));
 				}
 			} catch (MCPException e) {
 

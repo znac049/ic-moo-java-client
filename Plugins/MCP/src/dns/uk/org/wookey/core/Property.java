@@ -14,9 +14,9 @@ public class Property implements Comparable<Property> {
 	
 	private boolean isValid;
 	
-	public Property(Property orig) {
+	public Property(MooObject ob, Property orig) {
 		name = orig.name;
-		containingObject = orig.containingObject;
+		containingObject = ob;
 		owner = orig.owner;
 		perms = orig.perms;
 		inherited = orig.inherited;
@@ -62,10 +62,10 @@ public class Property implements Comparable<Property> {
 		return perms;
 	}
 	
-	public MooObject getContainingObject() {
+	public MooObject getOwnerObject() {
 		return containingObject;
 	}
-	
+
 	public boolean isValid() {
 		return isValid;
 	}
