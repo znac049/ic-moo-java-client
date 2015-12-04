@@ -66,7 +66,15 @@ public class ServerConnection {
 		} catch (IOException e) {
 			_logger.logError("Failed to connect to '" + hostName + " on port " + hostPort);
 		}
-	} 
+	}
+	
+	public String getHost() {
+		return host;
+	}
+	
+	public int getPort() {
+		return port;
+	}
 	
 	public String readLine() {
 		while (connected) {
