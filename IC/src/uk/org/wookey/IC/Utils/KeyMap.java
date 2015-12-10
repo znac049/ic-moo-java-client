@@ -4,21 +4,27 @@ import java.util.ArrayList;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
+import uk.org.wookey.IC.Connectors.ConnectorInterface;
+
 public class KeyMap {
 	private Logger _logger;
 	private ArrayList<KeyMapping> map;
 	private String name;
 	private JSEngine js;
-	private ServerConnection server;
+	private ServerConnection remote;
 	
-	public KeyMap(String mapName, JSEngine jsEngine, ServerConnection serverPort) {
+	public KeyMap(String mapName, JSEngine jsEngine, ServerConnection server) {
 		_logger = new Logger("KeyMap - " + mapName);
 		
 		name = mapName;
 		map = new ArrayList<KeyMapping>();
 		
 		js = jsEngine;
-		server = serverPort;
+		remote = server;
+	}
+	
+	public String getName() {
+		return name;
 	}
 	
 	public void add(int keyCode, String macroName) {
@@ -51,7 +57,7 @@ public class KeyMap {
 		
 		for (KeyMapping km: map) {
 			if (km.mapsToKey(targetCode)) {
-				km.invoke(js, server);
+				km.invoke(js, remote);
 				return true;
 			}
 		}

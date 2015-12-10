@@ -31,4 +31,8 @@ public class Connector implements ConnectorInterface {
 	@Override
 	public void writeLine(String s) throws IOException {
 	}
+
+	@Override
+	public void disconnect() {
+	}
 }

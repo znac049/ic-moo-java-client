@@ -35,6 +35,8 @@ import javax.swing.KeyStroke;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import uk.org.wookey.IC.GUI.Forms.KeyMapForm;
+import uk.org.wookey.IC.GUI.Forms.MacroManagerForm;
 import uk.org.wookey.IC.Utils.Logger;
 import uk.org.wookey.IC.Utils.TabInterface;
 

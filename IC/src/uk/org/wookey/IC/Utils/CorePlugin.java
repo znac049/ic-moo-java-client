@@ -4,9 +4,9 @@ import java.awt.Container;
 
 import javax.swing.JComponent;
 
-import uk.org.wookey.IC.GUI.ConfigPanel;
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.GUI.Forms.ConfigPanel;
 
 
 public class CorePlugin implements CorePluginInterface, ConfigInterface {

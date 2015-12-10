@@ -8,4 +8,5 @@ public interface ConnectorInterface {
 	public boolean isConnected();
 	public String readLine();
 	public void writeLine(String s) throws IOException;
+	public void disconnect();
 }

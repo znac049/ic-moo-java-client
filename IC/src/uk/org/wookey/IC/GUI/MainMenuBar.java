@@ -6,6 +6,11 @@ import java.awt.event.*;
 import javax.swing.*;
 
 import Application.MainApplication;
+import uk.org.wookey.IC.GUI.Forms.HighlightForm;
+import uk.org.wookey.IC.GUI.Forms.KeyMapForm;
+import uk.org.wookey.IC.GUI.Forms.MacroManagerForm;
+import uk.org.wookey.IC.GUI.Forms.SettingsForm;
+import uk.org.wookey.IC.GUI.Forms.WorldForm;
 import uk.org.wookey.IC.Utils.KeyMap;
 import uk.org.wookey.IC.Utils.Logger;
 

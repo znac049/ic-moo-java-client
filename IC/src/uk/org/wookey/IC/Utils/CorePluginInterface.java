@@ -1,8 +1,8 @@
 package uk.org.wookey.IC.Utils;
 
-import uk.org.wookey.IC.GUI.ConfigPanel;
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
 import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.GUI.Forms.ConfigPanel;
 
 public interface CorePluginInterface {
 	public final static int interfaceVersion = 1;

@@ -1,6 +1,5 @@
 package uk.org.wookey.IC.Utils;
 
-
 public class KeyMapping {
 	Logger _logger = new Logger("KeyMapping");
 	
@@ -26,10 +25,10 @@ public class KeyMapping {
 		macro = new Macro(macroName);
 	}
 	
-	public boolean invoke(JSEngine js, ServerConnection server) {
+	public boolean invoke(JSEngine js, ServerConnection remote) {
 		_logger.logInfo("invoking macro '" + macro.getName());
 		
-		return macro.exec(js,  server);
+		return macro.exec(js,  remote);
 	}
 	
 	public boolean mapsToKey(int keyCode) {

@@ -6,10 +6,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import javax.script.ScriptEngine;
-
-import uk.org.wookey.IC.Editor.EditorForm;
-import uk.org.wookey.IC.GUI.MacroEditorForm;
+import uk.org.wookey.IC.Connectors.ConnectorInterface;
+import uk.org.wookey.IC.GUI.Forms.MacroEditorForm;
 
 public class Macro {
 	private enum MacroType {
@@ -45,18 +43,23 @@ public class Macro {
 		
 		_logger.logInfo("Execute macro " + name);
 		
-		File f = new File(MacroManager.macrosDir + name + ".js");
-		_logger.logInfo("JS file is " + f.getAbsolutePath());
-		if (f.exists() & f.canRead()) {
-			_logger.logInfo("File exists and is readable");
-			js.put("server", server);
-			
-			js.exec(f);
-			
-			res = true;
+		if (type == MacroType.JAVASCRIPT) {
+			File f = new File(MacroManager.macrosDir + jsFile);
+			_logger.logInfo("JS file is " + f.getAbsolutePath());
+			if (f.exists() & f.canRead()) {
+				_logger.logInfo("File exists and is readable");
+				js.put("server", server);
+				
+				js.exec(f);
+				
+				res = true;
+			}
+			else {
+				_logger.logError("File doesn't exist or is not readable");
+			}
 		}
 		else {
-			_logger.logError("File doesn't exist or is not readable");
+			_logger.logError("Unknown macro type - " + type + ". I don't know how to execute it.");
 		}
 		
 		return res;

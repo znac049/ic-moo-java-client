@@ -8,6 +8,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
+import uk.org.wookey.IC.GUI.Forms.WorldSettingsForm;
 import uk.org.wookey.IC.Utils.JSEngine;
 import uk.org.wookey.IC.Utils.KeyCode;
 import uk.org.wookey.IC.Utils.KeyMap;
@@ -445,20 +446,14 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -473,7 +468,5 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 }
