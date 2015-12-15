@@ -28,7 +28,6 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 	
 	private TerminalScreen terminal;
 	private JScrollBar scroller;
-	private JLabel status;
 	
 	private ArrayList<TerminalLinePlus> lines;
 	
@@ -76,17 +75,8 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 		terminal = new TerminalScreen();
 		terminal.addCharacteristicsHandler(this);
 
-		JPanel bottomBar = new JPanel();
-		status = new JLabel();
-		
-		bottomBar.add(status);
-		
-		JButton toggleButton = new JButton("Blah!");
-		bottomBar.add(toggleButton);
-		
 		add(terminal, BorderLayout.CENTER);
 		add(scroller, BorderLayout.LINE_END);
-		add(bottomBar, BorderLayout.PAGE_END);
 		
 		configureScrollBar();
 		
@@ -96,11 +86,9 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 	
 	public void addInputListener(TerminalActivityInterface l) {
 		inputListeners.add(l);
-		_logger.logInfo("# listeners is " + inputListeners.size());
 	}
 	
 	protected void newline() {
-		_logger.logInfo("NL");
 		characterTyped('\n');
 	}
 
@@ -109,7 +97,6 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 	}
 
 	public void characterTyped(char c) {
-		_logger.logInfo("CHAR");
 		for (TerminalActivityInterface listener: inputListeners) {
 			listener.characterTyped(c);
 		}
@@ -190,6 +177,7 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 		
 		if (allFits) {
 			_logger.logInfo("Disable scrollBar");
+			scroller.setEnabled(false);
 			scroller.setVisible(false);
 			scroller.setMaximum(0);
 			scroller.setMinimum(0);
@@ -197,15 +185,16 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 		else {
 			_logger.logInfo("Enable scrollBar");
 			
-			boolean wasEnabled = scroller.isEnabled();
+			boolean wasEnabled = scroller.isVisible();
 			
-			scroller.setMaximum(numLines-1);
+			scroller.setMaximum(numLines-1-terminal.getNumRows());
 			scroller.setMinimum(0);
 
-			//if (!wasEnabled) {
+			if (!wasEnabled) {
 				scroller.setVisible(true);
+				scroller.setEnabled(true);
 				scroller.setValue(numLines-1);
-			//}
+			}
 		}
 		
 		updateScreen(scroller.getValue());	
@@ -233,7 +222,6 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 	}
 	
 	private void updateStatus() {
-		status.setText("" + lines.size() + " lines");
 	}
 
 	@Override

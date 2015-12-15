@@ -3,7 +3,9 @@ package uk.org.wookey.IC.GUI.Terminal;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
@@ -18,12 +20,14 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 	
 	private Logger _logger = new Logger("TerminalScreen");
 	
-	private final Font font = new Font("Monospaced", Font.PLAIN, CHAR_HEIGHT);
-	//private final Font font = new Font("Courier New", Font.PLAIN, CELL_HEIGHT);
+	//private final Font font = new Font("Monospaced", Font.PLAIN, 14);
+	private final Font font = new Font("Courier New", Font.PLAIN, 14);
 	
-	private static final int CHAR_HEIGHT = 12;
-	private static final int CELL_WIDTH = 8;
-	private static final int CELL_HEIGHT = CHAR_HEIGHT+0;
+	private int CHAR_HEIGHT;
+	private int CHAR_WIDTH;
+	private int CELL_WIDTH;
+	private int CELL_HEIGHT;
+	private int CELL_BASELINE;
 	
 	private Cell screen[][];
 
@@ -38,6 +42,23 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 	public TerminalScreen() {
 		cursorCol = 0;
 		cursorRow = 0;
+
+		FontMetrics fm = getFontMetrics(font);
+		
+		CHAR_HEIGHT = fm.getHeight();
+		
+		int[] widths = fm.getWidths();
+		
+		CHAR_WIDTH = widths[0];
+		for (int i=1; i<widths.length; i++) {
+			CHAR_WIDTH = Integer.max(CHAR_WIDTH, widths[i]);
+		}
+		
+		CELL_HEIGHT = CHAR_HEIGHT+1;
+		CELL_WIDTH = CHAR_WIDTH+1;
+		CELL_BASELINE = fm.getDescent()+1;
+		
+		_logger.logInfo(String.format("%dx%d,%d", CELL_WIDTH, CELL_HEIGHT, CELL_BASELINE));
 		
 		characteristicsHandler = null;
 		
@@ -202,16 +223,16 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 				}
 
 				int cellX = col * CELL_WIDTH;
-				int cellY = (row * CELL_HEIGHT) + 0;
+				int cellY = (row * CELL_HEIGHT);
 
 				g.setColor(Color.BLACK);
 				g.fillRect(cellX, cellY, CELL_WIDTH, CELL_HEIGHT);
 
 				char c = cell.getChar();
 				if (c != ' ') {
-					//_logger.logInfo("C: '" + c + "'");
+					//_logger.logInfo("C: '" + c + "', bl=" + font.getBaselineFor(cell.getChar()));
 					g.setColor(Color.GREEN);
-					g.drawChars(new char[] { cell.getChar() }, 0, 1, cellX, cellY + (CELL_HEIGHT / 1));
+					g.drawChars(new char[] { cell.getChar() }, 0, 1, cellX, cellY+CELL_HEIGHT-CELL_BASELINE);
 				}
 			}
 		}
