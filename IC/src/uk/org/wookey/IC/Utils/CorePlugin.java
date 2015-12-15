@@ -5,8 +5,8 @@ import java.awt.Container;
 import javax.swing.JComponent;
 
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
-import uk.org.wookey.IC.GUI.WorldTab;
 import uk.org.wookey.IC.GUI.Forms.ConfigPanel;
+import uk.org.wookey.IC.GUI.Tabs.WorldTab;
 
 
 public class CorePlugin implements CorePluginInterface, ConfigInterface {

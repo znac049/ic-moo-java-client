@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
-import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.GUI.Tabs.WorldTab;
 
 public class ServerConnection {
 	private Logger _logger = new Logger("ServerConnection");
@@ -179,7 +179,7 @@ public class ServerConnection {
 		putStr(line + '\n');
 	}
 	
-	private void putStr(String s) {
+	public void putStr(String s) {
 		byte[] b = s.getBytes(Charset.forName("UTF-8"));
 		for (byte c: b) {
 			putCh((char) c);
@@ -193,7 +193,7 @@ public class ServerConnection {
 		}
 	}
 	
-	private void putCh(char c) {
+	public void putCh(char c) {
 		try {
 			if (Thread.interrupted()) {
 				_logger.logInfo("World backend thread interrupted while writing to socket");
@@ -201,7 +201,9 @@ public class ServerConnection {
 				disconnect();
 			}
 
+			_logger.logInfo("C->S:\n");
 			socket.getOutputStream().write(c);
+			socket.getOutputStream().flush();
 		} catch (IOException e) {
 			_logger.logMsg("Error writing char to socket");
 			disconnect();

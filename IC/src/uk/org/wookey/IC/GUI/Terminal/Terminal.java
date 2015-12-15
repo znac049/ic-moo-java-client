@@ -1,62 +1,54 @@
 package uk.org.wookey.IC.GUI.Terminal;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
+import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import javax.swing.JComponent;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
 
 import uk.org.wookey.IC.Utils.Logger;
 
-public class Terminal extends JComponent implements TerminalInputInterface {
+public class Terminal extends JPanel implements AdjustmentListener, TerminalCharacteristicsInterface {
 	private static final long serialVersionUID = 1L;
-	private final static Logger _logger = new Logger("Console");
 	
 	private final static String PRINTABLE_CHAR_ACTION = "Printable";
 	private final static String ENTER_ACTION = "Enter";
 
-	//private final Font font = new Font("Monospaced", Font.PLAIN, CELL_HEIGHT);
-	private final Font font = new Font("Courier New", Font.PLAIN, CELL_HEIGHT/2);
+	private Logger _logger = new Logger("CharacterAttribute");
 	
-	private static final int CELL_WIDTH = 8;
-	private static final int CELL_HEIGHT = 24;
+	private TerminalScreen terminal;
+	private JScrollBar scroller;
+	private JLabel status;
 	
-	private Cell screen[][];
-
-	private int numCols;
-	private int numRows;
+	private ArrayList<TerminalLinePlus> lines;
 	
-	private int cursorCol;
-	private int cursorRow;
+	private ArrayList<TerminalActivityInterface> inputListeners;
 	
 	private InputMap inputMap;
 	
-	private String lineBuffer;
-	
-	private TerminalInputInterface lineCompleteHandler;
-	
 	public Terminal() {
-		cursorCol = 0;
-		cursorRow = 0;
+		super();
+		
+		lines = new ArrayList<TerminalLinePlus>();
+		
+		inputListeners = new ArrayList<TerminalActivityInterface>();
 		
 		inputMap = new TerminalInputMap();
-		
-		lineCompleteHandler = this;
 		
 		@SuppressWarnings("serial")
 		Action injectPrintable = new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	put(e.getActionCommand());
-		    	lineBuffer += e.getActionCommand(); 
 		    }
 		};
 		
@@ -64,9 +56,6 @@ public class Terminal extends JComponent implements TerminalInputInterface {
 		Action enterAction = new AbstractAction() {
 		    public void actionPerformed(ActionEvent e) {
 		    	newline();
-		    	
-		    	lineCompleteHandler.lineComplete(lineBuffer);
-		    	lineBuffer = "";
 		    }
 		};
 		
@@ -77,147 +66,195 @@ public class Terminal extends JComponent implements TerminalInputInterface {
 		setInputMap(WHEN_FOCUSED, inputMap);
 		
 		setActionMap(am);
+
+		setLayout(new BorderLayout());
+		
+		scroller = new JScrollBar(JScrollBar.VERTICAL);
+		scroller.setMinimum(0);
+		scroller.addAdjustmentListener(this);
+		
+		terminal = new TerminalScreen();
+		terminal.addCharacteristicsHandler(this);
+
+		JPanel bottomBar = new JPanel();
+		status = new JLabel();
+		
+		bottomBar.add(status);
+		
+		JButton toggleButton = new JButton("Blah!");
+		bottomBar.add(toggleButton);
+		
+		add(terminal, BorderLayout.CENTER);
+		add(scroller, BorderLayout.LINE_END);
+		add(bottomBar, BorderLayout.PAGE_END);
+		
+		configureScrollBar();
 		
 		setEnabled(true);
 		setFocusable(true);
-		
-		setMinimumSize(new Dimension(10*CELL_HEIGHT, 10*CELL_WIDTH));
-		setMaximumSize(new Dimension(100*CELL_HEIGHT, 200*CELL_WIDTH));
-		setPreferredSize(getMinimumSize());
-
-		numRows = 25;
-		numCols = 80;
-		
-		lineBuffer = "";
-
-		initScreen();
-		
-		addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                requestFocus();
-                super.mouseClicked(e);
-            }
-        });
 	}
 	
-	public void setSize(Dimension d) {
-		super.setSize(d);
-		
-		int newNumCols = (int) (d.getWidth() / CELL_WIDTH);
-		int newNumRows = (int) (d.getWidth() / CELL_HEIGHT);
-		
-		_logger.logInfo("New screen size: " + d.getWidth() + " x " + d.getHeight());
-		_logger.logInfo("New matrix size: " + newNumCols + " x " + newNumRows);
-		
-		numRows = newNumRows;
-		numCols = newNumCols;
-		
-		initScreen();
+	public void addInputListener(TerminalActivityInterface l) {
+		inputListeners.add(l);
+		_logger.logInfo("# listeners is " + inputListeners.size());
 	}
 	
-	private void initScreen() {
-		screen = new Cell[numRows][numCols];
+	protected void newline() {
+		_logger.logInfo("NL");
+		characterTyped('\n');
+	}
+
+	protected void put(String actionCommand) {
+		characterTyped(actionCommand.charAt(0));
+	}
+
+	public void characterTyped(char c) {
+		_logger.logInfo("CHAR");
+		for (TerminalActivityInterface listener: inputListeners) {
+			listener.characterTyped(c);
+		}
+	}
+
+	public void addLine(String line) {
+		lines.add(new TerminalLinePlus(line));
+		configureScrollBar();
 		
-		for (int row=0; row<numRows; row++) {
-			for (int col=0; col<numCols; col++) {
-				screen[row][col] = new Cell(' ');
+		updateStatus();
+	}
+	
+	public void append(char ch) {
+		int ind = lines.size()-1;
+		TerminalLinePlus line;
+		
+		if (ind < 0) {
+			line = new TerminalLinePlus("");
+			lines.add(line);
+			ind = 0;
+		}
+		else {
+			line = lines.get(ind);
+		}
+		
+		if (ch == '\n') {
+			line = new TerminalLinePlus("");
+			lines.add(line);
+			configureScrollBar();
+		}
+		else {
+			line.add(ch);
+			updateScreen(scroller.getValue());
+		}
+	}
+	
+	public void append(String str) {
+		for (char ch: str.toCharArray()) {
+			append(ch);
+		}
+	}
+	
+	public void info(String str) {
+		append(str);
+	}
+	
+	public void remote(String str) {
+		append(str);
+	}
+
+	private void configureScrollBar() {
+		int numLines = lines.size();
+		int screenRows = terminal.getNumRows();
+		boolean allFits = false;
+		
+		_logger.logInfo("Configuring sctollbar. Lines=" + numLines + ", screenLines=" + screenRows);
+		
+		if (numLines <= screenRows) {
+			// it *may* all fit with no need for a scroll bar
+			int totalScreenLinesNeeded = 0;
+			
+			_logger.logInfo("Lines MAY fit on the display");
+			
+			for (TerminalLinePlus line: lines) {
+				line.numScreenLines = line.countWindowLines();
+				
+				totalScreenLinesNeeded += line.getNumScreenLines();
+			}
+			
+			_logger.logInfo("Total screen lines needed=" + totalScreenLinesNeeded);
+			
+			if (totalScreenLinesNeeded <= screenRows) {
+				_logger.logInfo("Lines fit - no need for a scroll bar");
+			
+				allFits = true;
 			}
 		}
-	}
-	
-	public void setLineCompleteHandler(TerminalInputInterface handler) {
-		lineCompleteHandler = handler;
-	}
-	
-	private void newline() {
-		cursorCol = 0;
-
-		cursorRow++;
-		if (cursorRow >= numRows) {
-			scroll();
-			cursorRow = numRows-1;
+		
+		if (allFits) {
+			_logger.logInfo("Disable scrollBar");
+			scroller.setVisible(false);
+			scroller.setMaximum(0);
+			scroller.setMinimum(0);
 		}
-	}
-	
-	private void scroll() {
-		for (int col=0; col<numCols; col++) {
-			for (int row=1; row<numRows; row++) {
-				screen[col][row-1] = screen[col][row];
-			}
+		else {
+			_logger.logInfo("Enable scrollBar");
+			
+			boolean wasEnabled = scroller.isEnabled();
+			
+			scroller.setMaximum(numLines-1);
+			scroller.setMinimum(0);
+
+			//if (!wasEnabled) {
+				scroller.setVisible(true);
+				scroller.setValue(numLines-1);
+			//}
 		}
 		
-		for (int col=0; col<numCols; col++) {
-			screen[col][numRows-1].setChar(' ');
-		}
+		updateScreen(scroller.getValue());	
 	}
 	
-	private void cursorRight() {
-		cursorCol++;
-		if (cursorCol >= numCols) {
-			cursorRow++;
-			cursorCol = 0;
-			if (cursorRow >= numRows) {
-				scroll();
-				cursorRow = numRows-1;
+	private void updateScreen(int startingLine) {
+		_logger.logInfo("Update screen starting with line #" + startingLine);
+		
+		int numDisplayLines = terminal.getNumRows();
+		int rowNum = 0;
+		
+		for (int i = startingLine; i<lines.size(); i++) {
+			TerminalLinePlus line = lines.get(i);
+			
+			terminal.put(rowNum, 0, line.getText());
+			
+			rowNum += line.numScreenLines;
+			
+			if (rowNum >= numDisplayLines) {
+				return;
 			}
-		}
-	}
-
-	private void set(int row, int col, char c) {
-		screen[row][col].setChar(c);
-	}
-	
-	public void put(char c) {
-		set(cursorRow, cursorCol, c);
-		cursorRight();
-	}
-	
-	public void put(String str) {
-		for (char c: str.toCharArray()) {
-			put(c);
 		}
 		
 		repaint();
 	}
 	
-	@Override
-	public void lineComplete(String l) {
-		_logger.logInfo("LINE: '" + lineBuffer + "'");
+	private void updateStatus() {
+		status.setText("" + lines.size() + " lines");
 	}
 
-	public void paint(Graphics g) {
-		g.setFont(font);
-
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, numCols * CELL_WIDTH, numRows * CELL_HEIGHT);
-
-		for (int row = 0; row < numRows; row++) {
-			for (int col = 0; col < numCols; col++) {
-				Cell cell = screen[row][col];
-				
-				boolean cursorHere = (cursorRow == row) && (cursorCol == col);
-
-				if (cursorHere && cell == null) {
-					cell = new Cell('+');
-				}
-
-				int cellX = col * CELL_WIDTH;
-				int cellY = row * CELL_HEIGHT;
-
-				g.setColor(Color.BLACK);
-				g.fillRect(cellX, cellY, CELL_WIDTH, CELL_HEIGHT);
-
-				char c = cell.getChar();
-				if (c != ' ') {
-					_logger.logInfo("C: '" + c + "'");
-					g.setColor(Color.GREEN);
-					g.drawChars(new char[] { cell.getChar() }, 0, 1, cellX, cellY + (CELL_HEIGHT / 2));
-				}
-			}
-		}
+	@Override
+	public void adjustmentValueChanged(AdjustmentEvent arg0) {
+		_logger.logInfo("Scroll=" + scroller.getValue());
+		
+		terminal.clearScreen();
+		updateScreen(scroller.getValue());
 	}
 	
+	@Override
+	public void resized(int rows, int cols) {
+		_logger.logInfo("RESIZE: " + cols + "x" + rows);
+		
+		configureScrollBar();
+	}
+
+	public String toString() {
+		return "Terminal has " + lines.size() + " lines";
+	}
+
 	@SuppressWarnings("serial")
 	private class TerminalInputMap extends InputMap {
 		private final static String printables = 
@@ -236,19 +273,27 @@ public class Terminal extends JComponent implements TerminalInputInterface {
 		}
 	}
 	
-	private class Cell {
-		private char ch;
+	private class TerminalLinePlus extends TerminalLine {
+		public int numScreenLines;
 		
-		public Cell(char c) {
-			ch = c;
+		public TerminalLinePlus(String str) {
+			super(str);
+			
+			numScreenLines = countWindowLines();
 		}
 		
-		public char getChar() {
-			return ch;
+		public void setText(String l) {
+			super.setText(l);
+						
+			numScreenLines = countWindowLines();
 		}
 		
-		public void setChar(char c) {
-			ch = c;
+		public int countWindowLines() {
+			return (this.getLength() / terminal.getNumCols()) + 1;
+		}
+		
+		public int getNumScreenLines() {
+			return numScreenLines;
 		}
 	}
 }

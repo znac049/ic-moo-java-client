@@ -1,7 +1,7 @@
 package uk.org.wookey.IC.Utils;
 
 import uk.org.wookey.IC.GUI.GlobalConfigPanel;
-import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.GUI.Tabs.WorldTab;
 
 public class IOPlugin extends CorePlugin implements IOPluginInterface {
 	private Logger _logger = new Logger("Base Plugin");

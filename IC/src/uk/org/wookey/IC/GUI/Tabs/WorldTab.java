@@ -1,4 +1,4 @@
-package uk.org.wookey.IC.GUI;
+package uk.org.wookey.IC.GUI.Tabs;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -8,7 +8,12 @@ import java.util.prefs.Preferences;
 
 import javax.swing.*;
 
+import uk.org.wookey.IC.GUI.ScreenWithHighlighting;
+import uk.org.wookey.IC.GUI.StatusPanel;
+import uk.org.wookey.IC.GUI.TriPanel;
 import uk.org.wookey.IC.GUI.Forms.WorldSettingsForm;
+import uk.org.wookey.IC.GUI.Terminal.Terminal;
+import uk.org.wookey.IC.GUI.Terminal.TerminalActivityInterface;
 import uk.org.wookey.IC.Utils.JSEngine;
 import uk.org.wookey.IC.Utils.KeyCode;
 import uk.org.wookey.IC.Utils.KeyMap;
@@ -19,14 +24,18 @@ import uk.org.wookey.IC.Utils.Prefs;
 import uk.org.wookey.IC.Utils.ServerConnection;
 import uk.org.wookey.IC.Utils.TabInterface;
 
-public class WorldTab extends TriPanel implements ActionListener, TabInterface, Runnable, MouseListener {
+public class WorldTab extends TriPanel implements TabInterface, Runnable, TerminalActivityInterface {
 	private static final long serialVersionUID = 1L;
 	public static final int LEFT_SIDEBAR = 1;
 	public static final int RIGHT_SIDEBAR = 2;
 	
 	private Logger _logger = new Logger("WorldTab");
-	private Screen screen;
-	private JTextField keyboard;
+	
+	//private ScreenWithHighlighting screen;
+	//private JTextField keyboard;
+	
+	private Terminal terminal;
+	
 	private StatusPanel infoPanel;
 	private ServerConnection server;
 	private LED statusLED;
@@ -34,14 +43,10 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 	private String worldName;
 	private String hostName;
 	private int hostPort;
-	private boolean localEcho;
 	
 	private Thread listenerThread;
 	
 	private Preferences prefs;
-	
-	private ArrayList<String> keyboardHistory;
-	private int historyIndex;
 	
 	private JSEngine jsEngine = new JSEngine();
 	
@@ -85,33 +90,14 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 	}
 	
 	public void setup() {
-		KeyHandler kh = new KeyHandler();
-		
-		localEcho = true;
-		
 		statusLED = new LED(0, 0, 0);
 		
-		screen = new Screen();
-		screen.setFocusable(true);
-		screen.requestFocusInWindow();
-
-		JScrollPane scroller = new JScrollPane(screen);
-		scroller.setFocusable(false); 
-		getMiddlePanel().add(scroller, BorderLayout.CENTER);
+		terminal = new Terminal();
+		terminal.addInputListener(this);
+		
+		getMiddlePanel().add(terminal, BorderLayout.CENTER);
 				
-		keyboardHistory = new ArrayList<String>();
-		historyIndex = 0;
-		
 		loadCommandHistory();
-		
-		keyboard = new JTextField();
-		Font font = new Font("Courier", Font.BOLD, 16);
-		keyboard.setFont(font);
-		keyboard.requestFocus();
-		keyboard.setBackground(new Color(0xf0, 0xff, 0xf0));
-		keyboard.addActionListener(this);
-		keyboard.addKeyListener(kh);
-		getMiddlePanel().add(keyboard, BorderLayout.PAGE_END);
 		
 		infoPanel = new StatusPanel();
 		//middle.add(infoPanel, 0, 2, 1.0, 0.0, GridBagConstraints.BOTH, 3, 1);
@@ -120,6 +106,8 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		getRightPanel().setLayout(new GridBagLayout());
 		
 		setResizeWeight(0.0, 1.0);
+		
+		this.setFocusTraversalPolicy(new WorldTraversalPolicy());
 	}
 	
 	public void tearDown() {
@@ -143,10 +131,6 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		try {
 			fd = new PrintWriter(new FileWriter(getCommandHistoryName()));
 		
-			for (String command: keyboardHistory) {
-				fd.println(command);
-			}
-			
 			fd.close();
 		} catch (IOException e) {
 			_logger.logError("Failed to create file to save command history", e);
@@ -168,11 +152,9 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		try {
 			while ((command = br.readLine()) != null) {
 				command = command.replace("\r","").replace("\n","");
-				keyboardHistory.add(command);
 			}
 
 			br.close();
-			historyIndex = keyboardHistory.size();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -196,7 +178,7 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 	}
 	
 	public void run() {
-		screen.info("Connecting to '" + getName() + "'");
+		terminal.info("Connecting to '" + getName() + "'");
 		
 		attemptToConnect();
 		
@@ -205,7 +187,7 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 			handleRemoteInputLine(line);
 		}
 		
-		screen.info("Connection closed");
+		terminal.info("Connection closed");
 	}
 
 	private void attemptToConnect() {
@@ -218,14 +200,14 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 
 			hostName = prefs.get(Prefs.SERVER, null);
 			hostPort = prefs.getInt(Prefs.PORT, -1);
-			localEcho = prefs.getBoolean(Prefs.LOCALECHO, true);
+			//localEcho = prefs.getBoolean(Prefs.LOCALECHO, true);
 
 			autoConnect = prefs.getBoolean(Prefs.AUTOLOGIN, false);
 			userName = prefs.get(Prefs.USERNAME, "");
 			password = prefs.get(Prefs.PASSWORD, "");
 		}
 		else {
-			localEcho = true;
+			//localEcho = true;
 			autoConnect = false;
 		}
 		
@@ -265,37 +247,15 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 		}
 	}
 	
-	public void actionPerformed(ActionEvent evt) {
-		String line = keyboard.getText();
-		
-		// Local echo
-		if (localEcho) {
-			screen.local(line);
-		}
-		
-		// Add it to the history
-		keyboardHistory.add(line);
-		int size = keyboardHistory.size();
-
-		while (size > 500) {
-			keyboardHistory.remove(0);
-			size--;
-		}
-		historyIndex = size;
-		
-		// Send it down the socket...
-		server.writeLine(line);
-
-		keyboard.setText("");
-	}
-	
 	public void handleRemoteInputLine(String line) {
 		if (line != null) {
 			// None of the plugins were interested
-			screen.remote(line);
+			terminal.remote(line + "\n");
 					
 			if (tabVisible()) {
 				clearActivity();
+				terminal.repaint();
+				terminal.requestFocusInWindow();
 			}
 			else {
 				flagActivity();
@@ -348,125 +308,38 @@ public class WorldTab extends TriPanel implements ActionListener, TabInterface, 
 	public String getHelpPage() {
 		return helpPage;
 	}
+
+	@Override
+	public void characterTyped(char c) {
+		_logger.logInfo("Typed char:");
+		server.putCh(c);
+	}
 	
-	class KeyHandler implements KeyListener {
-		private KeyCode keyCode = new KeyCode(0);
-
+	private class WorldTraversalPolicy extends FocusTraversalPolicy {
 		@Override
-		public void keyPressed(KeyEvent keyEvent) {
-			int key = keyEvent.getKeyCode();
-			
-			switch (key) {
-			case KeyEvent.VK_UP:
-				if (historyIndex > 0) {
-					historyIndex--;
-					keyboard.setText(keyboardHistory.get(historyIndex));
-				}
-				break;
-				
-			case KeyEvent.VK_DOWN:
-				if (historyIndex+1 < keyboardHistory.size()) {
-					historyIndex++;
-					keyboard.setText(keyboardHistory.get(historyIndex));
-				}
-				else {
-					keyboard.setText("");
-				}
-
-			case KeyEvent.VK_ALT:
-				keyCode.alt(true);;
-				break;
-
-			case KeyEvent.VK_CONTROL:
-				keyCode.ctrl(true);;
-				break;
-			
-			case KeyEvent.VK_SHIFT:
-				keyCode.shift(true);
-				break;
-			
-			case KeyEvent.VK_WINDOWS:
-				keyCode.windows(true);
-				break;
-				
-			case KeyEvent.VK_ENTER:
-				_logger.logInfo("Pressed ENTER");
-				if (keyEvent.getComponent() != keyboard) {
-					keyboard.postActionEvent();
-				}
-				break;
-				
-			default:
-				// some other key. take an interest if any of the magic keys are also pressed
-				keyCode.set(key);
-				if (keyCode.nonPrintable()) {
-					// Maybe its been mapped ?
-					if (keyMap.exec(keyCode)) {
-						_logger.logInfo("Hotkey " + keyCode.toString() + " executed");
-					}
-					else {
-						_logger.logInfo("Key " + keyCode.toString() + " not mapped");
-					}
-				}
-			}
+		public Component getComponentAfter(Container arg0, Component arg1) {
+			return terminal;
 		}
 
 		@Override
-		public void keyReleased(KeyEvent keyEvent) {
-			int key = keyEvent.getKeyCode();
-			
-			switch (key) {
-			case KeyEvent.VK_ALT:
-				keyCode.alt(false);;
-				break;
-
-			case KeyEvent.VK_CONTROL:
-				keyCode.ctrl(false);;
-				break;
-			
-			case KeyEvent.VK_SHIFT:
-				keyCode.shift(false);
-				break;
-			
-			case KeyEvent.VK_WINDOWS:
-				keyCode.windows(false);
-				break;
-			}
+		public Component getComponentBefore(Container arg0, Component arg1) {
+			return terminal;
 		}
 
 		@Override
-		public void keyTyped(KeyEvent e) {
-			if (e.getComponent() != keyboard) {
-				// forward the character to the keyboard
-				_logger.logInfo("Forwarding key '" + e.getKeyChar() + "'");
-				keyboard.setText(keyboard.getText() + e.getKeyChar());
-			}
-		}	
-	}
+		public Component getDefaultComponent(Container arg0) {
+			return terminal;
+		}
 
-	@Override
-	public void mouseClicked(MouseEvent e) {
-	}
+		@Override
+		public Component getFirstComponent(Container arg0) {
+			return terminal;
+		}
 
-	@Override
-	public void mouseEntered(MouseEvent e) {
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		int button = e.getButton();
+		@Override
+		public Component getLastComponent(Container arg0) {
+			return terminal;
+		}
 		
-		if ((button & MouseEvent.BUTTON1) == MouseEvent.BUTTON1) {
-			_logger.logInfo("Left click!");
-			
-		}
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
 	}
 }

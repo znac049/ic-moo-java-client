@@ -9,7 +9,7 @@ import javax.swing.*;
 
 import org.fife.ui.rtextarea.RTextScrollPane;
 
-import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.GUI.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class EditorForm extends JFrame implements ActionListener {

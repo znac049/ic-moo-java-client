@@ -24,7 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.LineBorder;
 
-import uk.org.wookey.IC.GUI.WorldTab;
+import uk.org.wookey.IC.GUI.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.HorizontalPanel;
 import uk.org.wookey.IC.Utils.KeyCode;
 import uk.org.wookey.IC.Utils.KeyMap;

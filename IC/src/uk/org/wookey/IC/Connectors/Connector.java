@@ -35,4 +35,13 @@ public class Connector implements ConnectorInterface {
 	@Override
 	public void disconnect() {
 	}
+
+	@Override
+	public void inputBuffered(boolean b) {
+	}
+
+	@Override
+	public boolean isInputBuffered() {
+		return false;
+	}
 }

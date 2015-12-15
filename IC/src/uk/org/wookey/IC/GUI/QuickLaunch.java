@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import uk.org.wookey.IC.GUI.Tabs.WorldTab;
 import uk.org.wookey.IC.Utils.Logger;
 
 public class QuickLaunch extends JPanel {
