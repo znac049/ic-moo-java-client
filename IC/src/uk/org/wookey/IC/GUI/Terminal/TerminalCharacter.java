@@ -1,16 +1,18 @@
 package uk.org.wookey.IC.GUI.Terminal;
 
+import java.awt.Color;
+
 public class TerminalCharacter {
 	char ch;
-	CharacterAttribute attr;
+	Color colour;
 	
-	public TerminalCharacter(char c, CharacterAttribute a) {
+	public TerminalCharacter(char c, Color col) {
 		ch = c;
-		attr = a;
+		colour = col;
 	}
 	
 	public TerminalCharacter(char c) {
-		this(c, new CharacterAttribute());
+		this(c, Color.GREEN);
 	}
 	
 	public char getChar() {
@@ -21,15 +23,33 @@ public class TerminalCharacter {
 		ch = c;
 	}
 	
-	public CharacterAttribute getAttribute() {
-		return attr;
-	}
-	
-	public void setAttribute(CharacterAttribute newAttr) {
-		attr = newAttr;
-	}
-	
 	public String toString() {
-		return "Char: '" + ch + "', " + attr;
+		return "Char: '" + ch + "'";
+	}
+
+	public void setColour(Color col) {
+		colour = col;
+	}
+	
+	public Color getColour() {
+		return colour;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (obj == null) {
+	        return false;
+	    }
+	    
+	    if (getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    
+	    final TerminalCharacter other = (TerminalCharacter) obj;
+	    if ((this.ch == other.ch) && (this.colour == other.colour)) {
+	        return true;
+	    }
+	    
+	    return false;
 	}
 }

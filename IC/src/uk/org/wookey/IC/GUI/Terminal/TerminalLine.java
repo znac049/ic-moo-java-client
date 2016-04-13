@@ -53,6 +53,10 @@ public class TerminalLine {
 		return new String(res);
 	}
 	
+	public ArrayList<TerminalCharacter> getChars() {
+		return line;
+	}
+	
 	public String toString() {
 		String res = "TerminalString: caret=" + caret + ", length=" + line.size() + "\n";
 		

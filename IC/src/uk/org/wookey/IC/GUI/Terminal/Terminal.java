@@ -10,8 +10,6 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ActionMap;
 import javax.swing.InputMap;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
@@ -206,10 +204,22 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 		int numDisplayLines = terminal.getNumRows();
 		int rowNum = 0;
 		
+		int numScreenCols = terminal.getNumCols();
+		
 		for (int i = startingLine; i<lines.size(); i++) {
 			TerminalLinePlus line = lines.get(i);
 			
-			terminal.put(rowNum, 0, line.getText());
+			int col=0;
+			int row=0;
+			
+			for (TerminalCharacter ch: line.getChars()) {
+				terminal.set(rowNum+row, col++, ch.getChar());
+				
+				if (col >= numScreenCols) {
+					col = 0;
+					row++;
+				}
+			}
 			
 			rowNum += line.numScreenLines;
 			

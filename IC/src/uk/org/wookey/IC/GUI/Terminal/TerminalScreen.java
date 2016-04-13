@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
@@ -29,20 +28,14 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 	private int CELL_HEIGHT;
 	private int CELL_BASELINE;
 	
-	private Cell screen[][];
+	private TerminalCharacter screenBuff[][];
 
 	private int numCols;
 	private int numRows;
 	
-	private int cursorCol;
-	private int cursorRow;
-	
 	private TerminalCharacteristicsInterface characteristicsHandler;
 	
 	public TerminalScreen() {
-		cursorCol = 0;
-		cursorRow = 0;
-
 		FontMetrics fm = getFontMetrics(font);
 		
 		CHAR_HEIGHT = fm.getHeight();
@@ -114,48 +107,32 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 	}
 	
 	private void initScreen() {
-		screen = new Cell[numRows][numCols];
-		
-		for (int row=0; row<numRows; row++) {
-			for (int col=0; col<numCols; col++) {
-				screen[row][col] = new Cell(' ');
-			}
-		}
+		screenBuff = new TerminalCharacter[numRows][numCols];
+
+		clearScreen();
 	}
 	
 	public void clearScreen() {
 		for (int row=0; row<numRows; row++) {
 			for (int col=0; col<numCols; col++) {
-				screen[row][col] = new Cell(' ');
+				screenBuff[row][col] = new TerminalCharacter(' ');
 			}
 		}
 	}
 	
-	private void scroll() {
+	public void scroll() {
 		for (int col=0; col<numCols; col++) {
 			for (int row=1; row<numRows; row++) {
-				screen[col][row-1] = screen[col][row];
+				screenBuff[col][row-1] = screenBuff[col][row];
 			}
 		}
 		
 		for (int col=0; col<numCols; col++) {
-			screen[col][numRows-1].setChar(' ');
+			screenBuff[col][numRows-1] = new TerminalCharacter(' ');
 		}
 	}
 	
-	private void cursorRight() {
-		cursorCol++;
-		if (cursorCol >= numCols) {
-			cursorRow++;
-			cursorCol = 0;
-			if (cursorRow >= numRows) {
-				scroll();
-				cursorRow = numRows-1;
-			}
-		}
-	}
-	
-	public void gotoRC(int row, int col) throws ArrayIndexOutOfBoundsException {
+	public void checkCoordinates(int row, int col) throws ArrayIndexOutOfBoundsException {
 		if ((row < 0) || (row >= numRows)) {
 			throw new ArrayIndexOutOfBoundsException("row value out of bounds");
 		}
@@ -163,44 +140,19 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 		if ((col < 0) || (col >= numCols)) {
 			throw new ArrayIndexOutOfBoundsException("column value out of bounds");
 		}
-		
-		cursorRow = row;
-		cursorCol = col;
 	}
 
-	private void set(int row, int col, char c) {
+	public void set(int row, int col, char c) {
 		try {
-			gotoRC(row, col);
-			screen[row][col].setChar(c);
+			checkCoordinates(row, col);
+			
+			screenBuff[row][col].setChar(c);
 		}
 		catch (ArrayIndexOutOfBoundsException e) {
 			_logger.logInfo("Bad Row/Col: " + row + ", " + col);
 			e.printStackTrace();
 		}
 	}	
-	
-	public void put(char c) {
-		if (c == '\n') {
-			cursorCol = 0;
-			cursorRow++;
-		}
-		else {
-			set(cursorRow, cursorCol, c);
-			cursorRight();
-		}
-		repaint();
-	}
-	
-	public void put(String str) {
-		for (char c: str.toCharArray()) {
-			put(c);
-		}
-	}
-	
-	public void put(int row, int col, String str) {
-		gotoRC(row, col);		
-		put(str);
-	}
 	
 	public void addCharacteristicsHandler(TerminalCharacteristicsInterface handler) {
 		characteristicsHandler = handler;
@@ -212,48 +164,26 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, numCols * CELL_WIDTH, numRows * CELL_HEIGHT);
 
+		int cellY = 0;
 		for (int row = 0; row < numRows; row++) {
+			int cellX = 0;
+			
 			for (int col = 0; col < numCols; col++) {
-				Cell cell = screen[row][col];
-				
-				boolean cursorHere = (cursorRow == row) && (cursorCol == col);
-
-				if (cursorHere && cell == null) {
-					cell = new Cell('+');
-				}
-
-				int cellX = col * CELL_WIDTH;
-				int cellY = (row * CELL_HEIGHT);
-
+				TerminalCharacter cell = screenBuff[row][col];
+					
+				cellX += CELL_WIDTH;
+	
 				g.setColor(Color.BLACK);
-				g.fillRect(cellX, cellY, CELL_WIDTH, CELL_HEIGHT);
-
-				char c = cell.getChar();
-				if (c != ' ') {
-					//_logger.logInfo("C: '" + c + "', bl=" + font.getBaselineFor(cell.getChar()));
-					g.setColor(Color.GREEN);
-					g.drawChars(new char[] { cell.getChar() }, 0, 1, cellX, cellY+CELL_HEIGHT-CELL_BASELINE);
-				}
+				//g.fillRect(cellX, cellY, CELL_WIDTH, CELL_HEIGHT);
+	
+				g.setColor(cell.getColour());
+				g.drawChars(new char[] { cell.getChar() }, 0, 1, cellX, cellY+CELL_HEIGHT-CELL_BASELINE);
 			}
+
+			cellY += CELL_HEIGHT;
 		}
 	}
 	
-	private class Cell {
-		private char ch;
-		
-		public Cell(char c) {
-			ch = c;
-		}
-		
-		public char getChar() {
-			return ch;
-		}
-		
-		public void setChar(char c) {
-			ch = c;
-		}
-	}
-
 	@Override
 	public void componentHidden(ComponentEvent e) {
 	}
