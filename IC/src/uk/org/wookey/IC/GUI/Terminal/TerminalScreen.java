@@ -60,6 +60,8 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 		setMinimumSize(new Dimension(10*CELL_HEIGHT, 10*CELL_WIDTH));
 		setMaximumSize(new Dimension(100*CELL_HEIGHT, 200*CELL_WIDTH));
 		setPreferredSize(getMinimumSize());
+		
+		_logger.logInfo("Instantiate TerminalScreen");
 
 		setSize(new Dimension(CELL_WIDTH, CELL_HEIGHT));
 		
@@ -85,13 +87,15 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 		int newNumCols = d.width / CELL_WIDTH;
 		int newNumRows = d.height / CELL_HEIGHT;
 		
-		//_logger.logInfo("New screen size: " + d.getWidth() + " x " + d.getHeight());
-		//_logger.logInfo("New matrix size: " + newNumCols + " x " + newNumRows);
+		_logger.logInfo("New screen size in pixels: " + d.getWidth() + " x " + d.getHeight());
+		_logger.logSuccess("New matrix size in characters: " + newNumCols + " x " + newNumRows);
 		
-		numRows = newNumRows;
-		numCols = newNumCols;
+		if ((numRows != newNumRows) || (numCols != newNumCols)) {
+			numRows = newNumRows;
+			numCols = newNumCols;
 				
-		initScreen();
+			initScreen();
+		}
 		
 		if (characteristicsHandler != null) {
 			characteristicsHandler.resized(numRows, numCols);
@@ -107,6 +111,7 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 	}
 	
 	private void initScreen() {
+		_logger.logInfo("Resizing screen matrix");
 		screenBuff = new TerminalCharacter[numRows][numCols];
 
 		clearScreen();
@@ -134,11 +139,11 @@ public class TerminalScreen extends JComponent implements ComponentListener {
 	
 	public void checkCoordinates(int row, int col) throws ArrayIndexOutOfBoundsException {
 		if ((row < 0) || (row >= numRows)) {
-			throw new ArrayIndexOutOfBoundsException("row value out of bounds");
+			throw new ArrayIndexOutOfBoundsException("row " + row + " value out of bounds");
 		}
 		
 		if ((col < 0) || (col >= numCols)) {
-			throw new ArrayIndexOutOfBoundsException("column value out of bounds");
+			throw new ArrayIndexOutOfBoundsException("column " + col + " value out of bounds");
 		}
 	}
 

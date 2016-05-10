@@ -1,6 +1,7 @@
 package uk.org.wookey.IC.GUI.Terminal;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -22,7 +23,7 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 	private final static String PRINTABLE_CHAR_ACTION = "Printable";
 	private final static String ENTER_ACTION = "Enter";
 
-	private Logger _logger = new Logger("CharacterAttribute");
+	private Logger _logger = new Logger("Terminal");
 	
 	private TerminalScreen terminal;
 	private JScrollBar scroller;
@@ -98,6 +99,8 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 		for (TerminalActivityInterface listener: inputListeners) {
 			listener.characterTyped(c);
 		}
+		
+		append(c);
 	}
 
 	public void addLine(String line) {
@@ -108,25 +111,24 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 	}
 	
 	public void append(char ch) {
-		int ind = lines.size()-1;
-		TerminalLinePlus line;
-		
-		if (ind < 0) {
-			line = new TerminalLinePlus("");
-			lines.add(line);
-			ind = 0;
-		}
-		else {
-			line = lines.get(ind);
-		}
-		
 		if (ch == '\n') {
-			line = new TerminalLinePlus("");
+			TerminalLinePlus line = new TerminalLinePlus("");
 			lines.add(line);
 			configureScrollBar();
 		}
 		else {
-			line.add(ch);
+			int ind = lines.size()-1;
+			TerminalLinePlus line;
+			
+			if (ind < 0) {
+				line = new TerminalLinePlus("");
+				lines.add(line);
+			}
+			else {
+				line = lines.get(ind);
+			}
+			
+			line.add(new TerminalCharacter(ch, Color.RED));
 			updateScreen(scroller.getValue());
 		}
 	}
@@ -150,13 +152,13 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 		int screenRows = terminal.getNumRows();
 		boolean allFits = false;
 		
-		_logger.logInfo("Configuring sctollbar. Lines=" + numLines + ", screenLines=" + screenRows);
+		//_logger.logInfo("Configuring scrollbar. Lines=" + numLines + ", screenLines=" + screenRows);
 		
 		if (numLines <= screenRows) {
 			// it *may* all fit with no need for a scroll bar
 			int totalScreenLinesNeeded = 0;
 			
-			_logger.logInfo("Lines MAY fit on the display");
+			//_logger.logInfo("Lines MAY fit on the display");
 			
 			for (TerminalLinePlus line: lines) {
 				line.numScreenLines = line.countWindowLines();
@@ -164,24 +166,24 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 				totalScreenLinesNeeded += line.getNumScreenLines();
 			}
 			
-			_logger.logInfo("Total screen lines needed=" + totalScreenLinesNeeded);
+			//_logger.logInfo("Total screen lines needed=" + totalScreenLinesNeeded);
 			
 			if (totalScreenLinesNeeded <= screenRows) {
-				_logger.logInfo("Lines fit - no need for a scroll bar");
+				//_logger.logInfo("Lines fit - no need for a scroll bar");
 			
 				allFits = true;
 			}
 		}
 		
 		if (allFits) {
-			_logger.logInfo("Disable scrollBar");
+			//_logger.logInfo("Disable scrollBar");
 			scroller.setEnabled(false);
 			scroller.setVisible(false);
 			scroller.setMaximum(0);
 			scroller.setMinimum(0);
 		}
 		else {
-			_logger.logInfo("Enable scrollBar");
+			//_logger.logInfo("Enable scrollBar");
 			
 			boolean wasEnabled = scroller.isVisible();
 			
@@ -199,7 +201,7 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 	}
 	
 	private void updateScreen(int startingLine) {
-		_logger.logInfo("Update screen starting with line #" + startingLine);
+		//_logger.logInfo("Update screen starting with line #" + startingLine);
 		
 		int numDisplayLines = terminal.getNumRows();
 		int rowNum = 0;
@@ -236,7 +238,7 @@ public class Terminal extends JPanel implements AdjustmentListener, TerminalChar
 
 	@Override
 	public void adjustmentValueChanged(AdjustmentEvent arg0) {
-		_logger.logInfo("Scroll=" + scroller.getValue());
+		//_logger.logInfo("Scroll=" + scroller.getValue());
 		
 		terminal.clearScreen();
 		updateScreen(scroller.getValue());
