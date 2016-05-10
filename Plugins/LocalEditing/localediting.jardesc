@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="IC/plugins/uk.org.wookey.ICPlugin.LocalEditing.jar"/>
+    <jar path="IC/Plugins/uk.org.wookey.ICPlugin.LocalEditing.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/LocalEditing/localediting.jardesc" exportErrors="false" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
@@ -11,8 +11,8 @@
         </sealing>
     </manifest>
     <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-        <file path="/LocalEditing/.project"/>
         <javaElement handleIdentifier="=LocalEditing/src"/>
         <file path="/LocalEditing/.classpath"/>
+        <file path="/LocalEditing/.project"/>
     </selectedElements>
 </jardesc>
